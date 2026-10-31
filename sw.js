@@ -6,8 +6,10 @@ const CACHE = 'tla-' + self.APP_VERSION;
 const DATEIEN = [
   './', 'index.html', 'version.js', 'manifest.webmanifest', 'theme.css', 'css/app.css',
   'js/app.js', 'js/store.js', 'js/leitner.js', 'js/chart.js', 'js/kurse.js',
-  'js/grafiken.js', 'js/uebungen.js', 'js/util.js', 'js/icons.js', 'js/ui.js',
-  'content/tage.json', 'content/tag-01.json',
+  'js/grafiken.js', 'js/uebungen.js', 'js/util.js', 'js/icons.js', 'js/ui.js', 'js/indikatoren.js',
+  'content/tage.json', 'content/tag-01.json', 'content/tag-02.json', 'content/tag-03.json',
+  'content/tag-04.json', 'content/tag-05.json', 'content/tag-06.json', 'content/tag-07.json',
+  'content/tag-08.json', 'content/tag-09.json', 'content/tag-10.json',
   'lib/inter/inter-latin-wght-normal.woff2',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
   ...self.IONIC_DATEIEN

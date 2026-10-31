@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inhalte prüfen</title>
+  <style>
+    body { font: 14px/1.45 system-ui, sans-serif; background: #0B0E14; color: #E6E9EF; margin: 16px; }
+    h1 { font-size: 20px; } h2 { font-size: 16px; margin-top: 24px; }
+    .ok { color: #22C55E; } .fehler { color: #EF4444; } .warnung { color: #F59E0B; }
+    li { margin: 2px 0; } code { color: #8B95A7; }
+  </style>
+</head>
+<body>
+  <h1>Prüfung der Lerninhalte</h1>
+  <p>Prüft Aufbau, Reihenfolge der Begriffe und ob jeder simulierte Chart das Muster zeigt, das die Aufgabe behauptet.
+    Aufruf: <code>tools/pruefen.html</code> im Browser öffnen.</p>
+  <div id="aus">Prüfe …</div>
+  <script type="module">
+    import { erzeugeKurse } from '../js/kurse.js';
+    import { setzeWerteEin, zielIndex, simuliere } from '../js/uebungen.js';
+    import { GRAFIK_TYPEN } from '../js/grafiken.js';
+
+    const fehler = [], warnungen = [], infos = [];
+    const F = (ort, t) => fehler.push(`${ort}: ${t}`);
+    const W = (ort, t) => warnungen.push(`${ort}: ${t}`);
+
+    const plan = (await (await fetch('../content/tage.json')).json()).tage;
+    const tage = [];
+    for (const t of plan) {
+      if (!t.datei) { W(`Tag ${t.nr}`, 'noch keine Inhalte'); continue; }
+      try { tage.push(await (await fetch('../' + t.datei)).json()); }
+      catch (e) { F(`Tag ${t.nr}`, 'JSON fehlerhaft: ' + e.message); }
+    }
+
+    // ---------- 1. Begriffe: eindeutig, und wann sie eingeführt werden ----------
+    const eingefuehrt = {};   // id -> Tag
+    for (const tag of tages()) for (const v of tag.vokabeln) {
+      if (eingefuehrt[v.id]) F(`Tag ${tag.nr}`, `Begriff-ID doppelt: ${v.id} (schon an Tag ${eingefuehrt[v.id]})`);
+      eingefuehrt[v.id] = tag.nr;
+      for (const feld of ['de', 'en', 'erklaerung']) if (!v[feld]) F(`Tag ${tag.nr} · ${v.id}`, `Feld fehlt: ${feld}`);
+    }
+    function tages() { return tage; }
+
+    // ---------- 2. Aufbau: "braucht" darf nur Begriffe von heute oder früher enthalten ----------
+    const pruefeBraucht = (ort, nr, braucht = []) => {
+      for (const id of braucht) {
+        if (!eingefuehrt[id]) F(ort, `braucht unbekannten Begriff "${id}"`);
+        else if (eingefuehrt[id] > nr) F(ort, `braucht "${id}", der erst an Tag ${eingefuehrt[id]} eingeführt wird`);
+      }
+    };
+
+    // Begriffe späterer Tage, die in Texten früherer Tage auftauchen (Hinweis zum manuellen Prüfen)
+    const begriffe = tage.flatMap(t => t.vokabeln.map(v => ({ tag: t.nr, de: v.de })))
+      .flatMap(b => b.de.split(/\s*\/\s*/).map(w => ({ tag: b.tag, w: w.trim() })))
+      .filter(b => b.w.length >= 4);
+    const vorgriffe = (ort, nr, text) => {
+      for (const b of begriffe) {
+        if (b.tag <= nr) continue;
+        const re = new RegExp(`(^|[^\\wäöüÄÖÜß])${b.w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}([^\\wäöüÄÖÜß]|$)`, 'i');
+        if (!re.test(text)) continue;
+        // erlaubt, wenn im selben Satz auf den späteren Tag verwiesen wird
+        const saetze = text.split(/(?<=[.!?])\s+|\n/).filter(s => re.test(s));
+        const mitVerweis = saetze.every(s => /Tag\s+\d+/.test(s) || /Vorschau/i.test(s));
+        (mitVerweis ? infos : warnungen).push(`${ort}: „${b.w}“ (Begriff von Tag ${b.tag})${mitVerweis ? ' – mit Verweis auf späteren Tag' : ''}`);
+      }
+    };
+
+    // ---------- 3. Pro Tag ----------
+    const ids = new Set();
+    for (const tag of tage) {
+      const n = tag.nr;
+      if (!tag.lektion?.length) F(`Tag ${n}`, 'keine Lektion');
+      if (!(tag.quiz?.length >= 5 && tag.quiz.length <= 8)) W(`Tag ${n}`, `Quiz hat ${tag.quiz?.length} Fragen (Ziel 5–8)`);
+      if (!(tag.uebungen?.filter(u => !u.vorschau).length >= 5)) W(`Tag ${n}`, `nur ${tag.uebungen?.length} Übungen (Ziel 5–10)`);
+      if (!tag.abschluss?.kernpunkte?.length) W(`Tag ${n}`, 'keine Kernpunkte für den Tagesabschluss');
+
+      tag.lektion.forEach((h, i) => {
+        const ort = `Tag ${n} · Lektion ${i + 1} „${h.titel}“`;
+        if (h.grafik && !GRAFIK_TYPEN.includes(h.grafik.typ)) F(ort, `unbekannte Grafik ${h.grafik.typ}`);
+        vorgriffe(ort, n, `${h.text}\n${h.merke ?? ''}`);
+      });
+      tag.vokabeln.forEach(v => vorgriffe(`Tag ${n} · Begriff ${v.de}`, n, `${v.erklaerung} ${v.beispiel ?? ''}`));
+
+      tag.quiz.forEach((f, i) => {
+        const ort = `Tag ${n} · Quiz ${i + 1}`;
+        pruefeBraucht(ort, n, f.braucht);
+        if (f.typ === 'mc' && !(f.richtig >= 0 && f.richtig < f.optionen.length)) F(ort, 'richtig-Index ungültig');
+        if (f.typ === 'wf' && typeof f.richtig !== 'boolean') F(ort, 'richtig muss true/false sein');
+        if (f.typ === 'rechnen' && typeof f.loesung !== 'number') F(ort, 'Lösung fehlt');
+        if (!f.erklaerung) F(ort, 'Erklärung fehlt');
+        vorgriffe(ort, n, `${f.frage} ${(f.optionen ?? []).join(' ')} ${f.erklaerung}`);
+      });
+
+      for (const u of tag.uebungen) {
+        const ort = `Tag ${n} · Übung „${u.titel}“ (${u.id})`;
+        if (ids.has(u.id)) F(ort, 'ID doppelt');
+        ids.add(u.id);
+        if (!u.vorschau) pruefeBraucht(ort, n, u.braucht);
+        if (!u.vorschau) vorgriffe(ort, n, `${u.frage} ${u.hilfe ?? ''} ${(u.optionen ?? []).join(' ')} ${u.erklaerung ?? ''} ${u.aufloesung ?? ''}`);
+        try { pruefeUebung(ort, u); } catch (e) { F(ort, 'Fehler beim Berechnen: ' + e.message); }
+      }
+    }
+
+    // ---------- 4. Charts: zeigt der Chart, was die Aufgabe behauptet? ----------
+    function pruefeUebung(ort, roh) {
+      if (!roh.kurse) { if (roh.typ !== 'auswahl') F(ort, 'keine Kurse'); return; }
+      const k = erzeugeKurse(roh.kurse);
+      const u = setzeWerteEin(roh, k);
+      const n = k.length, p = roh.pruefung ?? {};
+      const aenderung = k[n - 1].c / k[0].c - 1;
+
+      if (p.trend === 'auf' && !(aenderung > 0.1)) F(ort, `soll steigen, Veränderung ${(aenderung * 100).toFixed(1)} %`);
+      if (p.trend === 'ab' && !(aenderung < -0.1)) F(ort, `soll fallen, Veränderung ${(aenderung * 100).toFixed(1)} %`);
+      if (p.trend === 'seitwaerts') {
+        const closes = k.map(x => x.c), spanne = (Math.max(...closes) - Math.min(...closes)) / closes[0];
+        if (Math.abs(aenderung) > 0.06 || spanne > 0.2) F(ort, `soll seitwärts sein, Veränderung ${(aenderung * 100).toFixed(1)} %, Spanne ${(spanne * 100).toFixed(0)} %`);
+      }
+      for (const b of p.bedingungen ?? []) {
+        const env = setzeWerteEin({ x: '=' + b + ' ? 1 : 0' }, k).x;
+        if (env !== 1) F(ort, `Bedingung nicht erfüllt: ${b}`);
+      }
+
+      if (u.typ === 'auswahl' && !(u.richtig >= 0 && u.richtig < u.optionen.length)) F(ort, 'richtig-Index ungültig');
+      if (u.typ === 'tippen') {
+        const z = zielIndex(u.ziel, k);
+        if (z < 0 || z >= n) F(ort, `Ziel nicht gefunden (${JSON.stringify(u.ziel)})`);
+        else infos.push(`${ort}: Lösung = Tag ${z + 1}`);
+        if (p.eindeutig && typeof u.ziel === 'string') {
+          // Abstand zum zweitbesten Kandidaten außerhalb der Toleranz prüfen
+          const wert = { hoechstesHoch: x => x.h, tiefstesTief: x => -x.l, hoechstesVolumen: x => x.v, groessterKoerper: x => Math.abs(x.c - x.o),
+            laengsterUntererDocht: x => Math.min(x.o, x.c) - x.l, laengsterObererDocht: x => x.h - Math.max(x.o, x.c) }[u.ziel];
+          const tol = (u.toleranz ?? 0) + 1;
+          const zweite = Math.max(...k.filter((_, i) => Math.abs(i - z) > tol).map(wert));
+          const best = wert(k[z]);
+          const abstand = u.ziel === 'tiefstesTief' || u.ziel === 'hoechstesHoch' ? Math.abs(best - zweite) / Math.abs(best) : best / zweite - 1;
+          if (abstand < (u.ziel.includes('Hoch') || u.ziel.includes('Tief') ? 0.01 : 0.25)) F(ort, `Lösung nicht eindeutig genug (Abstand ${(abstand * 100).toFixed(1)} %)`);
+        }
+      }
+      if (u.typ === 'tippenPreis') {
+        const z = u.zone;
+        if (!(z.von < z.bis)) F(ort, 'Zone ungültig');
+        const bis = p.bisTag ?? n;
+        const nahe = k.slice(0, bis).filter(x => p.art === 'widerstand' ? x.h >= z.von && x.h <= z.bis * 1.005 : x.l >= z.von * 0.995 && x.l <= z.bis).length;
+        if (nahe < (p.beruehrungen ?? 2)) F(ort, `Zone nur ${nahe}× berührt`);
+        const falscheSeite = k.slice(0, bis).filter(x => p.art === 'widerstand' ? x.c > z.bis : x.c < z.von).length;
+        if (falscheSeite > (p.durchbrueche ?? 1)) F(ort, `${falscheSeite} Schlusskurse auf der falschen Seite der Zone`);
+        infos.push(`${ort}: Zone ${z.von}–${z.bis}, ${nahe} Berührungen`);
+      }
+      if (u.typ === 'rechnen' && !Number.isFinite(u.loesung)) F(ort, 'Lösung ist keine Zahl');
+      if (u.typ === 'rechnen') infos.push(`${ort}: Lösung = ${u.loesung}`);
+      if (u.typ === 'entscheiden') {
+        const ab = u.stopp, e = k[ab - 1].c;
+        const tief = Math.min(...k.slice(ab - 10, ab).map(x => x.l));
+        const schwankung = k.slice(ab - 14, ab).reduce((s, x) => s + x.h - x.l, 0) / 14;
+        const s = tief - schwankung * 0.2, z = e + 2 * (e - s);
+        const erg = simuliere(k, ab, e, s, z);
+        const art = erg.grund === 'gapStop' ? 'gapStop' : erg.r > 0 ? 'gewinn' : 'verlust';
+        if (p.standard && p.standard !== art) F(ort, `Standard-Trade soll "${p.standard}" ergeben, ergibt "${art}" (${erg.r.toFixed(2)} R)`);
+        infos.push(`${ort}: Standard-Trade ${art} ${erg.r.toFixed(2)} R, Einstieg ${e}`);
+      }
+    }
+
+    // ---------- Ausgabe ----------
+    const liste = (titel, arr, klasse) => `<h2 class="${klasse}">${titel} (${arr.length})</h2><ul>${arr.map(x => `<li>${x}</li>`).join('')}</ul>`;
+    const summe = { tage: tage.length, begriffe: Object.keys(eingefuehrt).length, quiz: tage.reduce((s, t) => s + t.quiz.length, 0), uebungen: tage.reduce((s, t) => s + t.uebungen.length, 0) };
+    document.getElementById('aus').innerHTML =
+      `<p class="${fehler.length ? 'fehler' : 'ok'}"><b>${fehler.length ? fehler.length + ' Fehler' : 'Keine Fehler'}</b> · ${summe.tage} Tage · ${summe.begriffe} Begriffe · ${summe.quiz} Quizfragen · ${summe.uebungen} Übungen</p>` +
+      liste('Fehler', fehler, 'fehler') + liste('Zum Prüfen (Begriff vor seiner Einführung?)', warnungen, 'warnung') + liste('Infos', infos, '');
+    window.pruefErgebnis = { fehler, warnungen, infos, summe };
+  </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+{
+  "nr": 10,
+  "titel": "Psychologie & Trading-Plan",
+  "ziel": "Du kennst die typischen psychologischen Fallen, weißt, was in einen Trading-Plan und ein Trade-Journal gehört, und schließt mit dem Abschlusstest über alle Themen ab.",
+
+  "abschluss": {
+    "kernpunkte": [
+      "Die größten Verluste entstehen selten durch schlechte Analyse, sondern durch Emotionen: FOMO, Rache-Trades, verschobene Stops.",
+      "Einen Stop-Loss verschiebt man nie nach unten. Nach oben nachziehen ist erlaubt, wenn es deine Regel ist.",
+      "Ein schriftlicher Trading-Plan trifft die Entscheidungen, bevor Emotionen ins Spiel kommen.",
+      "Ein Trade-Journal zeigt dir, was wirklich funktioniert. Bewerte den Prozess, nicht das einzelne Ergebnis.",
+      "Nächster Schritt: mit einem Demokonto üben und mindestens 20 bis 30 Trades protokollieren, bevor echtes Geld fließt."
+    ],
+    "vorschau": "Du hast alle zehn Tage geschafft. Mach den Abschlusstest, wiederhole die Wackelkandidaten und übe danach mit einem Demokonto."
+  },
+
+  "lektion": [
+    {
+      "titel": "Der Gegner in deinem Kopf",
+      "text": "Du kennst jetzt Orderarten, Risikomanagement, Charts, Trends, Zonen, Indikatoren und Setups. Das ist das Handwerkszeug.\n\nDie meisten Trader scheitern aber nicht am Handwerkszeug, sondern an sich selbst: Sie wissen, was zu tun ist, und tun es im entscheidenden Moment nicht. Angst, Gier, Ungeduld und verletzter Stolz sind stärker als jede Regel, wenn man nicht vorbereitet ist.\n\nHeute lernst du die häufigsten Fallen kennen, und wie ein Trading-Plan und ein Trade-Journal dich davor schützen."
+    },
+    {
+      "titel": "FOMO: die Angst, etwas zu verpassen",
+      "grafik": { "typ": "chart", "kurse": { "seed": 1, "start": 30, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.2, "seitwaerts": true }, { "tage": 8, "trend": 3.5, "vola": 1.5, "volumen": 2.5 }] }, "chart": { "hoehe": 190 } },
+      "text": "**FOMO** _Fear of Missing Out_ ist das Gefühl: „Alle verdienen gerade daran, ich muss sofort rein!“ Typisch nach einem steilen Anstieg wie oben, über den überall gesprochen wird.\n\nDas Problem:\n\n- Du kaufst ohne Setup, oft nahe am Hoch.\n- Der sinnvolle Stop liegt weit unten, also ist das Risiko groß oder die Position winzig.\n- Steile Anstiege korrigieren oft genauso schnell.\n\nGegenmittel: Es gibt **immer** eine nächste Gelegenheit. Kauf nur, was zu deinen Setups passt."
+    },
+    {
+      "titel": "Rache-Trades",
+      "text": "Nach einem Verlust oder einer Verlustserie entsteht der Wunsch, das Geld **sofort zurückzuholen**. Das nennt man **Revenge Trading** _Revenge Trading_:\n\n- Trades ohne Setup, „weil man jetzt etwas tun muss“\n- größere Positionen, um schneller aufzuholen\n- Hebelprodukte statt Aktien\n\nDas Ergebnis sind meist noch größere Verluste. Hier hilft eine **Verlustgrenze** _Max Loss Limit_ im Trading-Plan, zum Beispiel: Nach drei Verlusten in Folge oder −5 % im Monat ist eine Woche Pause."
+    },
+    {
+      "titel": "Den Stop verschieben",
+      "text": "Der Kurs nähert sich deinem Stop-Loss. Der Gedanke: „Ich setze ihn noch ein bisschen tiefer, gleich dreht er bestimmt.“\n\n**Das ist einer der teuersten Fehler.** Damit verwandelst du einen geplanten Verlust von 1 R in einen ungeplanten von 2, 3 oder mehr R. Das Risikomanagement von Tag 3 ist dann wertlos.\n\nDie Regel ist einfach:\n\n- Einen Stop **nie nach unten** verschieben.\n- **Nach oben** nachziehen ist erlaubt, um Gewinne zu sichern, wenn es nach einer vorher festgelegten Regel geschieht (z. B. Trailing Stop).\n\nGenauso gefährlich: Bei fallenden Kursen „nachkaufen, um den Einstandspreis zu verbilligen“. Damit vergrößerst du eine Position, die gerade gegen dich läuft.",
+      "merke": "Der Stop wurde in Ruhe gesetzt, als du klar denken konntest. Vertraue dieser Entscheidung mehr als der im Stress."
+    },
+    {
+      "titel": "Overtrading",
+      "text": "**Overtrading** _Overtrading_ heißt: zu viele Trades, oft aus Langeweile oder weil man „aktiv sein“ will.\n\n- Jeder Trade kostet Gebühren und Spread (Tag 1).\n- Je mehr Trades, desto mehr zweitklassige Setups sind darunter.\n- Swing-Trading heißt auch: tagelang **nichts tun** und warten.\n\nEin guter Trader ist eher wie ein Angler als wie ein Jäger. Er wartet geduldig an der richtigen Stelle."
+    },
+    {
+      "titel": "Gewinne laufen lassen, Verluste begrenzen",
+      "text": "Menschen neigen dazu, **Gewinne zu früh** mitzunehmen (aus Angst, sie wieder zu verlieren) und **Verluste zu lange** laufen zu lassen (in der Hoffnung, dass es wieder wird). Das nennt man **Dispositionseffekt** _Disposition Effect_.\n\nGenau das zerstört das Chance-Risiko-Verhältnis: Gewinner werden kleiner als geplant, Verlierer größer.\n\nZwei weitere Denkfallen:\n\n- **Bestätigungsfehler** _Confirmation Bias_: Man sucht nur noch Argumente, die zur eigenen Meinung passen.\n- **Ergebnisfehler** _Outcome Bias_: Man beurteilt eine Entscheidung nur nach dem Ergebnis. Du kennst das aus den Chart-Übungen: Eine gute Entscheidung kann verlieren."
+    },
+    {
+      "titel": "Der Trading-Plan",
+      "text": "Ein **Trading-Plan** _Trading Plan_ ist dein schriftliches Regelwerk. Du schreibst ihn in Ruhe, und er entscheidet dann für dich, wenn Emotionen im Spiel sind. Er enthält mindestens:\n\n- **Ziele und Zeitbudget:** z. B. Swing-Trading, 1 bis 2 Wochen Haltedauer, 20 Minuten pro Tag\n- **Märkte:** z. B. große, liquide Aktien und ETFs\n- **Setups:** welche, mit allen Regeln (Tag 9)\n- **Risiko:** z. B. 1 % pro Trade, höchstens 5 offene Positionen\n- **Verlustgrenzen:** z. B. Pause nach −5 % im Monat\n- **Regeln vor jedem Trade:** Marktumfeld und Termine prüfen\n- **Routine:** wann du Charts anschaust und Orders setzt\n\nIn Version 2 dieser App bekommst du eine Checkliste dafür."
+    },
+    {
+      "titel": "Das Trade-Journal",
+      "text": "Im **Trade-Journal** _Trade Journal_ hältst du jeden Trade fest:\n\n- Datum, Aktie, Setup\n- Einstieg, Stop, Ziel, Positionsgröße\n- Ergebnis in R\n- Screenshot des Charts beim Einstieg\n- **Warum** du eingestiegen bist und **wie du dich gefühlt** hast\n- Was du gelernt hast\n\nNach 20 bis 30 Trades siehst du, welche Setups bei dir funktionieren, welche Fehler sich wiederholen und ob dein Erwartungswert (Tag 3) positiv ist. Ohne Journal ist das Raten.",
+      "merke": "Bewerte im Journal vor allem: Bin ich meinem Plan gefolgt? Ein Verlust mit Plan ist besser als ein Gewinn ohne."
+    },
+    {
+      "titel": "Wie es weitergeht",
+      "text": "Nach dem Urlaub ist der beste nächste Schritt ein **Demokonto** _Demo Account_: Handel mit Spielgeld unter echten Bedingungen. Viele Broker bieten das kostenlos an.\n\n1. Schreibe deinen Trading-Plan auf.\n2. Handle 20 bis 30 Trades im Demokonto, nur nach deinen Setups.\n3. Führe dein Journal und werte es aus.\n4. Erst wenn dein Erwartungswert positiv ist und du deinen Regeln folgst, kommt echtes Geld ins Spiel, und dann klein.\n\nWichtig: Demo fühlt sich anders an als echtes Geld. Die psychologischen Fallen werden mit echtem Geld stärker. Umso wichtiger ist der Plan.",
+      "merke": "Diese App ist ein Lerninhalt und keine Anlageberatung. Trading birgt Verlustrisiken. Investiere nur Geld, dessen Verlust du verkraften kannst."
+    },
+    {
+      "titel": "Zusammenfassung",
+      "text": "- **FOMO:** Nicht steilen Anstiegen hinterherlaufen. Es kommt immer eine neue Gelegenheit.\n- **Revenge Trading:** Nach Verlusten Pause statt größerer Trades.\n- **Stop nie nach unten verschieben,** nicht verbilligen.\n- **Overtrading** vermeiden. Warten gehört zum Job.\n- **Gewinne laufen lassen, Verluste begrenzen.**\n- **Trading-Plan** schriftlich, **Trade-Journal** für jeden Trade.\n- **Nächster Schritt:** Demokonto mit 20 bis 30 Trades.\n\nJetzt kommen die Vokabeln, das Quiz, die letzten Chart-Übungen und der **Abschlusstest**.",
+      "merke": "Glückwunsch: Du hast alle zehn Tage durchgearbeitet!"
+    }
+  ],
+
+  "vokabeln": [
+    { "id": "fomo", "de": "FOMO", "en": "Fear of Missing Out", "erklaerung": "Angst, eine Kursbewegung zu verpassen. Führt zu Käufen ohne Setup, oft nahe am Hoch." },
+    { "id": "revenge", "de": "Rache-Trading", "en": "Revenge Trading", "erklaerung": "Trades aus dem Wunsch, Verluste schnell zurückzuholen, oft größer und ohne Setup. Führt meist zu noch größeren Verlusten." },
+    { "id": "overtrading", "de": "Overtrading", "en": "Overtrading", "erklaerung": "Zu viele Trades, oft aus Langeweile. Kostet Gebühren und führt zu schwächeren Setups." },
+    { "id": "disposition", "de": "Dispositionseffekt", "en": "Disposition Effect", "erklaerung": "Neigung, Gewinne zu früh mitzunehmen und Verluste zu lange laufen zu lassen." },
+    { "id": "confirmation", "de": "Bestätigungsfehler", "en": "Confirmation Bias", "erklaerung": "Neigung, nur Informationen wahrzunehmen, die die eigene Meinung bestätigen." },
+    { "id": "outcome", "de": "Ergebnisfehler", "en": "Outcome Bias", "erklaerung": "Eine Entscheidung nur nach ihrem Ergebnis zu bewerten statt nach der Qualität der Entscheidung." },
+    { "id": "verbilligen", "de": "Verbilligen", "en": "Averaging Down", "erklaerung": "Bei fallenden Kursen nachkaufen, um den durchschnittlichen Einstiegspreis zu senken. Vergrößert eine Position, die gegen dich läuft." },
+    { "id": "verlustgrenze", "de": "Verlustgrenze", "en": "Max Loss Limit", "erklaerung": "Regel im Trading-Plan, ab wann pausiert wird, z. B. nach drei Verlusten in Folge oder −5 % im Monat." },
+    { "id": "tradingplan", "de": "Trading-Plan", "en": "Trading Plan", "erklaerung": "Schriftliches Regelwerk mit Zielen, Märkten, Setups, Risiko pro Trade, Verlustgrenzen und Routinen." },
+    { "id": "journal", "de": "Trade-Journal", "en": "Trade Journal", "erklaerung": "Protokoll aller Trades mit Setup, Einstieg, Stop, Ziel, Ergebnis in R, Begründung und Gefühlen. Grundlage für die Auswertung." },
+    { "id": "demokonto", "de": "Demokonto", "en": "Demo Account", "erklaerung": "Handelskonto mit Spielgeld unter echten Marktbedingungen. Ideal, um Setups und Plan ohne Risiko zu üben." }
+  ],
+
+  "quiz": [
+    {
+      "typ": "mc",
+      "frage": "Der Kurs nähert sich deinem Stop-Loss. Was ist richtig?",
+      "optionen": ["Stop tiefer setzen, er dreht bestimmt gleich", "Stop lassen, wo er ist", "Nachkaufen, um den Einstand zu verbilligen", "Stop löschen und abwarten"],
+      "richtig": 1,
+      "braucht": ["stoploss", "verbilligen"],
+      "erklaerung": "Der Stop wurde in Ruhe nach deinen Regeln gesetzt. Ihn nach unten zu verschieben oder zu löschen macht aus 1 R schnell ein Vielfaches. Verbilligen vergrößert eine Position, die gegen dich läuft."
+    },
+    {
+      "typ": "mc",
+      "frage": "Nach drei Verlust-Trades in Folge möchtest du mit doppelter Positionsgröße das Geld zurückholen. Wie nennt man das?",
+      "optionen": ["Trendfolge", "Revenge Trading", "Risikomanagement", "Trailing Stop"],
+      "richtig": 1,
+      "braucht": ["revenge", "positionsgroesse"],
+      "erklaerung": "Der Wunsch, Verluste schnell zurückzuholen, führt zu größeren und schlechteren Trades. Eine Verlustgrenze im Trading-Plan schützt davor."
+    },
+    {
+      "typ": "wf",
+      "frage": "Einen Stop-Loss nach oben nachzuziehen, um Gewinne zu sichern, ist erlaubt, wenn es nach einer vorher festgelegten Regel geschieht.",
+      "richtig": true,
+      "braucht": ["stoploss", "trailingstop"],
+      "erklaerung": "Richtig. Nach oben nachziehen verringert das Risiko, zum Beispiel per Trailing Stop. Tabu ist nur das Verschieben nach unten."
+    },
+    {
+      "typ": "mc",
+      "frage": "Ein Trader nimmt Gewinne immer schon bei +0,5 R mit, lässt Verluste aber bis −2 R laufen. Welcher Effekt ist das?",
+      "optionen": ["Dispositionseffekt", "Golden Cross", "Bestätigungsfehler", "Relative Stärke"],
+      "richtig": 0,
+      "braucht": ["disposition", "rmultiple"],
+      "erklaerung": "Gewinne zu früh, Verluste zu spät: der Dispositionseffekt. Damit wird selbst eine hohe Trefferquote schnell zum Verlustgeschäft."
+    },
+    {
+      "typ": "mc",
+      "frage": "Was ist der wichtigste Nutzen eines Trade-Journals?",
+      "optionen": ["Es macht die Steuererklärung überflüssig", "Es zeigt nach vielen Trades, was wirklich funktioniert und welche Fehler sich wiederholen", "Es sagt voraus, wie der nächste Trade ausgeht", "Es ersetzt den Stop-Loss"],
+      "richtig": 1,
+      "braucht": ["journal", "erwartungswert"],
+      "erklaerung": "Erst über viele protokollierte Trades erkennst du, ob deine Setups einen positiven Erwartungswert haben und wo du von deinem Plan abweichst."
+    },
+    {
+      "typ": "mc",
+      "frage": "Du hast einen Trade nach allen Regeln gemacht und 1 R verloren. Wie bewertest du ihn?",
+      "optionen": ["Schlechter Trade, Regeln ändern", "Guter Trade: Plan befolgt, Verlust begrenzt", "Egal, nur das Ergebnis zählt", "Beim nächsten Mal ohne Stop"],
+      "richtig": 1,
+      "braucht": ["outcome", "tradingplan"],
+      "erklaerung": "Wer Trades nur nach dem Ergebnis bewertet, unterliegt dem Ergebnisfehler. Ein Verlust nach Plan ist Teil eines guten Prozesses. Regeln ändert man erst nach vielen Trades und einer Auswertung."
+    },
+    {
+      "typ": "mc",
+      "frage": "Was ist nach dieser App der sinnvollste nächste Schritt?",
+      "optionen": ["Mit dem gesamten Ersparten sofort loslegen", "Trading-Plan schreiben und 20 bis 30 Trades im Demokonto mit Journal üben", "Mit CFDs anfangen, um schneller zu lernen", "Nichts mehr tun, man kann jetzt alles"],
+      "richtig": 1,
+      "braucht": ["demokonto", "tradingplan", "journal"],
+      "erklaerung": "Erst üben, protokollieren und auswerten, dann mit echtem Geld und kleinen Positionen. Hebelprodukte und große Einsätze gehören nicht an den Anfang."
+    }
+  ],
+
+  "uebungen": [
+    {
+      "id": "t10-fomo",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Alle reden darüber",
+      "frage": "Die Aktie ist in acht Tagen um über 25 % gestiegen. In jedem Forum wird darüber gesprochen. Sie passt zu keinem deiner Setups. Was tust du?",
+      "kurse": { "seed": 1, "start": 30, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.2, "seitwaerts": true }, { "tage": 8, "trend": 3.5, "vola": 1.5, "volumen": 2.5 }] },
+      "optionen": ["Sofort kaufen, bevor es noch weiter steigt", "Nichts tun: kein Setup, und der sinnvolle Stop läge weit unten", "Mit einem Hebelprodukt einsteigen, um mehr mitzunehmen"],
+      "richtig": 1,
+      "braucht": ["fomo", "setup", "crv"],
+      "pruefung": { "bedingungen": ["k[47].c > k[39].c * 1.25"] },
+      "erklaerung": "Das ist FOMO in Reinform. Ein sinnvoller Stop läge unter dem Ausbruchsbereich bei etwa {{hoch(0, 39)}} €, das sind rund {{(k[47].c / hoch(0, 39) - 1) * 100|0}} % unter dem aktuellen Kurs. Ohne Setup und mit so viel Abstand bleibt nur: zuschauen und auf die nächste Gelegenheit warten."
+    },
+    {
+      "id": "t10-stop",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Kurz vor dem Stop",
+      "frage": "Du hast an Tag 30 gekauft, dein Stop liegt bei **{{tief(20, 29) * 0.99}} €**. Jetzt steht der Kurs bei {{k[39].c}} €, kurz über dem Stop. Was tust du?",
+      "kurse": { "seed": 1, "start": 40, "phasen": [{ "tage": 30, "trend": 0.5, "vola": 1.2 }, { "tage": 4, "trend": 0.3, "vola": 1.0 }, { "tage": 6, "trend": -0.9, "vola": 1.0 }] },
+      "vorgaben": { "linien": [{ "preis": "=k[29].c", "text": "Kauf", "ab": 29 }, { "preis": "=tief(20, 29) * 0.99", "text": "Stop-Loss", "ab": 29, "farbe": "rot" }] },
+      "optionen": ["Den Stop etwas tiefer setzen, damit er nicht ausgelöst wird", "Den Stop lassen, wo er ist", "Nachkaufen, um den Einstandspreis zu verbilligen"],
+      "richtig": 1,
+      "braucht": ["stoploss", "verbilligen"],
+      "pruefung": { "bedingungen": ["k[39].c > tief(20, 29) * 0.99", "k[39].c < tief(20, 29) * 0.99 * 1.025"] },
+      "erklaerung": "Der Stop liegt dort, wo deine Trade-Idee widerlegt ist. Das hast du in Ruhe entschieden. Ihn jetzt im Stress tiefer zu setzen oder nachzukaufen, vergrößert das Risiko genau in dem Moment, in dem der Trade gegen dich läuft."
+    },
+    {
+      "id": "t10-revenge",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Nach drei Verlusten",
+      "frage": "Du hast drei Trades in Folge verloren, jeweils 1 R. Du bist frustriert. Gerade siehst du eine Aktie, die „irgendwie gut aussieht“, aber zu keinem Setup passt. Was ist richtig?",
+      "optionen": ["Mit doppelter Position kaufen, um die Verluste wieder reinzuholen", "Pause machen, die drei Trades im Journal auswerten und nur nach Plan weitermachen", "Den Stop diesmal weglassen, damit es nicht wieder ausgelöst wird"],
+      "richtig": 1,
+      "braucht": ["revenge", "verlustserie", "journal"],
+      "erklaerung": "Drei Verluste à 1 R sind bei 1 % Risiko etwa −3 %. Das ist ärgerlich, aber normal (Verlustserien, Tag 3). Gefährlich wird es erst durch Rache-Trades. Das Journal zeigt dir, ob du deinem Plan gefolgt bist. Wenn ja, ist alles in Ordnung."
+    },
+    {
+      "id": "t10-gewinn",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Gewinn sichern?",
+      "frage": "Dein Trade liegt bei +1,5 R, dein Kursziel ist 2 R. Der Kurs schwankt, und du hast Angst, den Gewinn wieder zu verlieren. Der Trend ist intakt. Was passt zu einem guten Prozess?",
+      "optionen": ["Sofort alles verkaufen, sicher ist sicher", "Beim Plan bleiben, eventuell den Stop nach einer festen Regel nachziehen", "Das Ziel auf 5 R erhöhen und den Stop entfernen"],
+      "richtig": 1,
+      "braucht": ["disposition", "trailingstop", "tradingplan"],
+      "erklaerung": "Aus Angst zu früh zu verkaufen ist der Dispositionseffekt. Er macht deine Gewinner kleiner als geplant und verschlechtert den Erwartungswert. Ein nach Regel nachgezogener Stop sichert Gewinn, ohne den Plan zu brechen. Den Stop zu entfernen wäre das Gegenteil von Risikomanagement."
+    },
+    {
+      "id": "t10-plan",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Was gehört in den Plan?",
+      "frage": "Welche dieser Regeln gehört in einen guten Trading-Plan?",
+      "optionen": ["„Ich kaufe, wenn ich ein gutes Gefühl habe.“", "„Ich riskiere höchstens 1 % pro Trade und pausiere nach −5 % im Monat.“", "„Ich halte Verluste aus, bis sie wieder im Plus sind.“"],
+      "richtig": 1,
+      "braucht": ["tradingplan", "risikoprotrade", "verlustgrenze"],
+      "erklaerung": "Eine gute Regel ist konkret und überprüfbar. Ein Gefühl ist keine Regel. Verluste aussitzen widerspricht dem Stop-Loss und dem gesamten Risikomanagement."
+    },
+    {
+      "id": "t10-abschluss",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Die letzte Entscheidung",
+      "frage": "Zum Abschluss alles zusammen: Prüfe Trend, gleitende Durchschnitte, Volumen und RSI. Keine Termine, Marktumfeld positiv. Long oder abwarten?",
+      "hilfe": "Gehe deine Checkliste durch: Aufwärtstrend? Kurs über der 50-Tage-Linie? Rücksetzer an die 20-Tage-Linie mit wenig Volumen? RSI um 40 bis 50? Dann: Stop unter dem Tief des Rücksetzers, Ziel mindestens 2 R.",
+      "kurse": { "seed": 5, "start": 50, "phasen": [{ "tage": 60, "trend": 0.4, "vola": 1.3 }, { "tage": 6, "trend": -0.7, "vola": 1.0, "volumen": 0.7 }, { "tage": 1, "trend": 0.8, "vola": 0.8 }, { "tage": 18, "trend": 0.5, "vola": 1.3 }] },
+      "chart": { "indikatoren": [{ "typ": "sma", "laenge": 20 }, { "typ": "sma", "laenge": 50 }], "unterfenster": "rsi", "hoehe": 380 },
+      "stopp": 67,
+      "ideal": "long",
+      "braucht": ["pullbacksetup", "rsi", "dynunterst", "crv"],
+      "pruefung": { "standard": "gewinn", "bedingungen": ["k[66].c > sma(50)[66]", "rsi()[65] > 38 && rsi()[65] < 55"] },
+      "aufloesung": "Alles passte zusammen: Aufwärtstrend, Kurs über der steigenden 50-Tage-Linie, Rücksetzer mit wenig Volumen an die 20-Tage-Linie, RSI im Bereich 40 bis 50, Drehung nach oben. Das ist das Pullback-Setup von Tag 9. Glückwunsch, du hast den ganzen Weg geschafft! Jetzt fehlt nur noch der Abschlusstest."
+    }
+  ]
+}

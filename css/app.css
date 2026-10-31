@@ -303,6 +303,10 @@ ion-button.weiter-knopf svg { margin: 0; }
   background: var(--flaeche-erhoeht); border: 1px solid var(--linie); border-radius: 8px;
   padding: 4px 8px; font-size: 13px; font-variant-numeric: tabular-nums; pointer-events: none;
 }
+.chart-label .legende { margin-left: 8px; white-space: nowrap; }
+.chart-label .legende::before { content: ''; display: inline-block; width: 12px; height: 3px; border-radius: 2px; background: var(--farbe); vertical-align: middle; margin-right: 4px; }
+.chart-label .legende-text { margin-left: 8px; }
+.grafik-chart .chart-box { margin-bottom: 0; }
 .chart-tipp { display: flex; gap: 6px; align-items: center; margin: 0 0 12px; }
 .chart-tipp svg { color: var(--akzent); flex: none; }
 ion-card.live ion-card-content { padding: 12px 16px 16px; }

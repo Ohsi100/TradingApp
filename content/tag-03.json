@@ -1,0 +1,250 @@
+{
+  "nr": 3,
+  "titel": "Risikomanagement",
+  "ziel": "Du kannst ausrechnen, wie viele Aktien du kaufen darfst, kennst das Chance-Risiko-Verhältnis und misst Ergebnisse in R. Du verstehst, warum kleine Verluste so wichtig sind.",
+
+  "abschluss": {
+    "kernpunkte": [
+      "Riskiere pro Trade nur einen kleinen, festen Teil deines Kontos, zum Beispiel 1 %.",
+      "Positionsgröße = Risikobetrag ÷ (Einstieg − Stop). Erst der Stop, dann die Stückzahl.",
+      "1 R ist der Betrag, den du pro Trade riskierst. Ergebnisse in R machen Trades vergleichbar.",
+      "Trefferquote allein sagt nichts. Erst zusammen mit dem Chance-Risiko-Verhältnis ergibt sich, ob ein Vorgehen auf Dauer Gewinn bringt.",
+      "Verluste wirken asymmetrisch: Nach −50 % brauchst du +100 %, um wieder auf null zu kommen."
+    ],
+    "vorschau": "Wie liest man einen Chart richtig? Linien- und Kerzenchart, Eröffnung, Hoch, Tief und Schluss, was lange Dochte bedeuten, welche Zeiteinheit für Swing-Trader passt und wann eine logarithmische Skala sinnvoll ist."
+  },
+
+  "lektion": [
+    {
+      "titel": "Das wichtigste Thema",
+      "text": "Viele Anfänger suchen zuerst nach der perfekten Einstiegsstrategie. Erfahrene Trader sagen fast alle das Gegenteil: **Entscheidend ist, wie viel du verlierst, wenn du falsch liegst.**\n\nDenn du wirst oft falsch liegen. Auch gute Trader verlieren bei einem großen Teil ihrer Trades. Wer langfristig dabeibleiben will, muss jeden einzelnen Verlust klein halten.\n\nDas nennt man **Risikomanagement** _Risk Management_. Heute lernst du die vier wichtigsten Werkzeuge: Risiko pro Trade, Positionsgröße, Chance-Risiko-Verhältnis und R.",
+      "merke": "Erst überleben, dann verdienen. Ein Konto, das zur Hälfte weg ist, lässt sich nur sehr schwer wieder aufbauen."
+    },
+    {
+      "titel": "Risiko pro Trade: die 1-%-Regel",
+      "text": "Lege vorher fest, wie viel Prozent deines Kontos du bei **einem** Trade höchstens verlieren willst. Eine verbreitete Faustregel für Einsteiger ist **1 %**, manche nehmen bis 2 %.\n\nBeispiel: Konto 10.000 €, Risiko 1 % → du darfst pro Trade höchstens **100 €** verlieren.\n\nWichtig: Das heißt **nicht**, dass du nur 100 € investierst. Du investierst mehr, aber dein Stop-Loss sorgt dafür, dass der Verlust bei etwa 100 € endet. Wie viele Aktien das sind, rechnest du gleich aus.",
+      "merke": "Das Risiko pro Trade legst du fest, bevor du dir den Chart anschaust, und änderst es nicht von Trade zu Trade."
+    },
+    {
+      "titel": "Positionsgröße berechnen",
+      "text": "Die **Positionsgröße** _Position Size_ ist die Anzahl Aktien, die du kaufst. Die Formel:\n\n**Positionsgröße = Risikobetrag ÷ (Einstieg − Stop-Loss)**\n\nBeispiel: Konto 10.000 €, 1 % Risiko = 100 €. Einstieg 50 €, Stop-Loss 47 €. Risiko pro Aktie: 3 €.\n\n100 € ÷ 3 € = 33,3 → **33 Aktien** (immer abrunden). Positionswert: 33 × 50 € = 1.650 €.\n\nDie Reihenfolge ist entscheidend: **Zuerst** bestimmst du anhand des Charts, wo der Stop sinnvoll liegt. **Danach** rechnest du die Stückzahl aus. Liegt der Stop weiter weg, kaufst du weniger Aktien, liegt er näher, mehr.",
+      "merke": "Prüfe zum Schluss, ob du dir die Position überhaupt leisten kannst. Bei einem sehr engen Stop kann die Rechnung mehr ergeben, als dein Konto hergibt."
+    },
+    {
+      "titel": "Chance-Risiko-Verhältnis (CRV)",
+      "grafik": { "typ": "crv", "einstieg": 50, "stop": 48.5, "ziel": 53 },
+      "text": "Das **Chance-Risiko-Verhältnis** _Reward-to-Risk Ratio_ vergleicht, was du gewinnen kannst, mit dem, was du riskierst:\n\n**CRV = (Kursziel − Einstieg) ÷ (Einstieg − Stop-Loss)**\n\nIm Bild: Einstieg 50 €, Stop 48,50 €, Ziel 53 €. Chance 3 €, Risiko 1,50 €, CRV 2 : 1.\n\nViele Swing-Trader nehmen nur Trades mit einem CRV von **mindestens 2 : 1**. Liegt das nächste sinnvolle Ziel zu nah, lässt man den Trade lieber aus.",
+      "merke": "Das Kursziel muss realistisch sein, zum Beispiel ein früheres Hoch. Ein Wunschziel weit oben macht das CRV nur auf dem Papier gut."
+    },
+    {
+      "titel": "Ergebnisse in R messen",
+      "text": "**1 R** _R-Multiple_ ist der Betrag, den du bei einem Trade riskierst, also der Abstand von Einstieg zu Stop-Loss.\n\nJedes Ergebnis lässt sich in R ausdrücken:\n\n- Stop-Loss erreicht: **−1 R**\n- Kursziel bei CRV 2 : 1 erreicht: **+2 R**\n- Einstieg 30 €, Stop 28 €, Verkauf bei 35 €: Gewinn 5 € ÷ Risiko 2 € = **+2,5 R**\n\nDer Vorteil: Trades mit unterschiedlichen Aktien, Preisen und Stückzahlen werden vergleichbar. In den Chart-Übungen siehst du deine Ergebnisse deshalb immer in R."
+    },
+    {
+      "titel": "Trefferquote und CRV gehören zusammen",
+      "text": "Die **Trefferquote** _Win Rate_ ist der Anteil deiner Trades, die mit Gewinn enden.\n\nEine hohe Trefferquote allein sagt nichts. Entscheidend ist das Zusammenspiel mit dem CRV. Die **Break-even-Trefferquote** ist die Quote, bei der du genau bei null landest:\n\n**Break-even-Trefferquote = 1 ÷ (1 + CRV)**\n\n- CRV 1 : 1 → 50 %\n- CRV 1,5 : 1 → 40 %\n- CRV 2 : 1 → 33 %\n- CRV 3 : 1 → 25 %\n\nMit einem CRV von 2 : 1 darfst du also bei zwei von drei Trades falsch liegen und kommst trotzdem auf null (ohne Gebühren).",
+      "merke": "Umgekehrt ist auch eine Trefferquote von 70 % wertlos, wenn die Gewinne winzig und die Verluste groß sind."
+    },
+    {
+      "titel": "Erwartungswert: lohnt sich das auf Dauer?",
+      "text": "Der **Erwartungswert** _Expectancy_ sagt, wie viel R du im Durchschnitt pro Trade gewinnst oder verlierst:\n\n**Erwartungswert = Trefferquote × Ø Gewinn − Verlustquote × Ø Verlust** (alles in R)\n\nBeispiel: Trefferquote 40 %, durchschnittlicher Gewinn 2 R, durchschnittlicher Verlust 1 R.\n\n0,4 × 2 R − 0,6 × 1 R = **+0,2 R pro Trade**.\n\nNach 100 Trades sind das etwa +20 R. Bei 100 € Risiko pro Trade wären das rund 2.000 € vor Gebühren.\n\nEin einzelner Trade sagt dagegen nichts. Erst über viele Trades zeigt sich, ob dein Vorgehen funktioniert."
+    },
+    {
+      "titel": "Drawdown",
+      "text": "Der **Drawdown** _Drawdown_ ist der Rückgang deines Kontos vom letzten Höchststand.\n\nBeispiel: Dein Konto steigt von 10.000 € auf 12.000 € und fällt dann auf 9.600 €. Drawdown = (12.000 − 9.600) ÷ 12.000 = **20 %**, auch wenn du gegenüber dem Start nur 4 % im Minus bist.\n\nDer größte Rückgang über einen Zeitraum heißt **maximaler Drawdown** _Maximum Drawdown_. Er zeigt, wie schmerzhaft ein Vorgehen werden kann, und ob du das aushalten würdest."
+    },
+    {
+      "titel": "Warum Verluste schwerer wiegen",
+      "grafik": { "typ": "asymmetrie" },
+      "text": "Verluste und Gewinne sind nicht symmetrisch. Wer 50 % verliert, braucht danach **+100 %**, um wieder auf den Ausgangswert zu kommen:\n\n10.000 € − 50 % = 5.000 €. Von 5.000 € zurück auf 10.000 € sind +100 %.\n\nJe größer der Verlust, desto steiler wird es: Nach −20 % brauchst du +25 %, nach −80 % schon +400 %.\n\nDeshalb ist es so wichtig, Verluste früh zu begrenzen. Kleine Verluste lassen sich leicht aufholen, große kaum."
+    },
+    {
+      "titel": "Verlustserien gehören dazu",
+      "text": "Selbst mit einem guten Vorgehen kommen **Verlustserien** _Losing Streaks_ vor. Zehn Verluste hintereinander sind über ein Trader-Leben keine Seltenheit.\n\nSo wirken zehn Verluste in Folge:\n\n- bei **1 %** Risiko pro Trade: Konto rund **−10 %**. Zum Aufholen sind etwa +11 % nötig.\n- bei **5 %** Risiko pro Trade: Konto rund **−40 %**. Zum Aufholen sind etwa +67 % nötig.\n\nMit kleinem Risiko pro Trade übersteht man auch eine schlechte Phase. Mit großem Risiko ist das Konto schnell beschädigt.",
+      "merke": "Das kleine Risiko pro Trade schützt dich auch vor dir selbst: Nach einer Verlustserie bleibst du ruhiger (mehr dazu an Tag 10)."
+    },
+    {
+      "titel": "Zusammenfassung",
+      "text": "- **Risiko pro Trade:** fester, kleiner Anteil, z. B. 1 % des Kontos.\n- **Positionsgröße** = Risikobetrag ÷ (Einstieg − Stop). Erst den Stop festlegen, dann rechnen.\n- **CRV** = (Ziel − Einstieg) ÷ (Einstieg − Stop). Viele nehmen nur Trades ab 2 : 1.\n- **R:** 1 R = dein Risiko. Ergebnisse in R machen Trades vergleichbar.\n- **Trefferquote und CRV** zusammen entscheiden. Break-even-Trefferquote = 1 ÷ (1 + CRV).\n- **Verluste wirken asymmetrisch.** Klein halten!\n\nIn den Chart-Übungen triffst du heute deine ersten echten Entscheidungen.",
+      "merke": "Morgen (Tag 4): Charts lesen."
+    }
+  ],
+
+  "vokabeln": [
+    { "id": "risikomanagement", "de": "Risikomanagement", "en": "Risk Management", "erklaerung": "Alle Regeln, mit denen du Verluste begrenzt: Risiko pro Trade, Positionsgröße, Stop-Loss und Chance-Risiko-Verhältnis." },
+    { "id": "risikoprotrade", "de": "Risiko pro Trade", "en": "Risk per Trade", "erklaerung": "Der Teil deines Kontos, den du bei einem einzelnen Trade höchstens verlieren willst.", "beispiel": "Konto 10.000 €, 1 % Risiko: höchstens 100 € Verlust pro Trade." },
+    { "id": "positionsgroesse", "de": "Positionsgröße", "en": "Position Size", "erklaerung": "Anzahl der Aktien in einem Trade. Positionsgröße = Risikobetrag ÷ (Einstieg − Stop-Loss), abgerundet.", "beispiel": "100 € Risiko, Einstieg 50 €, Stop 47 €: 100 ÷ 3 = 33 Aktien." },
+    { "id": "crv", "de": "Chance-Risiko-Verhältnis (CRV)", "en": "Reward-to-Risk Ratio", "erklaerung": "Verhältnis von möglichem Gewinn bis zum Kursziel zum Risiko bis zum Stop-Loss.", "beispiel": "Einstieg 50 €, Stop 48,50 €, Ziel 53 €: 3 € zu 1,50 € = 2 : 1." },
+    { "id": "rmultiple", "de": "R-Multiple", "en": "R-Multiple", "erklaerung": "Ergebnis eines Trades in Vielfachen des Risikos. 1 R = Abstand von Einstieg zu Stop-Loss.", "beispiel": "Risiko 2 €, Gewinn 5 € pro Aktie: +2,5 R." },
+    { "id": "trefferquote", "de": "Trefferquote", "en": "Win Rate", "erklaerung": "Anteil der Trades, die mit Gewinn enden.", "beispiel": "40 Gewinner bei 100 Trades: Trefferquote 40 %." },
+    { "id": "breakeven", "de": "Break-even-Trefferquote", "en": "Break-even Win Rate", "erklaerung": "Trefferquote, bei der du bei einem bestimmten CRV genau bei null landest: 1 ÷ (1 + CRV).", "beispiel": "CRV 2 : 1 → 1 ÷ 3 = 33 %." },
+    { "id": "erwartungswert", "de": "Erwartungswert", "en": "Expectancy", "erklaerung": "Durchschnittliches Ergebnis pro Trade in R: Trefferquote × Ø Gewinn − Verlustquote × Ø Verlust.", "beispiel": "0,4 × 2 R − 0,6 × 1 R = +0,2 R pro Trade." },
+    { "id": "drawdown", "de": "Drawdown", "en": "Drawdown", "erklaerung": "Rückgang des Kontos vom letzten Höchststand, meist in Prozent.", "beispiel": "Von 12.000 € auf 9.600 €: Drawdown 20 %." },
+    { "id": "maxdrawdown", "de": "Maximaler Drawdown", "en": "Maximum Drawdown", "erklaerung": "Größter Rückgang vom Höchststand über einen ganzen Zeitraum. Zeigt, wie schmerzhaft ein Vorgehen werden kann." },
+    { "id": "verlustserie", "de": "Verlustserie", "en": "Losing Streak", "erklaerung": "Mehrere Verlust-Trades hintereinander. Kommt auch bei guten Strategien vor.", "beispiel": "10 Verluste à 1 % Risiko: Konto rund −10 %." },
+    { "id": "asymmetrie", "de": "Asymmetrie von Verlusten", "en": "Asymmetry of Losses", "erklaerung": "Nach einem Verlust ist prozentual mehr Gewinn nötig, um ihn aufzuholen.", "beispiel": "−50 % braucht +100 %, −20 % braucht +25 %." }
+  ],
+
+  "quiz": [
+    {
+      "typ": "rechnen",
+      "frage": "Konto 20.000 €, Risiko 1 % pro Trade. Einstieg 80 €, Stop-Loss 76 €. Wie viele Aktien kaufst du?",
+      "loesung": 50,
+      "toleranz": 0,
+      "einheit": "Stück",
+      "braucht": ["positionsgroesse", "risikoprotrade"],
+      "erklaerung": "1 % von 20.000 € = 200 €. Risiko pro Aktie: 80 € − 76 € = 4 €. 200 € ÷ 4 € = 50 Aktien. Positionswert: 4.000 €."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Einstieg 50 €, Stop-Loss 48 €, Kursziel 56 €. Wie hoch ist das CRV? (Ergebnis als Zahl, z. B. 2 für 2 : 1)",
+      "loesung": 3,
+      "toleranz": 0.01,
+      "einheit": ": 1",
+      "braucht": ["crv"],
+      "erklaerung": "Chance: 56 € − 50 € = 6 €. Risiko: 50 € − 48 € = 2 €. CRV = 6 ÷ 2 = 3 : 1."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Du handelst mit einem CRV von 3 : 1. Wie hoch muss deine Trefferquote mindestens sein, damit du nicht verlierst (ohne Gebühren)?",
+      "loesung": 25,
+      "toleranz": 0.5,
+      "einheit": "%",
+      "braucht": ["breakeven", "crv"],
+      "erklaerung": "Break-even-Trefferquote = 1 ÷ (1 + 3) = 0,25 = 25 %. Probe: 25 Gewinner × 3 R = 75 R, 75 Verlierer × 1 R = 75 R. Null."
+    },
+    {
+      "typ": "mc",
+      "frage": "Dein Konto ist um 50 % gefallen. Wie viel Prozent musst du jetzt gewinnen, um wieder beim Ausgangswert zu sein?",
+      "optionen": ["50 %", "75 %", "100 %", "150 %"],
+      "richtig": 2,
+      "braucht": ["asymmetrie"],
+      "erklaerung": "Aus 10.000 € werden 5.000 €. Um wieder auf 10.000 € zu kommen, muss sich der Betrag verdoppeln: +100 %."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Trefferquote 50 %, durchschnittlicher Gewinn 1,5 R, durchschnittlicher Verlust 1 R. Wie hoch ist der Erwartungswert pro Trade in R?",
+      "loesung": 0.25,
+      "toleranz": 0.01,
+      "einheit": "R",
+      "braucht": ["erwartungswert", "rmultiple"],
+      "erklaerung": "0,5 × 1,5 R − 0,5 × 1 R = 0,75 R − 0,5 R = +0,25 R pro Trade."
+    },
+    {
+      "typ": "wf",
+      "frage": "Wer eine Trefferquote von 70 % hat, macht auf Dauer automatisch Gewinn.",
+      "richtig": false,
+      "braucht": ["trefferquote", "erwartungswert"],
+      "erklaerung": "Falsch. Gewinnst du im Schnitt nur 0,3 R und verlierst 1 R, ergibt sich 0,7 × 0,3 − 0,3 × 1 = −0,09 R pro Trade. Trotz hoher Trefferquote verlierst du Geld."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Einstieg 30 €, Stop-Loss 28 €. Du verkaufst bei 35 €. Wie viel R hast du gewonnen?",
+      "loesung": 2.5,
+      "toleranz": 0.01,
+      "einheit": "R",
+      "braucht": ["rmultiple"],
+      "erklaerung": "Risiko (1 R) = 30 € − 28 € = 2 €. Gewinn = 35 € − 30 € = 5 €. 5 ÷ 2 = +2,5 R."
+    },
+    {
+      "typ": "mc",
+      "frage": "Dein Konto steigt von 8.000 € auf 10.000 € und fällt dann auf 8.500 €. Wie groß ist der Drawdown?",
+      "optionen": ["6,25 %", "15 %", "17,6 %", "20 %"],
+      "richtig": 1,
+      "braucht": ["drawdown"],
+      "erklaerung": "Der Drawdown wird vom Höchststand gemessen: (10.000 − 8.500) ÷ 10.000 = 15 %. Dass du gegenüber dem Start im Plus bist, ändert daran nichts."
+    }
+  ],
+
+  "uebungen": [
+    {
+      "id": "t3-stop-wahl",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Wo gehört der Stop hin?",
+      "frage": "Du willst zum letzten Schlusskurs ({{k[44].c}} €) kaufen. Welcher Stop-Loss ist am sinnvollsten?",
+      "kurse": { "seed": 25, "start": 30, "phasen": [{ "tage": 34, "trend": 0.55, "vola": 1.3 }, { "tage": 8, "trend": -0.6, "vola": 1.2 }, { "tage": 3, "trend": 0.4, "vola": 1.1 }] },
+      "vorgaben": { "linien": [
+        { "preis": "=k[44].c - spanne(31, 44) * 0.4", "text": "A", "farbe": "gelb", "ab": 30 },
+        { "preis": "=round(tief(36, 44) * 99) / 100", "text": "B", "farbe": "gelb", "ab": 30 },
+        { "preis": "=k[44].c * 0.8", "text": "C", "farbe": "gelb", "ab": 30 }
+      ] },
+      "optionen": ["A: {{k[44].c - spanne(31, 44) * 0.4}} €, ganz nah am Einstieg", "B: {{round(tief(36, 44) * 99) / 100}} €, knapp unter dem letzten Tief", "C: {{k[44].c * 0.8}} €, 20 % unter dem Einstieg"],
+      "richtig": 1,
+      "braucht": ["stoploss", "risikomanagement"],
+      "pruefung": { "bedingungen": ["tief(36,44) < k[44].c * 0.975", "spanne(31,44) * 0.4 < k[44].c - tief(36,44)"] },
+      "erklaerung": "**B** ist sinnvoll: Fällt der Kurs unter das letzte Tief, ist die Idee „der Kurs steigt weiter“ widerlegt. **A** liegt innerhalb der normalen Tagesschwankung von etwa {{spanne(31, 44)}} €. Du würdest schon beim üblichen Hin und Her ausgestoppt. **C** ist so weit weg, dass du nur wenige Aktien kaufen könntest, und der Stop hat keinen Bezug zum Chart."
+    },
+    {
+      "id": "t3-positionsgroesse",
+      "stufe": "erkennen",
+      "typ": "rechnen",
+      "titel": "Wie viele Aktien?",
+      "frage": "Konto **10.000 €**, Risiko **1 %** pro Trade. Einstieg zum Schlusskurs **{{k[44].c}} €**, Stop-Loss knapp unter dem letzten Tief bei **{{round(tief(36, 44) * 99) / 100}} €**. Wie viele Aktien kaufst du höchstens?",
+      "kurse": { "seed": 25, "start": 30, "phasen": [{ "tage": 34, "trend": 0.55, "vola": 1.3 }, { "tage": 8, "trend": -0.6, "vola": 1.2 }, { "tage": 3, "trend": 0.4, "vola": 1.1 }] },
+      "vorgaben": { "linien": [{ "preis": "=k[44].c", "text": "Einstieg", "ab": 30 }, { "preis": "=round(tief(36, 44) * 99) / 100", "text": "Stop-Loss", "farbe": "rot", "ab": 30 }] },
+      "loesung": "=floor(100 / (k[44].c - round(tief(36, 44) * 99) / 100))",
+      "toleranz": 0,
+      "einheit": "Stück",
+      "braucht": ["positionsgroesse", "risikoprotrade"],
+      "erklaerung": "Risikobetrag: 1 % von 10.000 € = 100 €. Risiko pro Aktie: {{k[44].c}} € − {{round(tief(36, 44) * 99) / 100}} € = {{k[44].c - round(tief(36, 44) * 99) / 100}} €. 100 € ÷ {{k[44].c - round(tief(36, 44) * 99) / 100}} € = {{100 / (k[44].c - round(tief(36, 44) * 99) / 100)}}, abgerundet **{{floor(100 / (k[44].c - round(tief(36, 44) * 99) / 100))|0}} Aktien**. Positionswert: rund {{floor(100 / (k[44].c - round(tief(36, 44) * 99) / 100)) * k[44].c|0}} €."
+    },
+    {
+      "id": "t3-crv",
+      "stufe": "erkennen",
+      "typ": "rechnen",
+      "titel": "Lohnt sich der Trade?",
+      "frage": "Gleicher Chart. Als Kursziel nimmst du das letzte Hoch bei **{{hoch(28, 40)}} €**. Einstieg {{k[44].c}} €, Stop {{round(tief(36, 44) * 99) / 100}} €. Wie hoch ist das CRV? (eine Nachkommastelle)",
+      "kurse": { "seed": 25, "start": 30, "phasen": [{ "tage": 34, "trend": 0.55, "vola": 1.3 }, { "tage": 8, "trend": -0.6, "vola": 1.2 }, { "tage": 3, "trend": 0.4, "vola": 1.1 }] },
+      "vorgaben": { "linien": [{ "preis": "=hoch(28, 40)", "text": "Ziel", "farbe": "gruen", "ab": 30 }, { "preis": "=k[44].c", "text": "Einstieg", "ab": 30 }, { "preis": "=round(tief(36, 44) * 99) / 100", "text": "Stop-Loss", "farbe": "rot", "ab": 30 }] },
+      "loesung": "=(hoch(28, 40) - k[44].c) / (k[44].c - round(tief(36, 44) * 99) / 100)",
+      "toleranz": 0.06,
+      "einheit": ": 1",
+      "braucht": ["crv"],
+      "pruefung": { "bedingungen": ["(hoch(28, 40) - k[44].c) / (k[44].c - round(tief(36, 44) * 99) / 100) >= 2.05"] },
+      "erklaerung": "Chance: {{hoch(28, 40)}} € − {{k[44].c}} € = {{hoch(28, 40) - k[44].c}} €. Risiko: {{k[44].c - round(tief(36, 44) * 99) / 100}} €. CRV = **{{(hoch(28, 40) - k[44].c) / (k[44].c - round(tief(36, 44) * 99) / 100)|1}} : 1**. Damit erfüllt der Trade die verbreitete Mindestanforderung von 2 : 1."
+    },
+    {
+      "id": "t3-entscheiden-1",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Deine erste echte Entscheidung",
+      "frage": "Der Kurs steigt seit Wochen und hat gerade etwas zurückgesetzt. Steigst du jetzt ein (Long) oder wartest du ab?",
+      "hilfe": "Du kaufst zum letzten Schlusskurs. Setze den **Stop-Loss** knapp unter das letzte Tief und das **Kursziel** so, dass das **CRV mindestens 2 : 1** beträgt. Das Ergebnis siehst du in **R**.",
+      "kurse": { "seed": 102, "start": 40, "phasen": [{ "tage": 40, "trend": 0.5, "vola": 1.3 }, { "tage": 5, "trend": -0.7, "vola": 1.1 }, { "tage": 20, "trend": 0.55, "vola": 1.3 }] },
+      "stopp": 45,
+      "ideal": "long",
+      "braucht": ["stoploss", "crv", "rmultiple"],
+      "pruefung": { "standard": "gewinn" },
+      "aufloesung": "Ein steigender Kurs, der kurz etwas nachgibt, ist ein klassischer Einstieg für Swing-Trader. Man kauft nicht am Hoch, sondern nach einem kleinen Rückgang, und der Stop liegt sinnvoll unter dem letzten Tief. Hier stieg der Kurs weiter. Das ist aber nicht garantiert, deshalb gibt es den Stop. Warum solche Rücksetzer gute Einstiege sind, lernst du an Tag 5 genauer."
+    },
+    {
+      "id": "t3-messer",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Fallendes Messer?",
+      "frage": "Der Kurs fällt seit Wochen. Er ist schon „günstig“ geworden. Kaufst du (Long) oder wartest du?",
+      "hilfe": "Überlege: In welche Richtung geht der Kurs seit Wochen? Bei Long gewinnst du nur, wenn er steigt. Wo würdest du hier sinnvoll einen Stop setzen?",
+      "kurse": { "seed": 200, "start": 70, "phasen": [{ "tage": 45, "trend": -0.6, "vola": 1.5 }, { "tage": 20, "trend": -0.6, "vola": 1.6 }] },
+      "stopp": 45,
+      "ideal": "warten",
+      "braucht": ["stoploss", "rmultiple"],
+      "pruefung": { "standard": "verlust", "bedingungen": ["k[44].c < k[0].c * 0.85"] },
+      "aufloesung": "„Billig geworden“ ist kein Kaufgrund. Ein fallender Kurs kann noch lange weiter fallen. Unter Tradern heißt es: „Greif nicht ins fallende Messer“ _Don't catch a falling knife_. Als Long-Swing-Trader kaufst du lieber, wenn der Kurs nach oben zeigt. Was das genau heißt, lernst du an Tag 5."
+    },
+    {
+      "id": "t3-gap",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Gut entschieden, trotzdem verloren?",
+      "frage": "Wieder steigt der Kurs seit Wochen und hat gerade etwas zurückgesetzt. Long oder abwarten?",
+      "hilfe": "Gleiche Regeln wie vorhin: Stop knapp unter das letzte Tief, Ziel mit einem CRV von mindestens 2 : 1.",
+      "kurse": { "seed": 303, "start": 35, "phasen": [{ "tage": 40, "trend": 0.5, "vola": 1.3 }, { "tage": 5, "trend": -0.6, "vola": 1.1 }, { "tage": 1, "gap": -7, "trend": -1, "vola": 1.5, "volumen": 3.5 }, { "tage": 14, "trend": -0.15, "vola": 1.6 }] },
+      "stopp": 45,
+      "ideal": "long",
+      "braucht": ["stoploss", "gap", "rmultiple"],
+      "pruefung": { "standard": "gapStop" },
+      "aufloesung": "Die Ausgangslage war die gleiche wie in der ersten Entscheidung, und die Entscheidung zu kaufen war vernünftig. Dann kam über Nacht eine schlechte Nachricht, und der Kurs öffnete mit einer Kurslücke _Gap_ weit unter deinem Stop. Wie du an Tag 2 gelernt hast, wird der Stop dann erst zum Eröffnungskurs ausgeführt, und der Verlust ist größer als 1 R.\n\nDie wichtigste Lektion: **Eine gute Entscheidung kann verlieren, und eine schlechte kann gewinnen.** Beurteile deine Trades danach, ob du deinen Regeln gefolgt bist, nicht nach dem einzelnen Ergebnis. Genau dafür ist das kleine Risiko pro Trade da: Ein solcher Ausreißer tut weh, beschädigt das Konto aber nicht."
+    }
+  ]
+}

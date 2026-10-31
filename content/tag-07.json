@@ -1,0 +1,221 @@
+{
+  "nr": 7,
+  "titel": "Gleitende Durchschnitte & Volumen",
+  "ziel": "Du weißt, wie gleitende Durchschnitte berechnet werden, wofür die 20-, 50- und 200-Tage-Linie stehen, was ein Golden Cross ist und wie Volumen eine Bewegung bestätigt.",
+
+  "abschluss": {
+    "kernpunkte": [
+      "Ein gleitender Durchschnitt glättet den Kursverlauf. Der SMA gewichtet alle Tage gleich, der EMA die jüngsten stärker.",
+      "Kurs über einer steigenden 50-Tage-Linie: Aufwärtstrend. Kurs unter einer fallenden: Abwärtstrend.",
+      "Golden Cross (50 über 200) und Death Cross (50 unter 200) sind bekannte, aber späte Signale.",
+      "Gleitende Durchschnitte laufen hinterher und erzeugen in Seitwärtsphasen viele Fehlsignale.",
+      "Gesunder Trend: Volumen steigt in Trendrichtung und sinkt bei Rücksetzern."
+    ],
+    "vorschau": "Oszillatoren: Was der RSI und der MACD zeigen, was überkauft und überverkauft bedeutet, was eine Divergenz ist und wo die Grenzen solcher Indikatoren liegen."
+  },
+
+  "lektion": [
+    {
+      "titel": "Was ist ein gleitender Durchschnitt?",
+      "text": "Ein **gleitender Durchschnitt** _Moving Average_ ist der Durchschnitt der Schlusskurse der letzten n Tage, jeden Tag neu berechnet. Er „gleitet“ also mit dem Kurs mit.\n\nBeispiel: 5-Tage-Durchschnitt mit den Schlusskursen 10, 11, 12, 11 und 12 €:\n(10 + 11 + 12 + 11 + 12) ÷ 5 = **11,20 €**.\n\nAm nächsten Tag fällt der älteste Kurs heraus und der neue kommt dazu. Als Linie im Chart glättet der Durchschnitt das tägliche Auf und Ab und macht die Richtung sichtbar.",
+      "merke": "Ein Indikator _Indicator_ ist ein Wert, der aus Kursen (und manchmal Volumen) berechnet wird. Der gleitende Durchschnitt ist der einfachste und verbreitetste."
+    },
+    {
+      "titel": "SMA und EMA",
+      "text": "Es gibt zwei gängige Arten:\n\n- **SMA** _Simple Moving Average_: einfacher Durchschnitt, alle Tage zählen gleich viel.\n- **EMA** _Exponential Moving Average_: Die jüngsten Tage zählen stärker. Der EMA reagiert deshalb schneller auf neue Bewegungen, schwankt aber auch mehr.\n\nWelcher besser ist, lässt sich nicht pauschal sagen. Wichtiger ist, dass du **immer dieselbe Art** verwendest. In dieser App nutzen wir den SMA."
+    },
+    {
+      "titel": "Die 20-, 50- und 200-Tage-Linie",
+      "grafik": { "typ": "chart", "kurse": { "seed": 2, "start": 30, "phasen": [{ "tage": 80, "trend": 0.45, "vola": 1.3 }] }, "chart": { "hoehe": 210, "indikatoren": [{ "typ": "sma", "laenge": 20 }, { "typ": "sma", "laenge": 50 }] } },
+      "text": "Drei Längen sind besonders verbreitet:\n\n- **20 Tage** (etwa ein Monat): kurzfristige Richtung, beliebt für Rücksetzer im Trend\n- **50 Tage** (etwa ein Quartal): mittelfristiger Trend\n- **200 Tage** (etwa ein Jahr): langfristiger Trend. Die **200-Tage-Linie** wird von sehr vielen Marktteilnehmern beachtet.\n\nIm Chart oben siehst du die 20-Tage-Linie (blau) und die 50-Tage-Linie (gelb) in einem Aufwärtstrend: Der Kurs liegt über beiden, beide steigen, und die kürzere liegt über der längeren."
+    },
+    {
+      "titel": "Gleitende Durchschnitte als Trendfilter",
+      "text": "Die einfachste Anwendung: Gleitende Durchschnitte zeigen dir auf einen Blick den Trend.\n\n- **Kurs über einer steigenden 50-Tage-Linie:** Aufwärtstrend. Long-Trades sind erlaubt.\n- **Kurs unter einer fallenden 50-Tage-Linie:** Abwärtstrend. Keine Long-Trades.\n- **Linie flach, Kurs pendelt darum herum:** Seitwärtsphase.\n\nDas ergänzt die Analyse von Hochs und Tiefs von Tag 5. Beides zusammen gibt ein klareres Bild.",
+      "merke": "Achte nicht nur darauf, ob der Kurs über der Linie liegt, sondern auch auf die Steigung der Linie."
+    },
+    {
+      "titel": "Dynamische Unterstützung",
+      "text": "In einem Aufwärtstrend kommen Rücksetzer oft bis in die Nähe der 20- oder 50-Tage-Linie und drehen dort wieder. Die Linie wirkt dann wie eine **dynamische Unterstützung** _Dynamic Support_: eine Unterstützung, die mit dem Kurs mitwandert.\n\nWarum? Weil viele Trader genau dort auf Einstiege warten. Wie bei normalen Unterstützungen (Tag 6) gilt: eine Zone, keine exakte Linie, und keine Garantie."
+    },
+    {
+      "titel": "Golden Cross und Death Cross",
+      "text": "Kreuzen sich zwei gleitende Durchschnitte, achten viele Marktteilnehmer darauf:\n\n- **Golden Cross** _Golden Cross_: Die 50-Tage-Linie kreuzt die 200-Tage-Linie **von unten nach oben**. Gilt als Zeichen für einen beginnenden langfristigen Aufwärtstrend.\n- **Death Cross** _Death Cross_: Die 50-Tage-Linie kreuzt die 200-Tage-Linie **von oben nach unten**.\n\nDas gleiche Prinzip funktioniert mit kürzeren Linien, z. B. 20 und 50 Tage.\n\nAber: Diese Signale kommen **spät**. Bis sich zwei Durchschnitte kreuzen, ist oft schon ein großer Teil der Bewegung vorbei."
+    },
+    {
+      "titel": "Die Schwächen gleitender Durchschnitte",
+      "grafik": { "typ": "chart", "kurse": { "seed": 2, "start": 40, "phasen": [{ "tage": 80, "trend": 0, "vola": 1.4, "seitwaerts": true }] }, "chart": { "hoehe": 190, "indikatoren": [{ "typ": "sma", "laenge": 20 }] } },
+      "text": "- **Sie laufen hinterher.** Ein gleitender Durchschnitt besteht aus vergangenen Kursen. Er ist ein **nachlaufender Indikator** _Lagging Indicator_ und kann nichts vorhersagen.\n- **Seitwärts versagen sie.** Im Chart oben pendelt der Kurs seitwärts und kreuzt die 20-Tage-Linie ständig. Jedes Kreuzen wäre ein Fehlsignal.\n\nNutze gleitende Durchschnitte deshalb als **Filter und Orientierung**, nicht als alleiniges Kauf- oder Verkaufssignal."
+    },
+    {
+      "titel": "Volumen als Bestätigung",
+      "text": "Volumen zeigt, wie viele Marktteilnehmer hinter einer Bewegung stehen. Als Bestätigung achtest du auf:\n\n- **Gesunder Aufwärtstrend:** Das Volumen ist an Tagen mit steigenden Kursen höher als an Tagen mit fallenden. Rücksetzer laufen mit **wenig Volumen**.\n- **Ausbruch:** deutlich höheres Volumen als üblich, z. B. mindestens das 1,5-Fache des **Durchschnittsvolumens** _Average Volume_ der letzten 20 oder 50 Tage.\n- **Warnzeichen:** Der Kurs steigt weiter, aber das Volumen nimmt immer mehr ab. Die Käufer werden weniger.",
+      "merke": "Volumen allein gibt keine Richtung vor. Es bestätigt oder schwächt eine Bewegung, die du im Chart siehst."
+    },
+    {
+      "titel": "Zusammenfassung",
+      "text": "- **Gleitender Durchschnitt:** Durchschnitt der letzten n Schlusskurse. **SMA** gleich gewichtet, **EMA** jüngere Tage stärker.\n- **20/50/200 Tage:** kurz-, mittel-, langfristig. Die 200-Tage-Linie beachten sehr viele.\n- **Trendfilter:** Kurs über steigender Linie = Aufwärtstrend.\n- **Golden Cross / Death Cross:** 50 kreuzt 200. Bekannt, aber spät.\n- **Schwächen:** nachlaufend, in Seitwärtsphasen viele Fehlsignale.\n- **Volumen** bestätigt: hoch in Trendrichtung, niedrig bei Rücksetzern.",
+      "merke": "Morgen (Tag 8): Oszillatoren wie RSI und MACD."
+    }
+  ],
+
+  "vokabeln": [
+    { "id": "gd", "de": "Gleitender Durchschnitt", "en": "Moving Average", "erklaerung": "Durchschnitt der Schlusskurse der letzten n Tage, jeden Tag neu berechnet. Glättet den Kursverlauf.", "beispiel": "Schlusskurse 10, 11, 12, 11, 12 €: 5-Tage-Durchschnitt 11,20 €." },
+    { "id": "indikator", "de": "Indikator", "en": "Indicator", "erklaerung": "Wert, der aus Kursen (und manchmal Volumen) berechnet wird, z. B. ein gleitender Durchschnitt oder der RSI." },
+    { "id": "sma", "de": "SMA", "en": "Simple Moving Average", "erklaerung": "Einfacher gleitender Durchschnitt: Alle Tage zählen gleich viel." },
+    { "id": "ema", "de": "EMA", "en": "Exponential Moving Average", "erklaerung": "Exponentieller gleitender Durchschnitt: Jüngere Tage zählen stärker. Reagiert schneller als der SMA." },
+    { "id": "gd200", "de": "200-Tage-Linie", "en": "200-Day Moving Average", "erklaerung": "Gleitender Durchschnitt der letzten 200 Handelstage, etwa ein Jahr. Gilt als Maß für den langfristigen Trend und wird von sehr vielen beachtet." },
+    { "id": "golden", "de": "Golden Cross", "en": "Golden Cross", "erklaerung": "Die 50-Tage-Linie kreuzt die 200-Tage-Linie von unten nach oben. Zeichen für einen möglichen langfristigen Aufwärtstrend, kommt aber spät." },
+    { "id": "death", "de": "Death Cross", "en": "Death Cross", "erklaerung": "Die 50-Tage-Linie kreuzt die 200-Tage-Linie von oben nach unten." },
+    { "id": "nachlaufend", "de": "Nachlaufender Indikator", "en": "Lagging Indicator", "erklaerung": "Indikator, der aus vergangenen Kursen berechnet wird und Bewegungen erst verzögert anzeigt, z. B. ein gleitender Durchschnitt." },
+    { "id": "dynunterst", "de": "Dynamische Unterstützung", "en": "Dynamic Support", "erklaerung": "Unterstützung, die mit dem Kurs mitwandert, z. B. eine steigende 20- oder 50-Tage-Linie." },
+    { "id": "durchschnittsvolumen", "de": "Durchschnittsvolumen", "en": "Average Volume", "erklaerung": "Durchschnittliches Volumen der letzten Tage, z. B. 20 oder 50. Dient als Vergleich, ob das heutige Volumen hoch oder niedrig ist." },
+    { "id": "volumenbestaetigung", "de": "Volumenbestätigung", "en": "Volume Confirmation", "erklaerung": "Eine Bewegung wird von deutlich höherem Volumen begleitet. Macht Trends und Ausbrüche glaubwürdiger." },
+    { "id": "fehlsignal", "de": "Fehlsignal", "en": "False Signal / Whipsaw", "erklaerung": "Ein Signal eines Indikators, auf das keine entsprechende Bewegung folgt. Besonders häufig in Seitwärtsphasen." }
+  ],
+
+  "quiz": [
+    {
+      "typ": "rechnen",
+      "frage": "Die letzten fünf Schlusskurse: 20, 21, 22, 20 und 22 €. Wie hoch ist der 5-Tage-Durchschnitt (SMA)?",
+      "loesung": 21,
+      "toleranz": 0.01,
+      "einheit": "€",
+      "braucht": ["sma", "gd"],
+      "erklaerung": "(20 + 21 + 22 + 20 + 22) ÷ 5 = 105 ÷ 5 = 21 €."
+    },
+    {
+      "typ": "mc",
+      "frage": "Was ist der Unterschied zwischen SMA und EMA?",
+      "optionen": ["Der EMA gewichtet die jüngsten Tage stärker und reagiert schneller", "Der SMA nutzt Volumen, der EMA nicht", "Der EMA ist immer über dem SMA", "Es gibt keinen Unterschied"],
+      "richtig": 0,
+      "braucht": ["sma", "ema"],
+      "erklaerung": "Beim SMA zählt jeder Tag gleich, beim EMA zählen jüngere Tage mehr. Deshalb reagiert der EMA schneller auf neue Bewegungen."
+    },
+    {
+      "typ": "mc",
+      "frage": "Was ist ein **Golden Cross**?",
+      "optionen": ["Der Kurs steigt über 100 €", "Die 50-Tage-Linie kreuzt die 200-Tage-Linie von unten nach oben", "Die 200-Tage-Linie kreuzt die 50-Tage-Linie von unten nach oben", "Zwei grüne Kerzen mit hohem Volumen"],
+      "richtig": 1,
+      "braucht": ["golden", "gd200"],
+      "erklaerung": "Beim Golden Cross steigt die kürzere (50) über die längere (200) Linie. Das Gegenteil heißt Death Cross."
+    },
+    {
+      "typ": "wf",
+      "frage": "Gleitende Durchschnitte zeigen zuverlässig an, wohin der Kurs als Nächstes geht.",
+      "richtig": false,
+      "braucht": ["nachlaufend"],
+      "erklaerung": "Falsch. Gleitende Durchschnitte bestehen aus vergangenen Kursen und laufen hinterher. Sie zeigen den bisherigen Trend, sagen aber nichts sicher voraus."
+    },
+    {
+      "typ": "mc",
+      "frage": "In welcher Marktphase erzeugen gleitende Durchschnitte die meisten Fehlsignale?",
+      "optionen": ["Im starken Aufwärtstrend", "Im starken Abwärtstrend", "In der Seitwärtsphase", "Nach einem Golden Cross"],
+      "richtig": 2,
+      "braucht": ["fehlsignal", "seitwaerts"],
+      "erklaerung": "In einer Seitwärtsphase pendelt der Kurs um den Durchschnitt herum und kreuzt ihn ständig. Jedes Kreuzen wäre ein Fehlsignal."
+    },
+    {
+      "typ": "mc",
+      "frage": "Welches Volumenmuster passt zu einem **gesunden** Aufwärtstrend?",
+      "optionen": ["Hohes Volumen an fallenden Tagen, niedriges an steigenden", "Hohes Volumen an steigenden Tagen, niedriges bei Rücksetzern", "Immer gleiches Volumen", "Volumen nimmt bei jedem neuen Hoch ab"],
+      "richtig": 1,
+      "braucht": ["volumenbestaetigung", "aufwaertstrend"],
+      "erklaerung": "Im gesunden Aufwärtstrend kaufen viele an steigenden Tagen, und bei Rücksetzern verkaufen nur wenige. Abnehmendes Volumen bei neuen Hochs ist dagegen ein Warnzeichen."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Das Durchschnittsvolumen der letzten 20 Tage beträgt 800.000 Aktien. Am Ausbruchstag werden 1,6 Millionen gehandelt. Das Wievielfache des Durchschnitts ist das?",
+      "loesung": 2,
+      "toleranz": 0.01,
+      "einheit": "×",
+      "braucht": ["durchschnittsvolumen", "ausbruch"],
+      "erklaerung": "1.600.000 ÷ 800.000 = 2. Das doppelte Durchschnittsvolumen ist eine deutliche Volumenbestätigung für den Ausbruch."
+    }
+  ],
+
+  "uebungen": [
+    {
+      "id": "t7-sma",
+      "stufe": "erkennen",
+      "typ": "rechnen",
+      "titel": "Durchschnitt selbst gerechnet",
+      "frage": "Die letzten fünf Schlusskurse waren: {{k[25].c}} €, {{k[26].c}} €, {{k[27].c}} €, {{k[28].c}} € und {{k[29].c}} €. Wie hoch ist der 5-Tage-Durchschnitt? (auf zwei Stellen)",
+      "kurse": { "seed": 12, "start": 25, "phasen": [{ "tage": 30, "trend": 0.3, "vola": 1.3 }] },
+      "chart": { "indikatoren": [{ "typ": "sma", "laenge": 5 }] },
+      "loesung": "=sma(5)[29]",
+      "toleranz": 0.02,
+      "einheit": "€",
+      "braucht": ["sma", "gd"],
+      "erklaerung": "Summe der fünf Schlusskurse ÷ 5 = **{{sma(5)[29]}} €**. Das ist der letzte Punkt der blauen Linie im Chart. Halte den Finger auf die letzte Kerze, dann siehst du den Wert auch im Fadenkreuz."
+    },
+    {
+      "id": "t7-trendfilter",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Was sagt die 50-Tage-Linie?",
+      "frage": "Der Chart zeigt die **50-Tage-Linie**. Was gilt am Ende?",
+      "kurse": { "seed": 2, "start": 30, "phasen": [{ "tage": 80, "trend": 0.45, "vola": 1.3 }] },
+      "chart": { "indikatoren": [{ "typ": "sma", "laenge": 50 }] },
+      "optionen": ["Kurs über steigender Linie: Aufwärtstrend", "Kurs unter fallender Linie: Abwärtstrend", "Linie flach: Seitwärtsphase"],
+      "richtig": 0,
+      "braucht": ["gd", "aufwaertstrend"],
+      "pruefung": { "bedingungen": ["k[79].c > sma(50)[79] * 1.05", "sma(50)[79] > sma(50)[69]"] },
+      "erklaerung": "Der Kurs ({{k[79].c}} €) liegt deutlich über der 50-Tage-Linie ({{sma(50)[79]}} €), und die Linie steigt. Long-Trades sind in so einem Umfeld erlaubt."
+    },
+    {
+      "id": "t7-kreuz",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Wo kreuzen sich die Linien?",
+      "frage": "Blau ist die 20-Tage-Linie, gelb die 50-Tage-Linie. Tippe auf den Tag, an dem die **20 die 50 von unten nach oben** kreuzt.",
+      "kurse": { "seed": 1, "start": 50, "phasen": [{ "tage": 45, "trend": -0.4, "vola": 1.3 }, { "tage": 45, "trend": 0.6, "vola": 1.3 }] },
+      "chart": { "indikatoren": [{ "typ": "sma", "laenge": 20 }, { "typ": "sma", "laenge": 50 }] },
+      "ziel": { "typ": "kreuz", "schnell": { "typ": "sma", "laenge": 20 }, "langsam": { "typ": "sma", "laenge": 50 }, "richtung": "oben", "ab": 50 },
+      "toleranz": 1,
+      "braucht": ["gd", "golden"],
+      "erklaerung": "Ab diesem Tag liegt die 20-Tage-Linie über der 50-Tage-Linie. Das ist das gleiche Prinzip wie beim Golden Cross (dort 50 und 200). Schau, wie weit der Kurs zu diesem Zeitpunkt schon vom Tief entfernt war: Das Signal kommt spät."
+    },
+    {
+      "id": "t7-volumen",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Bestätigt das Volumen den Trend?",
+      "frage": "Achte auf das Volumen unten: Wie verhält es sich in den Anstiegen und in den Rücksetzern?",
+      "kurse": { "seed": 4, "start": 30, "phasen": [{ "tage": 8, "trend": 1.0, "vola": 1.0, "volumen": 1.6 }, { "tage": 4, "trend": -0.8, "vola": 1.0, "volumen": 0.6 }, { "tage": 8, "trend": 1.0, "vola": 1.0, "volumen": 1.6 }, { "tage": 4, "trend": -0.8, "vola": 1.0, "volumen": 0.6 }, { "tage": 8, "trend": 1.0, "vola": 1.0, "volumen": 1.6 }, { "tage": 4, "trend": -0.8, "vola": 1.0, "volumen": 0.6 }, { "tage": 8, "trend": 1.0, "vola": 1.0, "volumen": 1.6 }] },
+      "optionen": ["Hoch in den Anstiegen, niedrig in den Rücksetzern: gesunder Trend", "Niedrig in den Anstiegen, hoch in den Rücksetzern: Warnzeichen", "Kein erkennbares Muster"],
+      "richtig": 0,
+      "braucht": ["volumenbestaetigung", "pullback"],
+      "erklaerung": "In den Anstiegen ist das Volumen deutlich höher als in den Rücksetzern. Viele kaufen, wenige verkaufen: So sieht ein gesunder Aufwärtstrend aus."
+    },
+    {
+      "id": "t7-seitwaerts",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Die Schwachstelle",
+      "frage": "Angenommen, du kaufst jedes Mal, wenn der Kurs über die 20-Tage-Linie steigt, und verkaufst, wenn er darunter fällt. Was passiert in diesem Chart?",
+      "kurse": { "seed": 2, "start": 40, "phasen": [{ "tage": 80, "trend": 0, "vola": 1.4, "seitwaerts": true }] },
+      "chart": { "indikatoren": [{ "typ": "sma", "laenge": 20 }] },
+      "optionen": ["Du erwischst einen großen Trend", "Viele Fehlsignale: ständiges Kaufen und Verkaufen mit kleinen Verlusten", "Du bekommst kein einziges Signal"],
+      "richtig": 1,
+      "braucht": ["fehlsignal", "seitwaerts", "gd"],
+      "pruefung": { "bedingungen": ["k.map((x, i) => i > 20 && (k[i - 1].c - sma(20)[i - 1]) * (x.c - sma(20)[i]) < 0 ? 1 : 0).reduce((a, b) => a + b, 0) >= 8"] },
+      "erklaerung": "Der Kurs kreuzt die Linie hier {{k.map((x, i) => i > 20 && (k[i - 1].c - sma(20)[i - 1]) * (x.c - sma(20)[i]) < 0 ? 1 : 0).reduce((a, b) => a + b, 0)|0}}-mal. In einer Seitwärtsphase wäre jedes Signal ein Fehlsignal, und die Gebühren kämen noch dazu. Gleitende Durchschnitte funktionieren nur in Trends gut."
+    },
+    {
+      "id": "t7-pullback-gd",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Rücksetzer zur 20-Tage-Linie",
+      "frage": "Aufwärtstrend, der Kurs ist mit wenig Volumen bis an die steigende 20-Tage-Linie (blau) zurückgekommen. Long oder abwarten?",
+      "hilfe": "Stop unter das Tief des Rücksetzers (oder unter die 50-Tage-Linie), Ziel mindestens 2 : 1.",
+      "kurse": { "seed": 6, "start": 30, "phasen": [{ "tage": 55, "trend": 0.5, "vola": 1.2 }, { "tage": 5, "trend": -0.8, "vola": 1.0, "volumen": 0.7 }, { "tage": 18, "trend": 0.6, "vola": 1.2 }] },
+      "chart": { "indikatoren": [{ "typ": "sma", "laenge": 20 }, { "typ": "sma", "laenge": 50 }] },
+      "stopp": 60,
+      "ideal": "long",
+      "braucht": ["dynunterst", "pullback", "volumenbestaetigung", "crv"],
+      "pruefung": { "standard": "gewinn" },
+      "aufloesung": "Kurs über steigender 50-Tage-Linie, Rücksetzer mit wenig Volumen an die 20-Tage-Linie: ein typischer Einstieg in einen bestehenden Trend. Die Linie hat als dynamische Unterstützung gewirkt. Das ist ein Hinweis, keine Garantie, deshalb der Stop."
+    }
+  ]
+}

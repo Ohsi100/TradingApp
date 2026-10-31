@@ -39,9 +39,20 @@ export function erzeugeKurse({ seed = 1, start = 50, basisVolumen = 1_000_000, p
       const o = vorher * (1 + luecke);
       let ret = drift + gauss() * sigma;
       if (p.seitwaerts) ret += 0.18 * (mitte - o) / o;
-      const c = o * (1 + ret);
-      const h = Math.max(o, c) * (1 + Math.abs(gauss()) * sigma * 0.5);
-      const l = Math.min(o, c) * (1 - Math.abs(gauss()) * sigma * 0.5);
+      let c = o * (1 + ret);
+      let h = Math.max(o, c) * (1 + Math.abs(gauss()) * sigma * 0.5);
+      let l = Math.min(o, c) * (1 - Math.abs(gauss()) * sigma * 0.5);
+      // Besondere Kerzenformen (nur am ersten Tag der Phase), z. B. für die Übungen an Tag 4
+      if (i === 0 && p.form === 'hammer') {        // kleiner Körper oben, langer unterer Docht
+        c = o * (1 + sigma * 0.3); h = c * (1 + sigma * 0.15); l = o * (1 - sigma * 3.5);
+      } else if (i === 0 && p.form === 'sternschnuppe') { // kleiner Körper unten, langer oberer Docht
+        c = o * (1 - sigma * 0.3); l = c * (1 - sigma * 0.15); h = o * (1 + sigma * 3.5);
+      } else if (i === 0 && p.form === 'doji') {   // Eröffnung = Schluss, Dochte auf beiden Seiten
+        c = o * (1 + sigma * 0.02); h = o * (1 + sigma * 1.4); l = o * (1 - sigma * 1.4);
+      } else if (i === 0 && p.form === 'gross') {  // sehr großer Körper in Trendrichtung
+        c = o * (1 + Math.sign(drift || 1) * sigma * 4.5);
+        h = Math.max(o, c) * (1 + sigma * 0.2); l = Math.min(o, c) * (1 - sigma * 0.2);
+      }
       const bewegung = Math.abs(c - vorher) / vorher;
       const v = basisVolumen * (p.volumen ?? 1) * Math.exp(0.25 * gauss()) * (1 + 10 * bewegung);
       kerzen.push({ o: r2(o), h: r2(h), l: r2(l), c: r2(c), v: Math.round(v) });

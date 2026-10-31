@@ -2,6 +2,9 @@
 // Fadenkreuz (Finger gedrückt halten bzw. Maus darüber) und ziehbaren Linien.
 import { cssVar, zahl } from './util.js';
 import { vibriere } from './ui.js';
+import { linieFuer, rsi, macd } from './indikatoren.js';
+
+const LINIENFARBEN = ['akzent', 'gelb', 'text2'];   // Reihenfolge für gleitende Durchschnitte
 
 const HALTEZEIT = 280;   // ms gedrückt halten, bis das Fadenkreuz erscheint
 const WACKELN = 8;       // px Bewegung, ab der es kein Tippen mehr ist
@@ -9,11 +12,19 @@ const GREIFNAEHE = 20;   // px Abstand, in dem eine ziehbare Linie gegriffen wir
 const ANIM = 220;        // ms für weiche Änderungen des Preisbereichs
 
 export class KerzenChart {
-  constructor(container, kerzen, { sichtbar, slots, hoehe = 300, polster = 0.08 } = {}) {
+  // Optionen: indikatoren [{typ:'sma'|'ema', laenge}], unterfenster 'volumen'|'rsi'|'macd'|'keins',
+  // art 'kerzen'|'linie', skala 'linear'|'log'
+  constructor(container, kerzen, { sichtbar, slots, hoehe = 300, polster = 0.08, indikatoren = [], unterfenster = 'volumen', art = 'kerzen', skala = 'linear' } = {}) {
     this.kerzen = kerzen;
     this.sichtbar = sichtbar ?? kerzen.length;
     this.slots = slots ?? kerzen.length;
     this.polster = polster;
+    this.art = art;
+    this.log = skala === 'log';
+    this.unterfenster = unterfenster;
+    this.indikatoren = indikatoren.map((def, i) => ({ ...def, farbe: def.farbe ?? LINIENFARBEN[i % 3], werte: linieFuer(kerzen, def) }));
+    if (unterfenster === 'rsi') this.rsi = rsi(kerzen);
+    if (unterfenster === 'macd') this.macd = macd(kerzen);
     this.overlays = [];
     this.tippHandler = null;
     this.ziehHandler = null;
@@ -28,7 +39,8 @@ export class KerzenChart {
     this.canvas.style.height = hoehe + 'px';
     const label = document.createElement('div');
     label.className = 'chart-label';
-    label.textContent = 'Simulierte Übungsdaten';
+    const legende = this.indikatoren.map(d => `<span class="legende" style="--farbe:var(${{ akzent: '--akzent', gelb: '--warnung', text2: '--text-gedaempft' }[d.farbe] ?? '--akzent'})">${d.typ === 'ema' ? 'EMA' : 'SMA'} ${d.laenge}</span>`).join('');
+    label.innerHTML = `Simulierte Übungsdaten${legende}${this.log ? '<span class="legende-text">log. Skala</span>' : ''}`;
     this.info = document.createElement('div');
     this.info.className = 'chart-info';
     this.info.hidden = true;
@@ -117,8 +129,11 @@ export class KerzenChart {
 
   preisBei(py) {
     const L = this.layout();
-    const yy = Math.max(L.oben, Math.min(L.oben + L.preisH, py));
-    return Math.round((L.max - (yy - L.oben) / L.preisH * (L.max - L.min)) * 100) / 100;
+    const t = (Math.max(L.oben, Math.min(L.oben + L.preisH, py)) - L.oben) / L.preisH;
+    const preis = this.log
+      ? Math.exp(Math.log(L.max) - t * (Math.log(L.max) - Math.log(L.min)))
+      : L.max - t * (L.max - L.min);
+    return Math.round(preis * 100) / 100;
   }
 
   ausPixel(px, py) {
@@ -132,6 +147,9 @@ export class KerzenChart {
   zielBereich() {
     const sicht = this.kerzen.slice(0, this.sichtbar);
     let min = Math.min(...sicht.map(k => k.l)), max = Math.max(...sicht.map(k => k.h));
+    for (const ind of this.indikatoren) {
+      for (const v of ind.werte.slice(0, this.sichtbar)) if (v !== null) { min = Math.min(min, v); max = Math.max(max, v); }
+    }
     for (const o of this.overlays) {
       for (const p of [o.preis, o.p1, o.p2, o.von, o.bis]) {
         if (typeof p === 'number') { min = Math.min(min, p); max = Math.max(max, p); }
@@ -144,16 +162,22 @@ export class KerzenChart {
   layout() {
     const w = this.canvas.clientWidth, h = this.canvas.clientHeight;
     const rechts = 58, links = 6, oben = 26, unten = 18;
-    const preisH = (h - oben - unten) * 0.76;
+    const anteil = this.unterfenster === 'keins' ? 1 : this.unterfenster === 'volumen' ? 0.76 : 0.66;
+    const preisH = (h - oben - unten) * anteil;
     const volOben = oben + preisH + 6;
-    const volH = h - unten - volOben;
+    const volH = Math.max(0, h - unten - volOben);
     const slotW = (w - links - rechts) / this.slots;
     const b = this.bereich ?? this.zielBereich();
     const maxVol = Math.max(...this.kerzen.slice(0, this.sichtbar).map(k => k.v));
     return { w, h, rechts, links, oben, unten, preisH, volOben, volH, slotW, min: b.min, max: b.max, maxVol };
   }
 
-  y(preis, L) { return L.oben + (L.max - preis) / (L.max - L.min) * L.preisH; }
+  y(preis, L) {
+    const t = this.log
+      ? (Math.log(L.max) - Math.log(preis)) / (Math.log(L.max) - Math.log(L.min))
+      : (L.max - preis) / (L.max - L.min);
+    return L.oben + t * L.preisH;
+  }
   x(index, L) { return L.links + (index + 0.5) * L.slotW; }
 
   // Neu zeichnen. Ändert sich der Preisbereich, gleitet er weich zum neuen Bereich (beim Ziehen nicht).
@@ -239,21 +263,43 @@ export class KerzenChart {
       g.globalAlpha = 1;
     }
 
-    // Kerzen + Volumen
+    // Kerzen (oder Linienchart)
     const kw = Math.max(1, Math.min(14, L.slotW * 0.7));
-    for (let i = 0; i < this.sichtbar; i++) {
-      const k = this.kerzen[i];
-      const hoch = k.c >= k.o;
-      g.fillStyle = g.strokeStyle = hoch ? farbe.gruen : farbe.rot;
-      const xx = this.x(i, L);
-      g.beginPath(); g.moveTo(Math.round(xx) + 0.5, this.y(k.h, L)); g.lineTo(Math.round(xx) + 0.5, this.y(k.l, L)); g.stroke();
-      const y1 = this.y(Math.max(k.o, k.c), L), y2 = this.y(Math.min(k.o, k.c), L);
-      g.fillRect(xx - kw / 2, y1, kw, Math.max(1, y2 - y1));
-      g.globalAlpha = 0.45;
-      const vh = k.v / L.maxVol * L.volH;
-      g.fillRect(xx - kw / 2, L.volOben + L.volH - vh, kw, vh);
-      g.globalAlpha = 1;
+    if (this.art === 'linie') {
+      g.strokeStyle = farbe.akzent; g.lineWidth = 2; g.lineJoin = 'round';
+      g.beginPath();
+      for (let i = 0; i < this.sichtbar; i++) {
+        const yy = this.y(this.kerzen[i].c, L);
+        i ? g.lineTo(this.x(i, L), yy) : g.moveTo(this.x(i, L), yy);
+      }
+      g.stroke();
+    } else {
+      for (let i = 0; i < this.sichtbar; i++) {
+        const k = this.kerzen[i];
+        g.fillStyle = g.strokeStyle = k.c >= k.o ? farbe.gruen : farbe.rot;
+        g.lineWidth = 1;
+        const xx = this.x(i, L);
+        g.beginPath(); g.moveTo(Math.round(xx) + 0.5, this.y(k.h, L)); g.lineTo(Math.round(xx) + 0.5, this.y(k.l, L)); g.stroke();
+        const y1 = this.y(Math.max(k.o, k.c), L), y2 = this.y(Math.min(k.o, k.c), L);
+        g.fillRect(xx - kw / 2, y1, kw, Math.max(1, y2 - y1));
+      }
     }
+
+    // Gleitende Durchschnitte
+    for (const ind of this.indikatoren) {
+      g.strokeStyle = f(ind.farbe); g.lineWidth = 2; g.lineJoin = 'round';
+      g.beginPath();
+      let begonnen = false;
+      for (let i = 0; i < this.sichtbar; i++) {
+        const v = ind.werte[i];
+        if (v === null) continue;
+        begonnen ? g.lineTo(this.x(i, L), this.y(v, L)) : g.moveTo(this.x(i, L), this.y(v, L));
+        begonnen = true;
+      }
+      g.stroke();
+    }
+
+    this.zeichneUnten(g, L, farbe, kw);
 
     // Letzter Kurs als Schild an der Preisachse (wie in echten Trading-Apps)
     const letzte = this.kerzen[this.sichtbar - 1];
@@ -276,7 +322,7 @@ export class KerzenChart {
         const yy = this.y(o.preis, L);
         const aktiv = this.zieht && this.zieht === o.id;
         g.lineWidth = aktiv ? 3 : (o.dick ?? 2);
-        g.beginPath(); g.moveTo(L.links, yy); g.lineTo(L.w - L.rechts, yy); g.stroke();
+        g.beginPath(); g.moveTo(o.ab !== undefined ? this.x(o.ab, L) : L.links, yy); g.lineTo(L.w - L.rechts, yy); g.stroke();
         g.setLineDash([]);
         schild(zahl(o.preis), yy, f(o.farbe ?? 'akzent'), farbe.aufFarbe);
         if (o.text) {
@@ -317,6 +363,64 @@ export class KerzenChart {
     this.zeichneKreuz(g, L, farbe, schild);
   }
 
+  // Unteres Fenster: Volumen, RSI (mit 30/70-Linien) oder MACD (Histogramm, MACD- und Signallinie)
+  zeichneUnten(g, L, farbe, kw) {
+    if (this.unterfenster === 'keins' || L.volH <= 0) return;
+    const unten = L.volOben + L.volH;
+    if (this.unterfenster === 'volumen') {
+      for (let i = 0; i < this.sichtbar; i++) {
+        const k = this.kerzen[i];
+        g.fillStyle = k.c >= k.o ? farbe.gruen : farbe.rot;
+        g.globalAlpha = 0.45;
+        const vh = k.v / L.maxVol * L.volH;
+        g.fillRect(this.x(i, L) - kw / 2, unten - vh, kw, vh);
+      }
+      g.globalAlpha = 1;
+      return;
+    }
+    const linie = (werte, yf, fb, dick = 1.5) => {
+      g.strokeStyle = fb; g.lineWidth = dick; g.beginPath();
+      let begonnen = false;
+      for (let i = 0; i < this.sichtbar; i++) {
+        if (werte[i] === null) continue;
+        begonnen ? g.lineTo(this.x(i, L), yf(werte[i])) : g.moveTo(this.x(i, L), yf(werte[i]));
+        begonnen = true;
+      }
+      g.stroke();
+    };
+    g.font = '500 12px Inter, system-ui, sans-serif'; g.textBaseline = 'middle';
+    if (this.unterfenster === 'rsi') {
+      const yr = v => L.volOben + (100 - v) / 100 * L.volH;
+      g.fillStyle = farbe.gitter; g.globalAlpha = 0.5;
+      g.fillRect(L.links, yr(70), L.w - L.rechts - L.links, yr(30) - yr(70));
+      g.globalAlpha = 1;
+      g.strokeStyle = farbe.rand; g.setLineDash([4, 4]); g.lineWidth = 1;
+      for (const v of [30, 70]) { g.beginPath(); g.moveTo(L.links, yr(v)); g.lineTo(L.w - L.rechts, yr(v)); g.stroke(); }
+      g.setLineDash([]);
+      g.fillStyle = farbe.text2;
+      g.fillText('RSI', L.links + 4, L.volOben + 8);
+      g.fillText('70', L.w - L.rechts + 6, yr(70)); g.fillText('30', L.w - L.rechts + 6, yr(30));
+      linie(this.rsi, yr, farbe.akzent, 2);
+    } else if (this.unterfenster === 'macd') {
+      const m = this.macd, sicht = [...m.linie, ...m.signal, ...m.histo].filter((v, j) => v !== null && (j % this.kerzen.length) < this.sichtbar);
+      const gr = Math.max(...sicht.map(Math.abs), 0.01);
+      const ym = v => L.volOben + L.volH / 2 - v / gr * (L.volH / 2 - 4);
+      g.strokeStyle = farbe.rand; g.lineWidth = 1;
+      g.beginPath(); g.moveTo(L.links, ym(0)); g.lineTo(L.w - L.rechts, ym(0)); g.stroke();
+      for (let i = 0; i < this.sichtbar; i++) {
+        const v = m.histo[i];
+        if (v === null) continue;
+        g.fillStyle = v >= 0 ? farbe.gruen : farbe.rot; g.globalAlpha = 0.45;
+        g.fillRect(this.x(i, L) - kw / 2, Math.min(ym(0), ym(v)), kw, Math.abs(ym(v) - ym(0)));
+      }
+      g.globalAlpha = 1;
+      linie(m.linie, ym, farbe.akzent, 2);
+      linie(m.signal, ym, farbe.gelb, 1.5);
+      g.fillStyle = farbe.text2;
+      g.fillText('MACD', L.links + 4, L.volOben + 8);
+    }
+  }
+
   // Fadenkreuz mit Kursdaten der Kerze unter dem Finger
   zeichneKreuz(g, L, farbe, schild) {
     const p = this.kreuz ?? this.mausKreuz;
@@ -336,7 +440,9 @@ export class KerzenChart {
     const veraenderung = index > 0 ? (k.c / this.kerzen[index - 1].c - 1) * 100 : 0;
     this.info.innerHTML = `<b>Tag ${index + 1}</b>
       <span>E ${zahl(k.o)}</span><span>H ${zahl(k.h)}</span><span>T ${zahl(k.l)}</span>
-      <span style="color:${fb}">S ${zahl(k.c)} (${veraenderung >= 0 ? '+' : ''}${zahl(veraenderung, 1)} %)</span><span>Vol ${vol}</span>`;
+      <span style="color:${fb}">S ${zahl(k.c)} (${veraenderung >= 0 ? '+' : ''}${zahl(veraenderung, 1)} %)</span><span>Vol ${vol}</span>
+      ${this.indikatoren.map(d => d.werte[index] === null ? '' : `<span>${d.typ === 'ema' ? 'EMA' : 'SMA'} ${d.laenge}: ${zahl(d.werte[index])}</span>`).join('')}
+      ${this.rsi?.[index] != null ? `<span>RSI ${zahl(this.rsi[index], 0)}</span>` : ''}`;
     this.info.hidden = false;
   }
 

@@ -2,14 +2,14 @@
   "hinweis": "Übersicht der 10 Lerntage. 'datei' = null bedeutet: Inhalte folgen noch.",
   "tage": [
     { "nr": 1, "titel": "Börse & Grundbegriffe", "datei": "content/tag-01.json" },
-    { "nr": 2, "titel": "Orderarten", "datei": null },
-    { "nr": 3, "titel": "Risikomanagement", "datei": null },
-    { "nr": 4, "titel": "Charts lesen", "datei": null },
-    { "nr": 5, "titel": "Trends", "datei": null },
-    { "nr": 6, "titel": "Unterstützung & Widerstand", "datei": null },
-    { "nr": 7, "titel": "Gleitende Durchschnitte & Volumen", "datei": null },
-    { "nr": 8, "titel": "Oszillatoren", "datei": null },
-    { "nr": 9, "titel": "Swing-Setups & Umfeld", "datei": null },
-    { "nr": 10, "titel": "Psychologie & Trading-Plan", "datei": null }
+    { "nr": 2, "titel": "Orderarten", "datei": "content/tag-02.json" },
+    { "nr": 3, "titel": "Risikomanagement", "datei": "content/tag-03.json" },
+    { "nr": 4, "titel": "Charts lesen", "datei": "content/tag-04.json" },
+    { "nr": 5, "titel": "Trends", "datei": "content/tag-05.json" },
+    { "nr": 6, "titel": "Unterstützung & Widerstand", "datei": "content/tag-06.json" },
+    { "nr": 7, "titel": "Gleitende Durchschnitte & Volumen", "datei": "content/tag-07.json" },
+    { "nr": 8, "titel": "Oszillatoren", "datei": "content/tag-08.json" },
+    { "nr": 9, "titel": "Swing-Setups & Umfeld", "datei": "content/tag-09.json" },
+    { "nr": 10, "titel": "Psychologie & Trading-Plan", "datei": "content/tag-10.json" }
   ]
 }

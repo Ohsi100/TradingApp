@@ -1,0 +1,239 @@
+{
+  "nr": 2,
+  "titel": "Orderarten",
+  "ziel": "Du weißt, mit welcher Order du wann kaufst und verkaufst, wie ein Stop-Loss funktioniert und warum er bei einer Kurslücke schlechter ausgeführt werden kann.",
+
+  "abschluss": {
+    "kernpunkte": [
+      "Market-Order: sofort, aber der Preis ist nicht garantiert. Limit-Order: Preis garantiert, aber die Ausführung nicht.",
+      "Ein Stop-Loss wird beim Erreichen des Stoppkurses zur Market-Order. Er begrenzt Verluste, aber nicht auf den Cent genau.",
+      "Bei einer Kurslücke nach unten wird ein Stop erst zum Eröffnungskurs ausgeführt, also schlechter als geplant.",
+      "Eine Stop-Limit-Order schützt vor einem schlechten Preis, kann aber gar nicht ausgeführt werden. Dann bleibst du in der Position.",
+      "Ein Trailing Stop zieht automatisch mit steigenden Kursen nach oben, aber nie nach unten."
+    ],
+    "vorschau": "Wie viel darfst du pro Trade riskieren? Du lernst, die Positionsgröße zu berechnen, das Chance-Risiko-Verhältnis zu bestimmen und Ergebnisse in R zu messen. Und warum Verluste schwerer wiegen als Gewinne."
+  },
+
+  "lektion": [
+    {
+      "titel": "Was ist eine Order?",
+      "text": "Eine **Order** _Order_ ist dein Auftrag an den Broker, ein Wertpapier zu kaufen oder zu verkaufen. Sie enthält immer:\n\n- **Was:** welches Wertpapier (z. B. über die ISIN)\n- **Wie viel:** die Stückzahl\n- **Kauf oder Verkauf**\n- **Ordertyp:** zu welchen Bedingungen ausgeführt wird (das ist heute das Hauptthema)\n- **Gültigkeit:** wie lange die Order gilt\n- **Handelsplatz:** wo gehandelt wird\n\nDer Ordertyp entscheidet, ob du dir lieber den **Zeitpunkt** oder lieber den **Preis** sicherst. Beides gleichzeitig geht nicht."
+    },
+    {
+      "titel": "Market-Order: sofort, egal zu welchem Preis",
+      "text": "Eine **Market-Order** _Market Order_ wird so schnell wie möglich zum nächsten verfügbaren Preis ausgeführt. Beim Kauf heißt sie auch „billigst“, beim Verkauf „bestens“.\n\n- **Vorteil:** Sie wird fast immer sofort ausgeführt.\n- **Nachteil:** Du weißt vorher nicht genau, zu welchem Preis. Du kaufst zum Briefkurs und verkaufst zum Geldkurs, und in hektischen Momenten oder bei wenig gehandelten Aktien kann der Preis deutlich abweichen.\n\nBeispiel: Briefkurs 50,05 €, du kaufst 100 Stück billigst. Liegen beim Briefkurs nur 40 Stück, bekommst du die restlichen 60 zum nächsthöheren Angebot, vielleicht 50,12 €.",
+      "merke": "Market-Orders sind bei großen, viel gehandelten Aktien zu normalen Handelszeiten unproblematisch. Bei kleinen Werten oder außerhalb der Hauptzeiten lieber eine Limit-Order verwenden."
+    },
+    {
+      "titel": "Limit-Order: dein Preis oder gar nicht",
+      "grafik": { "typ": "ordertypen" },
+      "text": "Mit einer **Limit-Order** _Limit Order_ legst du einen Grenzpreis fest:\n\n- **Kauf-Limit:** Kaufe höchstens zu diesem Preis. Das Limit liegt meist **unter** dem aktuellen Kurs.\n- **Verkaufs-Limit:** Verkaufe mindestens zu diesem Preis. Das Limit liegt meist **über** dem aktuellen Kurs (z. B. für eine Gewinnmitnahme).\n\nAusgeführt wird erst, wenn der Kurs das Limit erreicht, und dann **zum Limit oder besser**. Erreicht der Kurs das Limit nie, wird gar nicht gekauft oder verkauft.\n\nBeispiel: Kurs 50 €, Kauf-Limit 48 €. Fällt der Kurs auf 48 €, kaufst du zu 48 € oder günstiger. Steigt er stattdessen auf 55 €, gehst du leer aus."
+    },
+    {
+      "titel": "Stop-Order: der Stop-Loss",
+      "text": "Eine **Stop-Order** wird erst aktiv, wenn der Kurs einen bestimmten **Stoppkurs** erreicht. Dann wird sie zu einer **Market-Order**.\n\nDie wichtigste Form für dich ist der **Stop-Loss** _Stop Loss_: ein Verkaufs-Stop **unter** dem aktuellen Kurs. Er begrenzt deinen Verlust, wenn der Kurs fällt.\n\nBeispiel: Du kaufst zu 50 €, Stop-Loss bei 47 €. Fällt der Kurs auf 47 €, wird automatisch verkauft. Dein Verlust bleibt bei etwa 3 € pro Aktie, auch wenn du gerade nicht aufs Handy schaust.\n\nDas Gegenstück ist der **Stop-Buy** _Buy Stop_: ein Kauf-Stop **über** dem aktuellen Kurs. Er kauft erst, wenn der Kurs steigt, zum Beispiel über eine Marke, an der er vorher immer wieder abgeprallt ist (mehr dazu an Tag 6).",
+      "merke": "Ein Stop-Loss gehört zu jeder Position. Setze ihn direkt nach dem Kauf, nicht erst „wenn es nötig wird“."
+    },
+    {
+      "titel": "Stop-Limit: Schutz mit Haken",
+      "text": "Eine **Stop-Limit-Order** _Stop-Limit Order_ hat zwei Preise: den Stoppkurs und ein Limit. Wird der Stoppkurs erreicht, entsteht keine Market-Order, sondern eine **Limit-Order**.\n\nBeispiel: Stop 47 €, Limit 46,50 €. Fällt der Kurs auf 47 €, wird zu mindestens 46,50 € verkauft.\n\n- **Vorteil:** Du verkaufst nicht zu einem sehr schlechten Preis.\n- **Haken:** Fällt der Kurs schnell unter 46,50 €, wird **gar nicht verkauft**. Du bleibst in der fallenden Aktie, und der Verlust wächst weiter.\n\nFür einen Stop-Loss ist das gefährlich. Viele Trader nutzen deshalb für den Schutz einen normalen Stop (Stop-Market) und nehmen in Kauf, dass er manchmal etwas schlechter ausgeführt wird."
+    },
+    {
+      "titel": "Trailing Stop: der mitlaufende Stop",
+      "text": "Ein **Trailing Stop** _Trailing Stop_ ist ein Stop-Loss, der dem Kurs in einem festen Abstand **nach oben folgt**, aber **nie nach unten**. Den Abstand legst du in Prozent oder Euro fest.\n\nBeispiel mit 10 % Abstand:\n\n- Kauf zu 50 €: Stop bei 45 €.\n- Kurs steigt auf 60 €: Stop zieht auf 54 € nach.\n- Kurs fällt auf 56 €: Stop bleibt bei 54 €.\n- Kurs fällt auf 54 €: Es wird verkauft. Gewinn rund 4 € pro Aktie.\n\nSo sicherst du Gewinne, ohne ständig nachzuschauen. Ist der Abstand zu eng, wirst du allerdings schon bei normalen Schwankungen ausgestoppt.",
+      "merke": "Ob der Broker den höchsten Kurs oder den höchsten Schlusskurs als Bezug nimmt, ist unterschiedlich. In dieser App rechnen wir mit dem höchsten Kurs."
+    },
+    {
+      "titel": "Gültigkeit: wie lange gilt die Order?",
+      "text": "Jede Order hat eine **Gültigkeit** _Validity_:\n\n- **Tagesgültig** _Day Order_: verfällt am Ende des Handelstages.\n- **Bis auf Widerruf** _Good till Cancelled, GTC_: gilt, bis sie ausgeführt oder gelöscht wird. Viele Broker setzen trotzdem eine Höchstdauer, oft bis zum Monats- oder Jahresende.\n- **Bis Datum** _Good till Date_: gilt bis zu einem von dir gewählten Tag.\n\nFür Swing-Trader wichtig: Dein Stop-Loss muss die ganze Haltedauer über gelten. Prüfe also, ob er nicht nach einem Tag verfällt.\n\nManchmal wird eine Order nur zum Teil ausgeführt, zum Beispiel 60 von 100 Stück. Das heißt **Teilausführung** _Partial Fill_.",
+      "merke": "Lösche offene Orders, die du nicht mehr brauchst. Eine vergessene Kauforder kann Wochen später unerwartet ausgeführt werden."
+    },
+    {
+      "titel": "Slippage: wenn der Preis verrutscht",
+      "text": "**Slippage** _Slippage_ ist der Unterschied zwischen dem Preis, den du erwartest, und dem Preis, zu dem tatsächlich ausgeführt wird.\n\nSie entsteht vor allem bei **Market-Orders** und **Stop-Orders**, wenn sich der Kurs schnell bewegt oder wenig gehandelt wird.\n\nBeispiel: Dein Stop-Loss liegt bei 47,00 €. Ausgeführt wird zu 46,80 €. Die Slippage beträgt 0,20 € pro Aktie. Bei 100 Aktien sind das 20 € mehr Verlust als geplant.\n\nBei Limit-Orders gibt es keine negative Slippage, dafür das Risiko, dass gar nicht ausgeführt wird."
+    },
+    {
+      "titel": "Kurslücken: das Risiko über Nacht",
+      "grafik": { "typ": "chart", "kurse": { "seed": 303, "start": 35, "phasen": [{ "tage": 40, "trend": 0.5, "vola": 1.3 }, { "tage": 5, "trend": -0.6, "vola": 1.1 }, { "tage": 1, "gap": -7, "trend": -1, "vola": 1.5, "volumen": 3.5 }, { "tage": 8, "trend": -0.15, "vola": 1.6 }] }, "chart": { "hoehe": 210 } },
+      "text": "Eine **Kurslücke** _Gap_ entsteht, wenn der Kurs deutlich über oder unter dem Schlusskurs des Vortags eröffnet. Dazwischen wurde nicht gehandelt. Typische Auslöser sind Nachrichten über Nacht oder am Wochenende, zum Beispiel Quartalszahlen.\n\nIm Chart oben siehst du eine Kurslücke nach unten (Tag 46).\n\n**Warum ein Stop dann schlechter ausgeführt wird:** Dein Stop liegt bei 47 €, der Schlusskurs war 48 €. Über Nacht kommt eine schlechte Nachricht, die Aktie eröffnet bei 43 €. Dein Stop wird ausgelöst, wird zur Market-Order und zum ersten verfügbaren Kurs verkauft, also etwa **43 €**. Zu 47 € wollte niemand kaufen.\n\nDein Verlust ist dann deutlich größer als geplant. Mit einer Stop-Limit-Order (Limit 46,50 €) wäre gar nicht verkauft worden.",
+      "merke": "Gegen Kurslücken hilft kein Ordertyp vollständig. Was hilft: kleinere Positionen und keine Trades kurz vor bekannten Terminen wie Quartalszahlen (Tag 9)."
+    },
+    {
+      "titel": "Zusammenfassung",
+      "text": "- **Market-Order:** sofort, Preis ungewiss.\n- **Limit-Order:** Preis sicher (oder besser), Ausführung ungewiss.\n- **Stop-Loss:** wird beim Stoppkurs zur Market-Order und begrenzt Verluste.\n- **Stop-Buy:** kauft erst, wenn der Kurs über eine Marke steigt.\n- **Stop-Limit:** wird zur Limit-Order. Achtung, sie wird bei schnellem Fall eventuell gar nicht ausgeführt.\n- **Trailing Stop:** läuft mit dem Kurs nach oben.\n- **Kurslücken** können einen Stop deutlich schlechter ausführen lassen.",
+      "merke": "Morgen (Tag 3): Risikomanagement. Das wichtigste Thema überhaupt."
+    }
+  ],
+
+  "vokabeln": [
+    { "id": "marketorder", "de": "Market-Order (billigst / bestens)", "en": "Market Order", "erklaerung": "Wird sofort zum nächsten verfügbaren Preis ausgeführt. Schnell, aber der Preis ist nicht garantiert.", "beispiel": "Briefkurs 50,05 €: Eine Kauforder billigst wird zu etwa 50,05 € ausgeführt, bei großer Stückzahl auch teurer." },
+    { "id": "limitorder", "de": "Limit-Order", "en": "Limit Order", "erklaerung": "Order mit Grenzpreis: Kauf höchstens, Verkauf mindestens zu diesem Preis. Wird nur ausgeführt, wenn der Kurs das Limit erreicht.", "beispiel": "Kurs 50 €, Kauf-Limit 48 €: Kauf erst, wenn der Kurs auf 48 € oder tiefer fällt." },
+    { "id": "stoploss", "de": "Stop-Loss", "en": "Stop Loss", "erklaerung": "Verkaufs-Stop unter dem aktuellen Kurs. Wird beim Erreichen des Stoppkurses zur Market-Order und begrenzt so den Verlust.", "beispiel": "Kauf zu 50 €, Stop-Loss 47 €: Fällt der Kurs auf 47 €, wird verkauft." },
+    { "id": "stopbuy", "de": "Stop-Buy", "en": "Buy Stop", "erklaerung": "Kauf-Stop über dem aktuellen Kurs. Kauft erst, wenn der Kurs eine Marke nach oben überschreitet.", "beispiel": "Kurs 50 €, Stop-Buy 52 €: Gekauft wird erst, wenn der Kurs 52 € erreicht." },
+    { "id": "stoplimit", "de": "Stop-Limit-Order", "en": "Stop-Limit Order", "erklaerung": "Wird beim Stoppkurs nicht zur Market-, sondern zur Limit-Order. Schützt vor schlechten Preisen, wird bei schnellem Kursfall aber eventuell gar nicht ausgeführt." },
+    { "id": "trailingstop", "de": "Trailing Stop", "en": "Trailing Stop", "erklaerung": "Stop-Loss, der dem Kurs in festem Abstand nach oben folgt, aber nie nach unten geht.", "beispiel": "10 % Abstand: Kurs steigt von 50 € auf 60 €, der Stop zieht von 45 € auf 54 € nach." },
+    { "id": "gueltigkeit", "de": "Gültigkeit", "en": "Validity / Time in Force", "erklaerung": "Wie lange eine Order gilt: tagesgültig, bis auf Widerruf oder bis zu einem Datum." },
+    { "id": "gtc", "de": "Bis auf Widerruf", "en": "Good till Cancelled (GTC)", "erklaerung": "Order gilt, bis sie ausgeführt oder gelöscht wird. Viele Broker begrenzen die Dauer trotzdem, z. B. bis Jahresende." },
+    { "id": "teilausfuehrung", "de": "Teilausführung", "en": "Partial Fill", "erklaerung": "Nur ein Teil der gewünschten Stückzahl wird ausgeführt, weil zum Preis nicht genug Gegenangebote vorhanden sind.", "beispiel": "Kauforder über 100 Stück, ausgeführt werden 60." },
+    { "id": "slippage", "de": "Slippage", "en": "Slippage", "erklaerung": "Unterschied zwischen erwartetem und tatsächlichem Ausführungspreis, vor allem bei Market- und Stop-Orders.", "beispiel": "Stop bei 47,00 €, ausgeführt zu 46,80 €: 0,20 € Slippage pro Aktie." },
+    { "id": "gap", "de": "Kurslücke", "en": "Gap", "erklaerung": "Der Kurs eröffnet deutlich über oder unter dem Schlusskurs des Vortags. Dazwischen wurde nicht gehandelt.", "beispiel": "Schluss 48 €, Eröffnung am nächsten Morgen 43 €: Kurslücke von 5 € nach unten." },
+    { "id": "eroeffnung", "de": "Eröffnungskurs", "en": "Open", "erklaerung": "Erster Kurs eines Handelstages. Bei einer Kurslücke liegt er weit vom Schlusskurs des Vortags entfernt." }
+  ],
+
+  "quiz": [
+    {
+      "typ": "mc",
+      "frage": "Du willst eine Aktie kaufen, aber auf keinen Fall mehr als 48 € bezahlen. Welche Order passt?",
+      "optionen": ["Market-Order (billigst)", "Kauf-Limit bei 48 €", "Stop-Buy bei 48 €", "Stop-Loss bei 48 €"],
+      "richtig": 1,
+      "braucht": ["limitorder"],
+      "erklaerung": "Ein Kauf-Limit garantiert den Höchstpreis: Gekauft wird zu 48 € oder günstiger. Eine Market-Order hat keinen Preisschutz, ein Stop-Buy kauft erst, wenn der Kurs steigt."
+    },
+    {
+      "typ": "wf",
+      "frage": "Eine Kauf-Limit-Order bei 48 € kann auch zu 48,40 € ausgeführt werden.",
+      "richtig": false,
+      "braucht": ["limitorder"],
+      "erklaerung": "Falsch. Ein Kauf-Limit wird nur zum Limit oder **günstiger** ausgeführt, also zu 48 € oder weniger."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Du kaufst zu 40 € und setzt einen Trailing Stop mit 10 % Abstand. Der höchste Kurs danach ist 50 €. Wo liegt der Stop jetzt?",
+      "loesung": 45,
+      "toleranz": 0.01,
+      "einheit": "€",
+      "braucht": ["trailingstop"],
+      "erklaerung": "Der Trailing Stop folgt dem höchsten Kurs: 50 € − 10 % = 45 €. Am Anfang lag er bei 36 € (40 € − 10 %)."
+    },
+    {
+      "typ": "mc",
+      "frage": "Dein Stop-Loss (normale Stop-Order) liegt bei 45 €. Schlusskurs gestern: 47 €. Heute eröffnet die Aktie nach schlechten Nachrichten bei 41 €. Was passiert?",
+      "optionen": ["Es wird genau zu 45 € verkauft", "Es wird ungefähr zum Eröffnungskurs von 41 € verkauft", "Es wird gar nicht verkauft", "Die Order wird gelöscht"],
+      "richtig": 1,
+      "braucht": ["stoploss", "gap", "eroeffnung"],
+      "erklaerung": "Der Stop wird ausgelöst und wird zur Market-Order. Die wird zum ersten verfügbaren Kurs ausgeführt, also etwa zu 41 €. Der Verlust ist größer als geplant. So wirkt eine Kurslücke."
+    },
+    {
+      "typ": "mc",
+      "frage": "Gleiche Lage, aber statt eines normalen Stops hattest du eine Stop-Limit-Order: Stop 45 €, Limit 44,50 €. Die Aktie eröffnet bei 41 € und steigt den ganzen Tag nicht über 42 €. Was passiert?",
+      "optionen": ["Verkauf zu 44,50 €", "Verkauf zu 41 €", "Kein Verkauf, du hältst die Aktie weiter", "Verkauf zu 45 €"],
+      "richtig": 2,
+      "braucht": ["stoplimit", "gap"],
+      "erklaerung": "Die Stop-Limit-Order wird zur Verkaufs-Limit-Order mit mindestens 44,50 €. Solange niemand so viel zahlt, wird nicht verkauft. Du sitzt weiter in der fallenden Aktie. Genau deshalb ist ein Stop-Limit als Verlustschutz riskant."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Du erwartest, zu 50,00 € zu verkaufen. Ausgeführt wird zu 49,70 €. Wie viel Euro kostet dich die Slippage bei 200 Aktien?",
+      "loesung": 60,
+      "toleranz": 0.01,
+      "einheit": "€",
+      "braucht": ["slippage"],
+      "erklaerung": "0,30 € Slippage pro Aktie × 200 Aktien = 60 €."
+    },
+    {
+      "typ": "mc",
+      "frage": "Du willst kaufen, sobald die Aktie über 52 € steigt (aktuell 50 €). Welche Order passt?",
+      "optionen": ["Kauf-Limit bei 52 €", "Stop-Buy bei 52 €", "Stop-Loss bei 52 €", "Market-Order"],
+      "richtig": 1,
+      "braucht": ["stopbuy"],
+      "erklaerung": "Ein Stop-Buy kauft erst, wenn der Kurs auf 52 € steigt. Ein Kauf-Limit bei 52 € würde dagegen sofort ausgeführt, weil der aktuelle Kurs (50 €) schon unter dem Limit liegt."
+    },
+    {
+      "typ": "wf",
+      "frage": "Eine Order „bis auf Widerruf“ ist bei jedem Broker unbegrenzt lange gültig.",
+      "richtig": false,
+      "braucht": ["gtc"],
+      "erklaerung": "Falsch. Viele Broker begrenzen auch solche Orders, zum Beispiel bis zum Monats- oder Jahresende. Prüfe die Regeln deines Brokers, damit dein Stop-Loss nicht unbemerkt verfällt."
+    }
+  ],
+
+  "uebungen": [
+    {
+      "id": "t2-limit-kauf",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Wann greift dein Kauf-Limit?",
+      "frage": "Du legst an Tag 25 eine **Kauf-Limit-Order bei {{k[24].c * 0.96}} €** in den Markt (gestrichelte Linie). Der Kurs steht bei {{k[24].c}} €. Tippe auf den Tag, an dem deine Order ausgeführt wird.",
+      "kurse": { "seed": 21, "start": 30, "phasen": [{ "tage": 25, "trend": 0.5, "vola": 1.3 }, { "tage": 8, "trend": -0.8, "vola": 1.3 }, { "tage": 22, "trend": 0.5, "vola": 1.3 }] },
+      "vorgaben": { "linien": [{ "preis": "=k[24].c * 0.96", "text": "Kauf-Limit", "ab": 24 }] },
+      "ziel": { "typ": "ersterTag", "preis": "=k[24].c * 0.96", "richtung": "unter", "ab": 25 },
+      "toleranz": 0,
+      "braucht": ["limitorder"],
+      "pruefung": { "bedingungen": ["erster(k[24].c * 0.96, 'unter', 25) > 26", "erster(k[24].c * 0.96, 'unter', 25) < 45"] },
+      "erklaerung": "Ein Kauf-Limit wird ausgeführt, sobald der Kurs das Limit **erreicht oder unterschreitet**, also wenn das Tief einer Kerze die Linie berührt. Das war an Tag {{erster(k[24].c * 0.96, 'unter', 25) + 1|0}}. Gekauft wird zum Limit oder günstiger."
+    },
+    {
+      "id": "t2-stop-ausgeloest",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Wann greift dein Stop-Loss?",
+      "frage": "Du hast an Tag 30 gekauft. Dein **Stop-Loss liegt bei {{tief(20, 29) * 0.99}} €**, knapp unter dem Tief der letzten zehn Tage. Tippe auf den Tag, an dem der Stop ausgelöst wird.",
+      "kurse": { "seed": 34, "start": 50, "phasen": [{ "tage": 30, "trend": 0.4, "vola": 1.3 }, { "tage": 4, "trend": 0.2, "vola": 1.2 }, { "tage": 22, "trend": -0.7, "vola": 1.5 }] },
+      "vorgaben": { "linien": [{ "preis": "=tief(20, 29) * 0.99", "text": "Stop-Loss", "ab": 29, "farbe": "rot" }] },
+      "ziel": { "typ": "ersterTag", "preis": "=tief(20, 29) * 0.99", "richtung": "unter", "ab": 30 },
+      "toleranz": 0,
+      "braucht": ["stoploss"],
+      "pruefung": { "bedingungen": ["erster(tief(20, 29) * 0.99, 'unter', 30) > 33", "erster(tief(20, 29) * 0.99, 'unter', 30) < 55"] },
+      "erklaerung": "Der Stop wird ausgelöst, sobald der Kurs ihn **berührt oder unterschreitet**. Das war an Tag {{erster(tief(20, 29) * 0.99, 'unter', 30) + 1|0}}. Dann wird zur Market-Order verkauft. Ohne Stop hättest du den weiteren Kursverfall voll mitgemacht."
+    },
+    {
+      "id": "t2-stopbuy",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Kaufen, wenn es losgeht",
+      "frage": "Der Kurs pendelt seit Wochen seitwärts. Du legst einen **Stop-Buy bei {{hoch(0, 29) * 1.01}} €** knapp über das bisherige Hoch. Tippe auf den Tag, an dem gekauft wird.",
+      "kurse": { "seed": 10, "start": 40, "phasen": [{ "tage": 30, "trend": 0, "vola": 1.3, "seitwaerts": true }, { "tage": 25, "trend": 0.7, "vola": 1.4, "volumen": 1.6 }] },
+      "vorgaben": { "linien": [{ "preis": "=hoch(0, 29) * 1.01", "text": "Stop-Buy", "ab": 29, "farbe": "gelb" }] },
+      "ziel": { "typ": "ersterTag", "preis": "=hoch(0, 29) * 1.01", "richtung": "ueber", "ab": 30 },
+      "toleranz": 0,
+      "braucht": ["stopbuy"],
+      "pruefung": { "bedingungen": ["erster(hoch(0, 29) * 1.01, 'ueber', 30) > 31", "erster(hoch(0, 29) * 1.01, 'ueber', 30) < 38"] },
+      "erklaerung": "Ein Stop-Buy kauft erst, wenn der Kurs die Marke **nach oben** erreicht. Das war an Tag {{erster(hoch(0, 29) * 1.01, 'ueber', 30) + 1|0}}. So steigst du nur ein, wenn sich der Kurs tatsächlich aus seiner Spanne nach oben löst. Mehr zu solchen Ausbrüchen an Tag 6."
+    },
+    {
+      "id": "t2-gap-stop",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Über Nacht durch den Stop",
+      "frage": "Dein Stop-Loss (normale Stop-Order) liegt bei **{{k[39].c * 0.95}} €**. Schlusskurs an Tag 40: {{k[39].c}} €. Über Nacht kommt eine schlechte Nachricht. Zu welchem Kurs wird dein Stop ungefähr ausgeführt?",
+      "kurse": { "seed": 77, "start": 30, "phasen": [{ "tage": 40, "trend": 0.45, "vola": 1.2 }, { "tage": 1, "gap": -10, "trend": -0.5, "vola": 1.4, "volumen": 4 }, { "tage": 14, "trend": -0.1, "vola": 1.5 }] },
+      "vorgaben": { "linien": [{ "preis": "=k[39].c * 0.95", "text": "Stop-Loss", "ab": 30, "farbe": "rot" }] },
+      "optionen": ["Genau zum Stoppkurs von {{k[39].c * 0.95}} €", "Ungefähr zum Eröffnungskurs von {{k[40].o}} €", "Zum Schlusskurs des Vortags von {{k[39].c}} €"],
+      "richtig": 1,
+      "braucht": ["stoploss", "gap", "eroeffnung"],
+      "pruefung": { "bedingungen": ["k[40].o < k[39].c * 0.95 * 0.97"] },
+      "loesung": { "marker": [{ "index": 40, "preis": "=k[40].o", "text": "Ausführung", "farbe": "rot" }] },
+      "erklaerung": "Die Aktie hat mit einer Kurslücke bei {{k[40].o}} € eröffnet, also **unter** deinem Stop. Der Stop wird ausgelöst und als Market-Order zum ersten verfügbaren Kurs ausgeführt. Statt {{k[39].c - k[39].c * 0.95}} € verlierst du rund {{k[39].c - k[40].o}} € pro Aktie."
+    },
+    {
+      "id": "t2-stoplimit",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Stop-Limit bei einer Kurslücke",
+      "frage": "Gleicher Chart, aber diesmal hattest du eine **Stop-Limit-Order**: Stop {{k[39].c * 0.95}} €, Limit {{k[39].c * 0.95 - 0.3}} €. Was passiert nach der Kurslücke?",
+      "kurse": { "seed": 77, "start": 30, "phasen": [{ "tage": 40, "trend": 0.45, "vola": 1.2 }, { "tage": 1, "gap": -10, "trend": -0.5, "vola": 1.4, "volumen": 4 }, { "tage": 14, "trend": -0.1, "vola": 1.5 }] },
+      "vorgaben": { "linien": [{ "preis": "=k[39].c * 0.95", "text": "Stopp", "ab": 30, "farbe": "rot" }, { "preis": "=k[39].c * 0.95 - 0.3", "text": "Limit", "ab": 30, "farbe": "gelb" }] },
+      "optionen": ["Verkauf zum Limit von {{k[39].c * 0.95 - 0.3}} €", "Kein Verkauf, weil der Kurs nicht mehr bis zum Limit steigt", "Verkauf zum Eröffnungskurs von {{k[40].o}} €"],
+      "richtig": 1,
+      "braucht": ["stoplimit", "gap"],
+      "pruefung": { "bedingungen": ["hoch(40, 54) < k[39].c * 0.95 - 0.3"] },
+      "erklaerung": "Der Stoppkurs wurde erreicht, aus der Order wurde eine Verkaufs-Limit-Order mit mindestens {{k[39].c * 0.95 - 0.3}} €. Der Kurs ist danach aber nie mehr so hoch gestiegen (höchstens {{hoch(40, 54)}} €). Also wurde **nie verkauft**, und du hältst die Aktie bis heute. Deshalb nutzt man für den Verlustschutz meist eine normale Stop-Order."
+    },
+    {
+      "id": "t2-trailing",
+      "stufe": "erkennen",
+      "typ": "rechnen",
+      "titel": "Wo steht der Trailing Stop?",
+      "frage": "Du kaufst an Tag 10 zum Schlusskurs von {{k[9].c}} € und setzt einen **Trailing Stop mit 8 % Abstand** zum höchsten Kurs. Bis Tag 40 war der höchste Kurs **{{hoch(10, 39)}} €** (Finger auf den Chart halten zum Nachprüfen). Wo liegt der Stop an Tag 40?",
+      "kurse": { "seed": 6, "start": 25, "phasen": [{ "tage": 40, "trend": 0.6, "vola": 1.2 }, { "tage": 15, "trend": -0.4, "vola": 1.3 }] },
+      "vorgaben": { "linien": [{ "preis": "=k[9].c", "text": "Kauf", "ab": 9 }] },
+      "loesung": "=hoch(10, 39) * 0.92",
+      "toleranz": 0.05,
+      "einheit": "€",
+      "loesungChart": { "linien": [{ "preis": "=hoch(10, 39) * 0.92", "text": "Trailing Stop", "farbe": "rot", "ab": 9 }] },
+      "braucht": ["trailingstop"],
+      "pruefung": { "bedingungen": ["trailing(9, 39, 8) < 0", "hoch(10, 39) > k[9].c * 1.2"] },
+      "erklaerung": "Der Trailing Stop folgt dem höchsten Kurs: {{hoch(10, 39)}} € × 0,92 = **{{hoch(10, 39) * 0.92}} €**. Am Anfang lag er bei {{k[9].c * 0.92}} €. So ist ein großer Teil des Gewinns abgesichert, ohne dass du den Stop von Hand nachziehen musstest."
+    }
+  ]
+}

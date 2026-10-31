@@ -1,0 +1,235 @@
+{
+  "nr": 5,
+  "titel": "Trends",
+  "ziel": "Du erkennst Aufwärts-, Abwärts- und Seitwärtsphasen an Hochs und Tiefs, zeichnest Trendlinien und erkennst, wann ein Trend gebrochen ist.",
+
+  "abschluss": {
+    "kernpunkte": [
+      "Aufwärtstrend = höhere Hochs und höhere Tiefs. Abwärtstrend = tiefere Hochs und tiefere Tiefs.",
+      "Das letzte höhere Tief ist im Aufwärtstrend die wichtigste Marke. Ein Schluss darunter bricht den Trend.",
+      "Eine Trendlinie verbindet mindestens zwei Tiefs (im Aufwärtstrend). Sie ist eine Hilfe, keine exakte Grenze.",
+      "Ein Trendbruch ist ein Warnsignal, aber noch kein Trendwechsel. Der braucht tiefere Hochs und tiefere Tiefs.",
+      "Als Long-Swing-Trader kaufst du nur im Aufwärtstrend, am besten nach einem Rücksetzer."
+    ],
+    "vorschau": "Unterstützung und Widerstand: Preiszonen, an denen der Kurs immer wieder dreht. Warum es Zonen statt Linien sind, was ein Rollentausch ist und wie man Ausbrüche von Fehlausbrüchen unterscheidet."
+  },
+
+  "lektion": [
+    {
+      "titel": "Was ist ein Trend?",
+      "text": "Ein **Trend** _Trend_ ist die vorherrschende Richtung, in die sich ein Kurs über einen Zeitraum bewegt. Kurse bewegen sich dabei nie in einer geraden Linie, sondern in **Wellen**: zwei Schritte vor, einer zurück. Den Schritt zurück nennt man **Rücksetzer** _Pullback_.\n\nDiese Wellen bilden **Hochs** und **Tiefs**. An ihnen erkennst du den Trend, nicht an einzelnen Kerzen.\n\nDiese Idee geht auf Charles Dow zurück, der sie schon Ende des 19. Jahrhunderts beschrieb. Sie ist bis heute die Grundlage der Chartanalyse."
+    },
+    {
+      "titel": "Aufwärtstrend: höhere Hochs, höhere Tiefs",
+      "grafik": { "typ": "trend" },
+      "text": "Ein **Aufwärtstrend** _Uptrend_ liegt vor, wenn:\n\n- jedes neue Hoch **höher** ist als das vorherige: **höheres Hoch** _Higher High_\n- jedes neue Tief **höher** ist als das vorherige: **höheres Tief** _Higher Low_\n\nDie Rücksetzer werden also nie so tief wie der vorherige. Käufer greifen immer früher zu.\n\nEin **Abwärtstrend** _Downtrend_ ist das Spiegelbild: **tiefere Hochs** _Lower Highs_ und **tiefere Tiefs** _Lower Lows_.",
+      "merke": "Ein einzelnes neues Hoch macht noch keinen Trend. Du brauchst mindestens zwei höhere Hochs und zwei höhere Tiefs."
+    },
+    {
+      "titel": "Hochs und Tiefs finden",
+      "text": "Welche Punkte zählen als Hoch oder Tief? Gemeint sind **Swing-Hochs** und **Swing-Tiefs** _Swing High / Swing Low_: Wendepunkte im Chart.\n\nEin Swing-Tief ist ein Tag, dessen Tief **niedriger** ist als die Tiefs der Tage direkt davor und danach. In dieser App gilt: drei Tage auf jeder Seite.\n\nKleine Zacken mit nur einem Tag Gegenbewegung ignoriert man. Je größer die Welle, desto wichtiger das Hoch oder Tief.",
+      "merke": "Ein Swing-Tief steht erst fest, wenn ein paar Tage danach vergangen sind. Ganz rechts im Chart weißt du also noch nicht sicher, ob das aktuelle Tief ein Wendepunkt ist."
+    },
+    {
+      "titel": "Trendlinien",
+      "text": "Eine **Trendlinie** _Trendline_ verbindet im Aufwärtstrend mindestens **zwei Tiefs** (im Abwärtstrend zwei Hochs) und wird nach rechts verlängert.\n\n- Zwei Punkte braucht man, um sie zu zeichnen. Eine **dritte Berührung** bestätigt sie.\n- Sehr steile Trendlinien werden schnell gebrochen. Flachere halten länger.\n- Eine Trendlinie ist eine **Orientierung**, keine exakte Grenze. Kurz durchstechende Dochte sind normal.\n\nDu kannst sie nutzen, um zu sehen, ob der Trend noch intakt ist, und um Rücksetzer an die Linie als mögliche Einstiege zu erkennen."
+    },
+    {
+      "titel": "Seitwärtsphasen",
+      "text": "Nicht immer gibt es einen Trend. In einer **Seitwärtsphase** _Range / Sideways Market_ pendelt der Kurs zwischen einer oberen und einer unteren Grenze. Es entstehen weder klar höhere noch klar tiefere Hochs und Tiefs.\n\nMärkte verbringen einen großen Teil der Zeit seitwärts. Für Trendfolger ist das schwierig: Ein Anstieg sieht nach Trend aus und kehrt dann um.\n\nSeitwärtsphasen enden oft mit einem **Ausbruch** nach oben oder unten, wie man den handelt, lernst du an Tag 6."
+    },
+    {
+      "titel": "Trendbruch",
+      "text": "Ein Aufwärtstrend ist **gebrochen** _Trend Break_, wenn eines davon passiert:\n\n- Der Kurs **schließt unter dem letzten höheren Tief**. Das ist das wichtigste Signal: Die Abfolge höherer Tiefs ist beendet.\n- Der Kurs schließt deutlich unter der Trendlinie.\n\nWichtig ist der **Schlusskurs**. Ein Docht, der kurz darunter sticht und wieder zurückkommt, zählt nicht.\n\nGenau deshalb liegt der Stop-Loss bei einem Long-Trade oft knapp unter dem letzten höheren Tief: Wird es unterschritten, ist die Idee hinter dem Trade widerlegt."
+    },
+    {
+      "titel": "Trendwechsel",
+      "text": "Ein Trendbruch ist ein **Warnsignal**, aber noch kein Trendwechsel. Oft geht der Kurs danach erst einmal seitwärts.\n\nEin **Trendwechsel** _Trend Reversal_ von aufwärts nach abwärts ist bestätigt, wenn:\n\n1. ein **tieferes Hoch** entsteht (der Kurs schafft kein neues Hoch mehr) und\n2. danach ein **tieferes Tief**.\n\nFür dich als Long-Trader heißt das: Nach einem Trendbruch keine neuen Käufe in diese Aktie, bis sich wieder ein Aufwärtstrend aufgebaut hat."
+    },
+    {
+      "titel": "Mit dem Trend handeln",
+      "text": "„The trend is your friend“ ist eine der ältesten Börsenweisheiten. Für Swing-Trader heißt das:\n\n- **Long nur im Aufwärtstrend.** Die Wahrscheinlichkeit, dass ein Rücksetzer wieder nach oben dreht, ist dort höher.\n- **Nicht am Hoch kaufen,** sondern nach einem Rücksetzer, möglichst nahe am letzten höheren Tief. So bleibt der Abstand zum Stop klein und das CRV gut.\n- **Nicht ins fallende Messer greifen:** Im Abwärtstrend wird nicht gekauft, auch wenn der Kurs „günstig“ aussieht.\n\nDieses Vorgehen heißt **Trendfolge** _Trend Following_.",
+      "merke": "Prüfe den Trend auch im Wochenchart. Am besten zeigen Wochen- und Tageschart in dieselbe Richtung."
+    },
+    {
+      "titel": "Zusammenfassung",
+      "text": "- **Aufwärtstrend:** höhere Hochs und höhere Tiefs. **Abwärtstrend:** tiefere Hochs und tiefere Tiefs.\n- **Swing-Hoch/-Tief:** Wendepunkte der Wellen.\n- **Trendlinie:** verbindet mindestens zwei Tiefs, die dritte Berührung bestätigt sie.\n- **Seitwärtsphase:** kein Trend, Kurs pendelt.\n- **Trendbruch:** Schluss unter dem letzten höheren Tief.\n- **Trendwechsel:** tieferes Hoch und danach tieferes Tief.\n- **Long nur im Aufwärtstrend,** am besten nach einem Rücksetzer.",
+      "merke": "Morgen (Tag 6): Unterstützung und Widerstand."
+    }
+  ],
+
+  "vokabeln": [
+    { "id": "trend", "de": "Trend", "en": "Trend", "erklaerung": "Vorherrschende Richtung eines Kurses über einen Zeitraum, erkennbar an der Abfolge von Hochs und Tiefs." },
+    { "id": "aufwaertstrend", "de": "Aufwärtstrend", "en": "Uptrend", "erklaerung": "Abfolge von höheren Hochs und höheren Tiefs." },
+    { "id": "abwaertstrend", "de": "Abwärtstrend", "en": "Downtrend", "erklaerung": "Abfolge von tieferen Hochs und tieferen Tiefs." },
+    { "id": "seitwaerts", "de": "Seitwärtsphase", "en": "Range / Sideways Market", "erklaerung": "Phase ohne klaren Trend, in der der Kurs zwischen einer oberen und unteren Grenze pendelt." },
+    { "id": "pullback", "de": "Rücksetzer / Pullback", "en": "Pullback", "erklaerung": "Vorübergehende Gegenbewegung in einem Trend: Im Aufwärtstrend fällt der Kurs eine Weile, bevor er wieder steigt. Auch nach einem Ausbruch üblich (Tag 6).", "beispiel": "Kurs steigt von 40 € auf 50 €, setzt auf 47 € zurück und steigt dann auf 55 €." },
+    { "id": "hoeheres_hoch", "de": "Höheres Hoch", "en": "Higher High", "erklaerung": "Ein Hoch, das über dem vorherigen Hoch liegt." },
+    { "id": "hoeheres_tief", "de": "Höheres Tief", "en": "Higher Low", "erklaerung": "Ein Tief, das über dem vorherigen Tief liegt. Im Aufwärtstrend die wichtigste Marke für den Stop-Loss." },
+    { "id": "tieferes_hoch", "de": "Tieferes Hoch", "en": "Lower High", "erklaerung": "Ein Hoch, das unter dem vorherigen Hoch liegt. Erstes Zeichen eines möglichen Abwärtstrends." },
+    { "id": "tieferes_tief", "de": "Tieferes Tief", "en": "Lower Low", "erklaerung": "Ein Tief, das unter dem vorherigen Tief liegt." },
+    { "id": "swing", "de": "Swing-Hoch / Swing-Tief", "en": "Swing High / Swing Low", "erklaerung": "Wendepunkt im Chart: ein Hoch (Tief), das höher (tiefer) liegt als die Hochs (Tiefs) der Tage davor und danach." },
+    { "id": "trendlinie", "de": "Trendlinie", "en": "Trendline", "erklaerung": "Linie durch mindestens zwei Tiefs (im Aufwärtstrend) bzw. zwei Hochs (im Abwärtstrend). Eine dritte Berührung bestätigt sie." },
+    { "id": "trendbruch", "de": "Trendbruch", "en": "Trend Break", "erklaerung": "Der Trend ist verletzt, z. B. wenn der Kurs im Aufwärtstrend unter dem letzten höheren Tief schließt. Ein Warnsignal, noch kein Trendwechsel." },
+    { "id": "trendwechsel", "de": "Trendwechsel", "en": "Trend Reversal", "erklaerung": "Die Richtung kehrt sich um. Von aufwärts nach abwärts bestätigt durch ein tieferes Hoch und danach ein tieferes Tief." },
+    { "id": "trendfolge", "de": "Trendfolge", "en": "Trend Following", "erklaerung": "Vorgehen, nur in Richtung des bestehenden Trends zu handeln. Für Long-Trader: kaufen nur im Aufwärtstrend." }
+  ],
+
+  "quiz": [
+    {
+      "typ": "mc",
+      "frage": "Woran erkennst du einen Aufwärtstrend?",
+      "optionen": ["An drei grünen Kerzen hintereinander", "An höheren Hochs und höheren Tiefs", "An hohem Volumen", "Daran, dass der Kurs über 50 € liegt"],
+      "richtig": 1,
+      "braucht": ["aufwaertstrend", "hoeheres_hoch", "hoeheres_tief"],
+      "erklaerung": "Ein Trend zeigt sich an der Abfolge der Wendepunkte: Jedes Hoch und jedes Tief liegt höher als das vorherige. Einzelne Kerzen sagen darüber wenig."
+    },
+    {
+      "typ": "mc",
+      "frage": "Hochs bei 50 €, 54 €, 52 €. Tiefs bei 46 €, 49 €, 47 €. Was liegt vor?",
+      "optionen": ["Intakter Aufwärtstrend", "Das letzte Hoch und das letzte Tief sind tiefer: der Aufwärtstrend ist gefährdet", "Seitwärtsphase ohne Bedeutung", "Ein Abwärtstrend seit Beginn"],
+      "richtig": 1,
+      "braucht": ["tieferes_hoch", "tieferes_tief", "trendwechsel"],
+      "erklaerung": "54 € war noch ein höheres Hoch, dann folgte ein tieferes Hoch (52 €) und ein tieferes Tief (47 € unter 49 €). Das ist das Muster eines möglichen Trendwechsels."
+    },
+    {
+      "typ": "mc",
+      "frage": "Wann gilt ein Aufwärtstrend als gebrochen?",
+      "optionen": ["Wenn eine rote Kerze erscheint", "Wenn der Kurs unter dem letzten höheren Tief schließt", "Wenn ein Docht kurz unter die Trendlinie sticht", "Wenn das Volumen sinkt"],
+      "richtig": 1,
+      "braucht": ["trendbruch", "hoeheres_tief", "schlusskurs"],
+      "erklaerung": "Entscheidend ist der Schlusskurs unter dem letzten höheren Tief. Damit ist die Abfolge höherer Tiefs beendet. Ein kurzer Docht darunter zählt nicht."
+    },
+    {
+      "typ": "wf",
+      "frage": "Eine Trendlinie braucht mindestens zwei Berührungspunkte, eine dritte Berührung bestätigt sie.",
+      "richtig": true,
+      "braucht": ["trendlinie"],
+      "erklaerung": "Richtig. Mit zwei Punkten lässt sich jede Linie zeichnen. Erst wenn der Kurs ein drittes Mal an ihr dreht, zeigt sich, dass sie wirklich beachtet wird."
+    },
+    {
+      "typ": "mc",
+      "frage": "Wo liegt bei einem Long-Trade im Aufwärtstrend ein sinnvoller Stop-Loss?",
+      "optionen": ["Knapp unter dem letzten höheren Tief", "Genau am Einstiegskurs", "Über dem letzten Hoch", "Ein Stop ist im Aufwärtstrend unnötig"],
+      "richtig": 0,
+      "braucht": ["stoploss", "hoeheres_tief"],
+      "erklaerung": "Fällt der Kurs unter das letzte höhere Tief, ist der Aufwärtstrend gebrochen und die Trade-Idee widerlegt. Darunter ist der Stop am sinnvollsten."
+    },
+    {
+      "typ": "wf",
+      "frage": "Nach einem Trendbruch ist ein Abwärtstrend sicher bestätigt.",
+      "richtig": false,
+      "braucht": ["trendbruch", "trendwechsel"],
+      "erklaerung": "Falsch. Ein Trendbruch ist ein Warnsignal. Ein Trendwechsel ist erst mit einem tieferen Hoch und einem tieferen Tief bestätigt. Oft folgt zunächst eine Seitwärtsphase."
+    },
+    {
+      "typ": "mc",
+      "frage": "Du handelst nur Long. Welche Situation passt am besten zur Trendfolge?",
+      "optionen": ["Abwärtstrend, Kurs ist stark gefallen", "Aufwärtstrend, Kurs hat gerade etwas zurückgesetzt", "Aufwärtstrend, Kurs steigt den zehnten Tag in Folge", "Seitwärtsphase mitten in der Spanne"],
+      "richtig": 1,
+      "braucht": ["trendfolge", "aufwaertstrend"],
+      "erklaerung": "Im Aufwärtstrend nach einem Rücksetzer: Der Trend spricht für dich, und der Abstand zum Stop unter dem letzten Tief ist klein. Nach zehn Tagen Anstieg ist der Stop weit weg und das CRV meist schlecht."
+    }
+  ],
+
+  "uebungen": [
+    {
+      "id": "t5-trend-a",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Welcher Trend? (1)",
+      "frage": "Achte auf die Hochs und Tiefs, nicht auf einzelne Kerzen. Welcher Trend liegt vor?",
+      "kurse": { "seed": 5, "start": 40, "phasen": [{ "tage": 60, "trend": 0.35, "vola": 1.9 }] },
+      "optionen": ["Aufwärtstrend", "Abwärtstrend", "Seitwärtsphase"],
+      "richtig": 0,
+      "braucht": ["aufwaertstrend"],
+      "pruefung": { "trend": "auf" },
+      "loesung": { "zeige": "anfangEnde" },
+      "erklaerung": "Trotz vieler roter Kerzen und kräftiger Rücksetzer: Die Hochs und die Tiefs liegen im Verlauf immer höher. Der Kurs endet bei {{k[59].c}} € nach {{k[0].c}} € am Anfang."
+    },
+    {
+      "id": "t5-trend-b",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Welcher Trend? (2)",
+      "frage": "Und hier?",
+      "kurse": { "seed": 8, "start": 60, "phasen": [{ "tage": 60, "trend": -0.35, "vola": 1.9 }] },
+      "optionen": ["Aufwärtstrend", "Abwärtstrend", "Seitwärtsphase"],
+      "richtig": 1,
+      "braucht": ["abwaertstrend"],
+      "pruefung": { "trend": "ab" },
+      "loesung": { "zeige": "anfangEnde" },
+      "erklaerung": "Die Erholungen enden immer tiefer (tiefere Hochs), und die Tiefs werden immer tiefer. Für Long-Trader ist das keine Kaufsituation, auch wenn einzelne Tage kräftig steigen."
+    },
+    {
+      "id": "t5-letztes-tief",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Das letzte höhere Tief",
+      "frage": "Ein Aufwärtstrend in Wellen. Tippe auf das **letzte höhere Tief**, also den letzten Wendepunkt nach unten.",
+      "kurse": { "seed": 1, "start": 30, "phasen": [{ "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }] },
+      "ziel": { "typ": "index", "index": "=swingTiefs(3, 55).at(-1)" },
+      "toleranz": 1,
+      "braucht": ["hoeheres_tief", "swing"],
+      "pruefung": { "bedingungen": ["k[swingTiefs(3, 55).at(-1)].l > k[swingTiefs(3, 55).at(-2)].l * 1.02"] },
+      "erklaerung": "Das letzte Swing-Tief lag bei {{k[swingTiefs(3, 55).at(-1)].l}} € (Tag {{swingTiefs(3, 55).at(-1) + 1|0}}), höher als das davor bei {{k[swingTiefs(3, 55).at(-2)].l}} €. Solange der Kurs darüber schließt, ist der Aufwärtstrend intakt. Genau hier würdest du bei einem Long-Trade den Stop knapp darunter setzen."
+    },
+    {
+      "id": "t5-trendlinie",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Hält die Trendlinie?",
+      "frage": "Die blaue Linie verbindet die beiden letzten höheren Tiefs. Was ist am Ende des Charts passiert?",
+      "kurse": { "seed": 6, "start": 30, "phasen": [{ "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 6, "trend": 0.8, "vola": 1.0 }, { "tage": 8, "trend": -1.3, "vola": 1.1 }] },
+      "vorgaben": { "strecken": [{ "i1": "=swingTiefs(3, 38).at(-2)", "p1": "=k[swingTiefs(3, 38).at(-2)].l", "i2": 49, "p2": "=trendlinie(swingTiefs(3, 38).at(-2), swingTiefs(3, 38).at(-1), 49)", "farbe": "akzent" }] },
+      "optionen": ["Der Kurs prallt an der Trendlinie nach oben ab", "Der Kurs ist deutlich unter die Trendlinie gefallen", "Der Kurs macht ein neues Hoch"],
+      "richtig": 1,
+      "braucht": ["trendlinie", "trendbruch"],
+      "pruefung": { "bedingungen": ["k[49].c < trendlinie(swingTiefs(3, 38).at(-2), swingTiefs(3, 38).at(-1), 49) * 0.97"] },
+      "erklaerung": "Die letzten Kerzen schließen klar unter der Trendlinie (Schluss {{k[49].c}} € gegenüber etwa {{trendlinie(swingTiefs(3, 38).at(-2), swingTiefs(3, 38).at(-1), 49)}} € auf der Linie). Der Aufwärtstrend ist gebrochen. Für neue Long-Käufe ist das ein Warnsignal."
+    },
+    {
+      "id": "t5-trendbruch",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Wann bricht der Trend?",
+      "frage": "Die gestrichelte Linie markiert das letzte höhere Tief bei {{k[swingTiefs(3, 40).at(-1)].l}} €. Tippe auf den Tag, an dem der Trend **gebrochen** wird, also den ersten **Schlusskurs** darunter.",
+      "kurse": { "seed": 7, "start": 30, "phasen": [{ "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 14, "trend": -1.0, "vola": 1.1 }] },
+      "vorgaben": { "linien": [{ "preis": "=k[swingTiefs(3, 40).at(-1)].l", "text": "letztes höheres Tief", "ab": "=swingTiefs(3, 40).at(-1)", "farbe": "gelb" }] },
+      "ziel": { "typ": "ersterSchluss", "preis": "=k[swingTiefs(3, 40).at(-1)].l", "richtung": "unter", "ab": 44 },
+      "toleranz": 0,
+      "braucht": ["trendbruch", "hoeheres_tief", "schlusskurs"],
+      "pruefung": { "bedingungen": ["ersterSchluss(k[swingTiefs(3, 40).at(-1)].l, 'unter', 44) > 0"] },
+      "erklaerung": "Zum ersten Mal schließt der Kurs an Tag {{ersterSchluss(k[swingTiefs(3, 40).at(-1)].l, 'unter', 44) + 1|0}} unter dem letzten höheren Tief. Damit ist die Abfolge höherer Tiefs beendet: Trendbruch. Ein Long-Trade mit Stop unter diesem Tief wäre spätestens jetzt beendet worden."
+    },
+    {
+      "id": "t5-pullback",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Rücksetzer im Trend",
+      "frage": "Ein sauberer Aufwärtstrend in Wellen. Der Kurs hat gerade wieder etwas zurückgesetzt. Long oder abwarten?",
+      "hilfe": "Prüfe: Sind die Hochs und Tiefs noch höher? Setze den Stop knapp unter das letzte höhere Tief und ein Ziel mit einem CRV von mindestens 2 : 1.",
+      "kurse": { "seed": 2, "start": 30, "phasen": [{ "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 14, "trend": 0.9, "vola": 1.0 }] },
+      "stopp": 44,
+      "ideal": "long",
+      "braucht": ["aufwaertstrend", "hoeheres_tief", "trendfolge", "crv"],
+      "pruefung": { "standard": "gewinn" },
+      "aufloesung": "Der Aufwärtstrend war intakt: höhere Hochs, höhere Tiefs. Der Rücksetzer bot einen Einstieg nahe am Trend, mit kurzem Abstand zum Stop. Genau so sieht Trendfolge aus. Der Trend lief hier weiter, garantiert ist das nie."
+    },
+    {
+      "id": "t5-nach-bruch",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Nach dem Trendbruch",
+      "frage": "Lange ging es aufwärts. Jetzt ist der Kurs deutlich gefallen und wirkt günstig. Long oder abwarten?",
+      "hilfe": "Prüfe zuerst: Ist der Aufwärtstrend noch intakt? Wo liegt das letzte höhere Tief, und wo der Kurs?",
+      "kurse": { "seed": 56, "start": 30, "phasen": [{ "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 4, "trend": -0.9, "vola": 1.0 }, { "tage": 8, "trend": 1.0, "vola": 1.0 }, { "tage": 10, "trend": -1.0, "vola": 1.1 }, { "tage": 14, "trend": -0.5, "vola": 1.2 }] },
+      "stopp": 46,
+      "ideal": "warten",
+      "wartenGrund": "Die Ausgangslage sprach gegen einen Long-Einstieg: Der Kurs hatte schon unter dem letzten höheren Tief geschlossen, der Aufwärtstrend war gebrochen.",
+      "braucht": ["trendbruch", "trendwechsel"],
+      "pruefung": { "standard": "verlust", "bedingungen": ["k[45].c < tief(30, 40)"] },
+      "aufloesung": "Der Kurs hatte bereits unter dem letzten höheren Tief geschlossen: Der Aufwärtstrend war gebrochen. Ohne neuen Aufwärtstrend gibt es keinen Grund für einen Long-Trade, auch wenn der Kurs „günstig“ wirkt. Hier ging es weiter abwärts."
+    }
+  ]
+}

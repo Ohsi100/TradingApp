@@ -1,0 +1,231 @@
+{
+  "nr": 6,
+  "titel": "Unterstützung & Widerstand",
+  "ziel": "Du findest Unterstützungs- und Widerstandszonen im Chart, erkennst Ausbrüche und Fehlausbrüche und verstehst, warum ein gebrochener Widerstand zur Unterstützung werden kann.",
+
+  "abschluss": {
+    "kernpunkte": [
+      "Unterstützung: Zone, an der der Kurs mehrfach nach oben gedreht hat. Widerstand: Zone, an der er mehrfach nach unten gedreht hat.",
+      "Denke in Zonen, nicht in exakten Linien. Kurze Dochte durch eine Zone sind normal.",
+      "Ein Ausbruch braucht einen Schlusskurs außerhalb der Zone, am besten mit hohem Volumen.",
+      "Rollentausch: Ein gebrochener Widerstand wird oft zur Unterstützung. Der Rücksetzer dorthin (Retest) ist ein beliebter Einstieg.",
+      "Fehlausbrüche sind häufig. Deshalb gehört auch zu jedem Ausbruchs-Trade ein Stop."
+    ],
+    "vorschau": "Gleitende Durchschnitte und Volumen: Was die 20-, 50- und 200-Tage-Linie zeigen, was ein Golden Cross ist und wie Volumen eine Bewegung bestätigt."
+  },
+
+  "lektion": [
+    {
+      "titel": "Wo der Kurs immer wieder dreht",
+      "grafik": { "typ": "chart", "kurse": { "seed": 1, "start": 40, "phasen": [{ "tage": 45, "trend": 0, "vola": 1.3, "seitwaerts": true }] }, "chart": { "hoehe": 210 }, "vorgaben": { "zonen": [{ "von": "=hoch(0,44)*0.98", "bis": "=hoch(0,44)", "farbe": "rot" }, { "von": "=tief(0,44)", "bis": "=tief(0,44)*1.02", "farbe": "gruen" }] } },
+      "text": "Schau dir den Chart oben an: Der Kurs dreht immer wieder in denselben Preisbereichen.\n\n- **Unterstützung** _Support_ (grün): Hier hat der Kurs mehrfach aufgehört zu fallen und ist wieder gestiegen. Käufer finden den Preis attraktiv.\n- **Widerstand** _Resistance_ (rot): Hier hat der Kurs mehrfach aufgehört zu steigen. Verkäufer nehmen Gewinne mit oder steigen aus.\n\nDiese Bereiche gehören zu den wichtigsten Werkzeugen für Swing-Trader: Sie zeigen, wo ein Stop sinnvoll liegt und wo ein Kursziel realistisch ist."
+    },
+    {
+      "titel": "Warum das funktioniert",
+      "text": "Unterstützung und Widerstand entstehen durch das **Gedächtnis des Marktes**:\n\n- Wer an einer Marke zu spät gekauft hat und ins Minus gerutscht ist, verkauft oft erleichtert, wenn der Kurs wieder dort ankommt. Das erzeugt Widerstand.\n- Wer eine Marke verpasst hat, kauft gerne, wenn der Kurs dorthin zurückkommt. Das erzeugt Unterstützung.\n- Viele Trader schauen auf dieselben Hochs und Tiefs und legen dort Orders hin.\n\nEs ist also keine Magie, sondern das Verhalten vieler Menschen. Deshalb funktioniert es auch nicht immer."
+    },
+    {
+      "titel": "Zonen statt Linien",
+      "text": "Ein häufiger Anfängerfehler: Unterstützung als exakte Linie auf den Cent genau. In der Praxis ist es eine **Zone** _Zone_, ein Preisbereich von etwa ein bis zwei Prozent.\n\n- Der Kurs dreht mal etwas darüber, mal etwas darunter.\n- Dochte stechen oft kurz durch die Zone. Das ist kein Bruch.\n- Entscheidend ist der **Schlusskurs**: Schließt der Kurs klar außerhalb, ist die Zone gebrochen.\n\nZiehe Zonen dort, wo sich **mehrere** Hochs oder Tiefs sammeln. Je öfter und je deutlicher der Kurs dort gedreht hat, desto mehr beachten die Marktteilnehmer sie.",
+      "merke": "Setze deinen Stop nicht genau an die Unterstützung, sondern etwas darunter, unter die ganze Zone. Sonst wirst du von einem kurzen Docht ausgestoppt."
+    },
+    {
+      "titel": "Wo du Zonen findest",
+      "text": "Typische Stellen für Unterstützung und Widerstand:\n\n- **Frühere Hochs und Tiefs**, besonders wenn der Kurs dort mehrfach gedreht hat\n- **Grenzen einer Seitwärtsphase**\n- **Runde Zahlen** wie 50 € oder 100 € _Round Numbers_, weil viele Menschen dort Orders platzieren\n- **Kurslücken**: Der Bereich einer Lücke wirkt später oft als Zone\n- **Gleitende Durchschnitte** (Tag 7)\n\nWichtig: Je älter eine Zone ist und je länger der Kurs schon weit weg ist, desto weniger zählt sie."
+    },
+    {
+      "titel": "Rollentausch",
+      "text": "Wird ein Widerstand nach oben durchbrochen, passiert oft etwas Interessantes: Die alte Widerstandszone wird zur **Unterstützung**. Das nennt man **Rollentausch** _Role Reversal_.\n\nWarum? Wer vorher an diesem Widerstand verkauft hat, sieht den Kurs nun steigen und kauft beim Rücksetzer gerne wieder ein. Wer den Ausbruch verpasst hat, ebenso.\n\nUmgekehrt gilt es auch: Eine gebrochene Unterstützung wird oft zum Widerstand."
+    },
+    {
+      "titel": "Ausbruch",
+      "text": "Ein **Ausbruch** _Breakout_ liegt vor, wenn der Kurs eine Widerstandszone (oder Unterstützung) klar verlässt.\n\nWorauf du achtest:\n\n- **Schlusskurs** außerhalb der Zone, nicht nur ein Docht\n- **Hohes Volumen** am Ausbruchstag: Viele Marktteilnehmer stehen dahinter (mehr an Tag 7)\n- Je länger die Seitwärtsphase vorher, desto bedeutender ist oft der Ausbruch\n\nMit einem **Stop-Buy** (Tag 2) knapp über dem Widerstand kaufst du automatisch, sobald der Kurs ausbricht."
+    },
+    {
+      "titel": "Fehlausbruch",
+      "text": "Nicht jeder Ausbruch hält. Bei einem **Fehlausbruch** _False Breakout / Fakeout_ steigt der Kurs kurz über den Widerstand und fällt dann zurück in die Spanne, oft schnell und deutlich.\n\nWer am Ausbruch gekauft hat, sitzt in einer **Bullenfalle** _Bull Trap_. Das Gegenstück, ein kurzer Fall unter eine Unterstützung mit schneller Erholung, heißt **Bärenfalle** _Bear Trap_.\n\nWarnzeichen für einen Fehlausbruch:\n\n- wenig Volumen beim Ausbruch\n- Schlusskurs nur knapp über der Zone\n- lange obere Dochte direkt nach dem Ausbruch",
+      "merke": "Fehlausbrüche lassen sich nicht immer vermeiden. Deshalb gehört auch zu jedem Ausbruchs-Trade ein Stop, meist unter die alte Widerstandszone."
+    },
+    {
+      "titel": "Pullback und Retest",
+      "grafik": { "typ": "chart", "kurse": { "seed": 2, "start": 40, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.3, "seitwaerts": true }, { "tage": 1, "trend": 3, "vola": 0.8, "volumen": 3 }, { "tage": 6, "trend": 0.7, "vola": 1.1 }, { "tage": 5, "trend": -0.8, "vola": 1.0, "volumen": 0.7 }, { "tage": 8, "trend": 0.7, "vola": 1.2 }] }, "chart": { "hoehe": 210 }, "vorgaben": { "zonen": [{ "von": "=hoch(0,39)*0.985", "bis": "=hoch(0,39)" }] } },
+      "text": "Nach einem Ausbruch kommt der Kurs oft noch einmal zur alten Widerstandszone zurück. Diesen Rücksetzer nennt man **Pullback** _Pullback_, das Antesten der Zone **Retest** _Retest_.\n\nIm Chart oben: Ausbruch an Tag 41, danach ein Rücksetzer bis an die gelbe Zone, die nun als Unterstützung hält.\n\nFür Swing-Trader ist das ein beliebter Einstieg:\n\n- Der Ausbruch hat schon gezeigt, dass Käufer da sind.\n- Der Stop kann knapp unter die Zone, der Abstand ist klein.\n- Ziel: das Hoch nach dem Ausbruch oder höher.",
+      "merke": "Achte beim Rücksetzer aufs Volumen: Fällt der Kurs mit wenig Volumen zurück, ist das ein gutes Zeichen. Es verkaufen nur wenige."
+    },
+    {
+      "titel": "Zusammenfassung",
+      "text": "- **Unterstützung:** Zone, an der der Kurs mehrfach nach oben dreht. **Widerstand:** Zone, an der er nach unten dreht.\n- **Zonen statt Linien**, Bruch erst per Schlusskurs.\n- **Rollentausch:** Gebrochener Widerstand wird oft Unterstützung.\n- **Ausbruch:** Schluss außerhalb der Zone, am besten mit hohem Volumen.\n- **Fehlausbruch:** Kurs fällt schnell zurück. Stop nicht vergessen.\n- **Pullback/Retest:** Rücksetzer zur alten Zone, ein beliebter Einstieg.",
+      "merke": "Morgen (Tag 7): gleitende Durchschnitte und Volumen."
+    }
+  ],
+
+  "vokabeln": [
+    { "id": "unterstuetzung", "de": "Unterstützung", "en": "Support", "erklaerung": "Preiszone, an der der Kurs mehrfach aufgehört hat zu fallen, weil dort Käufer aktiv werden." },
+    { "id": "widerstand", "de": "Widerstand", "en": "Resistance", "erklaerung": "Preiszone, an der der Kurs mehrfach aufgehört hat zu steigen, weil dort Verkäufer aktiv werden." },
+    { "id": "zone", "de": "Zone", "en": "Zone", "erklaerung": "Preisbereich statt exakter Linie, meist ein bis zwei Prozent breit. Unterstützung und Widerstand sind Zonen." },
+    { "id": "rollentausch", "de": "Rollentausch", "en": "Role Reversal", "erklaerung": "Ein gebrochener Widerstand wird zur Unterstützung oder eine gebrochene Unterstützung zum Widerstand." },
+    { "id": "ausbruch", "de": "Ausbruch", "en": "Breakout", "erklaerung": "Der Kurs verlässt eine Widerstands- oder Unterstützungszone per Schlusskurs, am besten mit hohem Volumen." },
+    { "id": "fehlausbruch", "de": "Fehlausbruch", "en": "False Breakout / Fakeout", "erklaerung": "Ein Ausbruch, der nicht hält: Der Kurs fällt schnell in die alte Spanne zurück." },
+    { "id": "bullenfalle", "de": "Bullenfalle", "en": "Bull Trap", "erklaerung": "Fehlausbruch nach oben. Wer am Ausbruch gekauft hat, sitzt in der Falle." },
+    { "id": "baerenfalle", "de": "Bärenfalle", "en": "Bear Trap", "erklaerung": "Kurzer Fall unter eine Unterstützung mit schneller Erholung. Wer dort verkauft hat, liegt falsch." },
+    { "id": "retest", "de": "Retest", "en": "Retest", "erklaerung": "Der Kurs testet nach einem Ausbruch die gebrochene Zone noch einmal von der anderen Seite an." },
+    { "id": "rundezahl", "de": "Runde Zahl", "en": "Round Number", "erklaerung": "Preismarken wie 50 € oder 100 €, an denen viele Marktteilnehmer Orders platzieren. Wirken oft als Zone." }
+  ],
+
+  "quiz": [
+    {
+      "typ": "mc",
+      "frage": "Was ist eine Unterstützung?",
+      "optionen": ["Ein Preisbereich, an dem der Kurs mehrfach nach oben gedreht hat", "Der höchste Kurs eines Jahres", "Eine Order, die den Kurs stützt", "Der Durchschnitt aller Schlusskurse"],
+      "richtig": 0,
+      "braucht": ["unterstuetzung"],
+      "erklaerung": "An einer Unterstützung haben Käufer den Kurs mehrfach aufgefangen. Kommt er wieder dorthin, ist die Chance auf eine erneute Wende erhöht, aber nicht sicher."
+    },
+    {
+      "typ": "wf",
+      "frage": "Ein Docht, der kurz unter eine Unterstützungszone sticht, während der Schlusskurs darüber bleibt, ist ein Bruch der Unterstützung.",
+      "richtig": false,
+      "braucht": ["unterstuetzung", "zone", "docht"],
+      "erklaerung": "Falsch. Unterstützung ist eine Zone, und entscheidend ist der Schlusskurs. Kurze Dochte durch die Zone sind normal."
+    },
+    {
+      "typ": "mc",
+      "frage": "Eine Aktie bricht über einen Widerstand bei 50 € aus und fällt danach auf 50,30 € zurück. Was erwarten viele Trader dort?",
+      "optionen": ["Dass die Zone um 50 € jetzt als Unterstützung wirkt", "Dass der Kurs sicher unter 45 € fällt", "Gar nichts, Zonen gelten nach einem Ausbruch nicht mehr", "Dass ein Gap entsteht"],
+      "richtig": 0,
+      "braucht": ["rollentausch", "retest"],
+      "erklaerung": "Das ist der Rollentausch: Der gebrochene Widerstand wird oft zur Unterstützung. Der Rücksetzer dorthin heißt Retest und ist ein beliebter Einstieg."
+    },
+    {
+      "typ": "mc",
+      "frage": "Welches Zeichen spricht am ehesten für einen **echten** Ausbruch?",
+      "optionen": ["Wenig Volumen, Schluss knapp über dem Widerstand", "Hohes Volumen, Schluss klar über dem Widerstand", "Langer oberer Docht am Ausbruchstag", "Ausbruch nach nur zwei Tagen Seitwärtsphase"],
+      "richtig": 1,
+      "braucht": ["ausbruch", "volumen"],
+      "erklaerung": "Hohes Volumen zeigt, dass viele Marktteilnehmer hinter der Bewegung stehen, und ein klarer Schluss über der Zone zeigt Stärke. Die anderen Antworten sind typische Warnzeichen."
+    },
+    {
+      "typ": "mc",
+      "frage": "Der Kurs steigt über einen Widerstand und fällt zwei Tage später schnell zurück in die alte Spanne. Wie nennt man das?",
+      "optionen": ["Retest", "Fehlausbruch (Bullenfalle)", "Rollentausch", "Trendfolge"],
+      "richtig": 1,
+      "braucht": ["fehlausbruch", "bullenfalle"],
+      "erklaerung": "Ein Ausbruch, der nicht hält, ist ein Fehlausbruch. Wer gekauft hat, sitzt in einer Bullenfalle."
+    },
+    {
+      "typ": "mc",
+      "frage": "Unterstützungszone 47,00 bis 47,80 €. Wo setzt du bei einem Kauf an der Zone den Stop-Loss?",
+      "optionen": ["Bei 47,80 €", "Bei 47,40 €, mitten in der Zone", "Etwas unter der Zone, z. B. bei 46,70 €", "Bei 45,00 €, möglichst weit weg"],
+      "richtig": 2,
+      "braucht": ["zone", "stoploss", "unterstuetzung"],
+      "erklaerung": "Unter die ganze Zone, mit etwas Abstand. Innerhalb der Zone wirst du leicht von Dochten ausgestoppt. Viel weiter weg würde das Risiko unnötig vergrößern und das CRV verschlechtern."
+    },
+    {
+      "typ": "wf",
+      "frage": "Runde Zahlen wie 100 € wirken oft als Unterstützung oder Widerstand.",
+      "richtig": true,
+      "braucht": ["rundezahl"],
+      "erklaerung": "Richtig. Viele Menschen setzen Orders an runden Marken, deshalb reagiert der Kurs dort häufig."
+    }
+  ],
+
+  "uebungen": [
+    {
+      "id": "t6-unterstuetzung",
+      "stufe": "erkennen",
+      "typ": "tippenPreis",
+      "titel": "Finde die Unterstützung",
+      "frage": "Der Kurs pendelt seitwärts. Tippe auf die Höhe der **Unterstützung**, also der Zone, an der der Kurs mehrfach nach oben gedreht hat.",
+      "kurse": { "seed": 1, "start": 40, "phasen": [{ "tage": 45, "trend": 0, "vola": 1.3, "seitwaerts": true }] },
+      "zone": { "von": "=tief(0, 44) * 0.995", "bis": "=tief(0, 44) * 1.02" },
+      "braucht": ["unterstuetzung", "zone"],
+      "pruefung": { "art": "unterstuetzung", "beruehrungen": 4, "durchbrueche": 0 },
+      "erklaerung": "Die Unterstützung liegt um {{tief(0, 44)}} bis {{tief(0, 44) * 1.02}} €. Dort hat der Kurs mehrfach gedreht, und kein Schlusskurs lag darunter. Ein Stop für einen Kauf hier gehört etwas unter diese Zone."
+    },
+    {
+      "id": "t6-widerstand",
+      "stufe": "erkennen",
+      "typ": "tippenPreis",
+      "titel": "Finde den Widerstand",
+      "frage": "Jetzt umgekehrt: Tippe auf die Höhe des **Widerstands**, also der Zone, an der der Kurs mehrfach nach unten gedreht hat.",
+      "kurse": { "seed": 5, "start": 40, "phasen": [{ "tage": 45, "trend": 0, "vola": 1.3, "seitwaerts": true }] },
+      "zone": { "von": "=hoch(0, 44) * 0.98", "bis": "=hoch(0, 44) * 1.005" },
+      "braucht": ["widerstand", "zone"],
+      "pruefung": { "art": "widerstand", "beruehrungen": 4, "durchbrueche": 0 },
+      "erklaerung": "Der Widerstand liegt um {{hoch(0, 44) * 0.98}} bis {{hoch(0, 44)}} €. Dort sind die Anstiege immer wieder gestoppt. Ein Kursziel für einen Kauf weiter unten wäre realistisch knapp unterhalb dieser Zone."
+    },
+    {
+      "id": "t6-volumen",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Ausbruch mit Rückenwind?",
+      "frage": "Der Kurs bricht über den Widerstand (gelbe Zone) aus. Wird der Ausbruch vom **Volumen** bestätigt?",
+      "kurse": { "seed": 3, "start": 40, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.3, "seitwaerts": true }, { "tage": 1, "trend": 3, "vola": 0.8, "volumen": 3 }, { "tage": 14, "trend": 0.6, "vola": 1.2 }] },
+      "vorgaben": { "zonen": [{ "von": "=hoch(0, 39) * 0.985", "bis": "=hoch(0, 39)" }] },
+      "optionen": ["Ja, das Volumen am Ausbruchstag ist ein Vielfaches der Tage davor", "Nein, das Volumen ist gleich geblieben", "Das Volumen spielt bei Ausbrüchen keine Rolle"],
+      "richtig": 0,
+      "braucht": ["ausbruch", "volumen", "widerstand"],
+      "pruefung": { "bedingungen": ["k[40].v > 2 * max(...k.slice(30, 40).map(x => x.v))", "k.slice(41, 55).every(x => x.c > hoch(0, 39) * 0.98)"] },
+      "loesung": { "marker": [{ "index": 40, "text": "Ausbruch" }] },
+      "erklaerung": "Am Ausbruchstag (Tag 41) war das Volumen etwa {{k[40].v / k[39].v|1}}-mal so hoch wie am Vortag. Viele Marktteilnehmer haben gekauft. Hier hielt der Ausbruch, und der Kurs lief weiter."
+    },
+    {
+      "id": "t6-fehlausbruch",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Ausbruch oder Falle?",
+      "frage": "Der Kurs ist kurz über den Widerstand gestiegen. Was ist danach passiert?",
+      "kurse": { "seed": 3, "start": 40, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.3, "seitwaerts": true }, { "tage": 2, "trend": 1.2, "vola": 0.8, "volumen": 0.8 }, { "tage": 4, "trend": -1.5, "vola": 1.0 }, { "tage": 10, "trend": -0.4, "vola": 1.2 }] },
+      "vorgaben": { "zonen": [{ "von": "=hoch(0, 39) * 0.985", "bis": "=hoch(0, 39)" }] },
+      "optionen": ["Ein erfolgreicher Ausbruch mit Retest", "Ein Fehlausbruch: Der Kurs ist zurück in die Spanne gefallen", "Ein Rollentausch: Der Widerstand ist jetzt Unterstützung"],
+      "richtig": 1,
+      "braucht": ["fehlausbruch", "bullenfalle", "widerstand"],
+      "pruefung": { "bedingungen": ["k[41].c > hoch(0, 39)", "k[45].c < hoch(0, 39) * 0.97"] },
+      "erklaerung": "Der Kurs schloss kurz über der Zone, aber mit wenig Volumen. Schon wenige Tage später war er zurück in der Spanne und fiel weiter. Eine typische Bullenfalle. Wer mit Stop unter der Zone gekauft hatte, verlor nur wenig."
+    },
+    {
+      "id": "t6-rollentausch",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Welche Rolle spielt die Zone jetzt?",
+      "frage": "Nach dem Ausbruch ist der Kurs zur alten Widerstandszone (gelb) zurückgekommen und dort gedreht. Welche Rolle hatte die Zone dabei?",
+      "kurse": { "seed": 2, "start": 40, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.3, "seitwaerts": true }, { "tage": 1, "trend": 3, "vola": 0.8, "volumen": 3 }, { "tage": 6, "trend": 0.7, "vola": 1.1 }, { "tage": 5, "trend": -0.8, "vola": 1.0, "volumen": 0.7 }, { "tage": 15, "trend": 0.7, "vola": 1.2 }] },
+      "vorgaben": { "zonen": [{ "von": "=hoch(0, 39) * 0.985", "bis": "=hoch(0, 39)" }] },
+      "optionen": ["Sie war weiterhin Widerstand", "Sie hat als Unterstützung gewirkt (Rollentausch)", "Sie hatte keine Bedeutung mehr"],
+      "richtig": 1,
+      "braucht": ["rollentausch", "retest", "pullback"],
+      "pruefung": { "bedingungen": ["tief(47, 51) > hoch(0, 39) * 0.985", "tief(47, 51) < hoch(0, 39) * 1.025"] },
+      "erklaerung": "Der alte Widerstand wurde nach dem Ausbruch zur Unterstützung: Der Rücksetzer endete bei {{tief(47, 51)}} €, nahe der Zone, und der Kurs stieg wieder. Das ist der Rollentausch, und der Rücksetzer ist ein Retest."
+    },
+    {
+      "id": "t6-retest",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Einstieg am Retest",
+      "frage": "Ausbruch, dann Rücksetzer zur alten Widerstandszone (gelb). Der Kurs dreht dort. Long oder abwarten?",
+      "hilfe": "Stop unter die gelbe Zone (mit etwas Abstand), Ziel mindestens 2 : 1.",
+      "kurse": { "seed": 2, "start": 40, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.3, "seitwaerts": true }, { "tage": 1, "trend": 3, "vola": 0.8, "volumen": 3 }, { "tage": 6, "trend": 0.7, "vola": 1.1 }, { "tage": 5, "trend": -0.8, "vola": 1.0, "volumen": 0.7 }, { "tage": 15, "trend": 0.7, "vola": 1.2 }] },
+      "vorgaben": { "zonen": [{ "von": "=hoch(0, 39) * 0.985", "bis": "=hoch(0, 39)" }] },
+      "stopp": 52,
+      "ideal": "long",
+      "braucht": ["retest", "rollentausch", "crv"],
+      "pruefung": { "standard": "gewinn" },
+      "aufloesung": "Ein Lehrbuch-Retest: Ausbruch mit hohem Volumen, Rücksetzer mit wenig Volumen bis an die alte Widerstandszone, dann Drehung. Der Stop unter der Zone ist nah, das CRV deshalb gut. Hier lief der Kurs danach weiter nach oben."
+    },
+    {
+      "id": "t6-mitte",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Mitten in der Spanne",
+      "frage": "Der Kurs pendelt seit Wochen seitwärts und steht gerade in der Mitte der Spanne. Long oder abwarten?",
+      "hilfe": "Wo wäre ein sinnvoller Stop, und wo ein realistisches Ziel? Wie gut wäre das CRV?",
+      "kurse": { "seed": 6, "start": 40, "phasen": [{ "tage": 60, "trend": 0, "vola": 1.3, "seitwaerts": true }] },
+      "stopp": 40,
+      "ideal": "warten",
+      "wartenGrund": "Die Ausgangslage sprach gegen einen Einstieg: Mitten in der Spanne sind Stop (unter der Unterstützung) und realistisches Ziel (am Widerstand) etwa gleich weit weg. Das CRV ist dort kaum besser als 1 : 1.",
+      "braucht": ["seitwaerts", "unterstuetzung", "widerstand", "crv"],
+      "pruefung": { "standard": "verlust" },
+      "aufloesung": "In der Mitte einer Spanne ist das CRV schlecht: Der sinnvolle Stop liegt unter der Unterstützung, das realistische Ziel nur am Widerstand. Beides ist ungefähr gleich weit weg, also etwa 1 : 1. Bessere Gelegenheiten bieten die Ränder der Spanne oder ein Ausbruch."
+    }
+  ]
+}

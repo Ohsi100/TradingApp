@@ -1,0 +1,216 @@
+{
+  "nr": 8,
+  "titel": "Oszillatoren",
+  "ziel": "Du kannst RSI und MACD lesen, weißt, was überkauft und überverkauft bedeutet (und was nicht), erkennst Divergenzen und kennst die Grenzen solcher Indikatoren.",
+
+  "abschluss": {
+    "kernpunkte": [
+      "Der RSI schwankt zwischen 0 und 100. Über 70 gilt als überkauft, unter 30 als überverkauft.",
+      "Überkauft ist kein Verkaufssignal: Im starken Aufwärtstrend bleibt der RSI oft lange über 70.",
+      "Der MACD zeigt die Dynamik eines Trends. Ein schrumpfendes Histogramm heißt: Die Bewegung verliert an Schwung.",
+      "Divergenz: Kurs macht ein höheres Hoch, der RSI ein tieferes. Ein Warnzeichen, kein Zeitpunkt zum Handeln.",
+      "Oszillatoren ergänzen Trend und Unterstützung/Widerstand. Allein taugen sie nicht als Kaufsignal."
+    ],
+    "vorschau": "Jetzt kommt alles zusammen: Vier konkrete Swing-Setups mit klaren Regeln, dazu das Marktumfeld, Quartalszahlen als Risiko, Hebelprodukte mit ihren Gefahren und die Grundzüge der Abgeltungsteuer."
+  },
+
+  "lektion": [
+    {
+      "titel": "Was ist ein Oszillator?",
+      "text": "Ein **Oszillator** _Oscillator_ ist ein Indikator, der zwischen festen Grenzen hin- und herschwingt, zum Beispiel zwischen 0 und 100. Er misst nicht den Kurs selbst, sondern die **Dynamik** _Momentum_: Wie schnell und wie stark hat sich der Kurs zuletzt bewegt?\n\nOszillatoren stehen meist in einem eigenen Fenster unter dem Chart. Die zwei bekanntesten lernst du heute: **RSI** und **MACD**."
+    },
+    {
+      "titel": "Der RSI",
+      "grafik": { "typ": "chart", "kurse": { "seed": 2, "start": 40, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.2, "seitwaerts": true }, { "tage": 10, "trend": 1.6, "vola": 1.0 }] }, "chart": { "hoehe": 230, "unterfenster": "rsi" } },
+      "text": "Der **RSI** _Relative Strength Index_ vergleicht die durchschnittlichen Gewinne der letzten 14 Tage mit den durchschnittlichen Verlusten. Das Ergebnis liegt zwischen 0 und 100:\n\n- Viele starke Anstiege, wenige Rückgänge: RSI hoch\n- Viele starke Rückgänge: RSI niedrig\n- Ausgeglichen: RSI um 50\n\nIm Chart oben pendelt der RSI erst um 50. Als der Kurs am Ende stark steigt, schießt er nach oben über 70.\n\nDie Rechnung macht der Computer. Du musst nur wissen, was der Wert bedeutet."
+    },
+    {
+      "titel": "Überkauft und überverkauft",
+      "text": "Zwei Grenzen sind üblich:\n\n- **RSI über 70:** **überkauft** _Overbought_. Der Kurs ist in kurzer Zeit stark gestiegen.\n- **RSI unter 30:** **überverkauft** _Oversold_. Der Kurs ist stark gefallen.\n\nDer häufigste Anfängerfehler: „Überkauft, also verkaufen“ oder „überverkauft, also kaufen“. Das ist gefährlich:\n\n- In einem **starken Aufwärtstrend** kann der RSI wochenlang über 70 bleiben, während der Kurs weiter steigt.\n- In einem **Abwärtstrend** kann er lange unter 30 bleiben, während der Kurs weiter fällt. Das ist das fallende Messer von Tag 3.",
+      "merke": "Überkauft heißt „stark gestiegen“, nicht „wird jetzt fallen“. Überverkauft heißt „stark gefallen“, nicht „wird jetzt steigen“."
+    },
+    {
+      "titel": "So nutzen Swing-Trader den RSI",
+      "text": "Sinnvoller als die 70/30-Signale ist der RSI als **Ergänzung zum Trend**:\n\n- Im Aufwärtstrend fällt der RSI bei Rücksetzern oft nur auf 40 bis 50 und dreht dort wieder. Ein Rücksetzer mit RSI um 40 bis 50 passt gut zu einem Pullback-Einstieg.\n- Fällt der RSI in einem vermeintlichen Aufwärtstrend deutlich unter 30, ist der Trend womöglich in Gefahr.\n- Ein sehr hoher RSI (über 80) nach einem steilen Anstieg ist kein Verkaufssignal, aber ein schlechter Zeitpunkt für einen **neuen** Kauf: Der Abstand zum sinnvollen Stop ist groß, das CRV schlecht."
+    },
+    {
+      "titel": "Der MACD",
+      "grafik": { "typ": "chart", "kurse": { "seed": 31, "start": 30, "phasen": [{ "tage": 35, "trend": 0.9, "vola": 1.0 }, { "tage": 10, "trend": 0.15, "vola": 0.9 }] }, "chart": { "hoehe": 230, "unterfenster": "macd" } },
+      "text": "Der **MACD** _Moving Average Convergence Divergence_ besteht aus drei Teilen:\n\n- **MACD-Linie** (blau): Unterschied zwischen dem 12-Tage- und dem 26-Tage-EMA. Positiv heißt: Der kurzfristige Durchschnitt liegt über dem längeren, der Kurs hat Schwung nach oben.\n- **Signallinie** _Signal Line_ (gelb): ein 9-Tage-EMA der MACD-Linie.\n- **Histogramm** _Histogram_ (Balken): Abstand zwischen MACD- und Signallinie.\n\nKreuzt die MACD-Linie die Signallinie nach oben, gilt das als Zeichen zunehmender Aufwärtsdynamik, nach unten als Abschwächung. Wird das Histogramm kleiner, verliert die Bewegung an Schwung, wie oben am Ende, obwohl der Kurs noch steigt."
+    },
+    {
+      "titel": "Divergenzen",
+      "grafik": { "typ": "chart", "kurse": { "seed": 4, "start": 30, "phasen": [{ "tage": 25, "trend": 1.2, "vola": 1.0 }, { "tage": 8, "trend": -0.8, "vola": 1.0 }, { "tage": 15, "trend": 0.4, "vola": 0.9 }] }, "chart": { "hoehe": 230, "unterfenster": "rsi" } },
+      "text": "Eine **Divergenz** _Divergence_ liegt vor, wenn Kurs und Oszillator in unterschiedliche Richtungen zeigen:\n\n- **Bärische Divergenz** _Bearish Divergence_: Der Kurs macht ein **höheres Hoch**, der RSI aber ein **tieferes Hoch**. Der Anstieg verliert an Kraft.\n- **Bullische Divergenz** _Bullish Divergence_: Der Kurs macht ein **tieferes Tief**, der RSI ein **höheres Tief**. Der Abwärtsdruck lässt nach.\n\nIm Chart oben: Das zweite Kurshoch liegt über dem ersten, der RSI erreicht beim zweiten Hoch aber deutlich weniger.\n\nWichtig: Eine Divergenz ist ein **Warnzeichen**, kein Zeitpunkt. Der Kurs kann trotz Divergenz noch lange weiterlaufen."
+    },
+    {
+      "titel": "Die Grenzen von Indikatoren",
+      "text": "Alle Indikatoren, die du kennengelernt hast, werden **aus dem Kurs berechnet**. Sie enthalten keine neuen Informationen, sondern zeigen den Kurs nur anders.\n\n- Sie laufen hinterher.\n- Sie erzeugen **Fehlsignale**, vor allem in Seitwärtsphasen.\n- Wer zehn Indikatoren gleichzeitig nutzt, findet immer einen, der das gewünschte Signal zeigt. Das führt zu Selbsttäuschung.\n\nBewährt: wenige Werkzeuge, die du gut verstehst. Zum Beispiel Trend (Hochs/Tiefs und 50-Tage-Linie), Unterstützung/Widerstand, Volumen und eventuell der RSI als Ergänzung.",
+      "merke": "Ein Indikator ersetzt nie das Lesen des Charts. Er bestätigt oder warnt."
+    },
+    {
+      "titel": "Zusammenfassung",
+      "text": "- **Oszillator:** schwingt zwischen festen Grenzen und misst die Dynamik.\n- **RSI:** 0 bis 100. Über 70 überkauft, unter 30 überverkauft. Kein automatisches Signal!\n- **Im Trend** bleibt der RSI oft lange über 70 (Aufwärtstrend) oder unter 30 (Abwärtstrend).\n- **MACD:** MACD-Linie, Signallinie und Histogramm zeigen, ob die Dynamik zu- oder abnimmt.\n- **Divergenz:** Kurs und Oszillator laufen auseinander. Warnzeichen, kein Zeitpunkt.\n- **Weniger ist mehr:** wenige Indikatoren, gut verstanden.",
+      "merke": "Morgen (Tag 9): konkrete Swing-Setups und das Umfeld."
+    }
+  ],
+
+  "vokabeln": [
+    { "id": "oszillator", "de": "Oszillator", "en": "Oscillator", "erklaerung": "Indikator, der zwischen festen Grenzen schwingt (z. B. 0 bis 100) und die Dynamik der Kursbewegung misst." },
+    { "id": "momentum", "de": "Dynamik", "en": "Momentum", "erklaerung": "Wie schnell und stark sich der Kurs zuletzt bewegt hat. Oszillatoren messen die Dynamik." },
+    { "id": "rsi", "de": "RSI", "en": "Relative Strength Index", "erklaerung": "Oszillator von 0 bis 100. Vergleicht die durchschnittlichen Gewinne mit den durchschnittlichen Verlusten der letzten 14 Tage.", "beispiel": "RSI 75: Der Kurs ist zuletzt stark gestiegen (überkauft)." },
+    { "id": "ueberkauft", "de": "Überkauft", "en": "Overbought", "erklaerung": "RSI über 70: Der Kurs ist in kurzer Zeit stark gestiegen. Kein automatisches Verkaufssignal." },
+    { "id": "ueberverkauft", "de": "Überverkauft", "en": "Oversold", "erklaerung": "RSI unter 30: Der Kurs ist in kurzer Zeit stark gefallen. Kein automatisches Kaufsignal." },
+    { "id": "macd", "de": "MACD", "en": "Moving Average Convergence Divergence", "erklaerung": "Indikator aus dem Unterschied zwischen 12- und 26-Tage-EMA (MACD-Linie), deren 9-Tage-EMA (Signallinie) und dem Abstand der beiden (Histogramm)." },
+    { "id": "signallinie", "de": "Signallinie", "en": "Signal Line", "erklaerung": "Beim MACD ein 9-Tage-EMA der MACD-Linie. Kreuzungen gelten als Zeichen für zu- oder abnehmende Dynamik." },
+    { "id": "histogramm", "de": "Histogramm", "en": "Histogram", "erklaerung": "Beim MACD die Balken für den Abstand zwischen MACD- und Signallinie. Schrumpfende Balken: Die Bewegung verliert an Schwung." },
+    { "id": "divergenz", "de": "Divergenz", "en": "Divergence", "erklaerung": "Kurs und Oszillator zeigen in unterschiedliche Richtungen. Warnzeichen, dass eine Bewegung an Kraft verliert." },
+    { "id": "baerisch", "de": "Bärische Divergenz", "en": "Bearish Divergence", "erklaerung": "Kurs macht ein höheres Hoch, der Oszillator ein tieferes Hoch. Der Anstieg verliert an Kraft." },
+    { "id": "bullisch", "de": "Bullische Divergenz", "en": "Bullish Divergence", "erklaerung": "Kurs macht ein tieferes Tief, der Oszillator ein höheres Tief. Der Abwärtsdruck lässt nach." }
+  ],
+
+  "quiz": [
+    {
+      "typ": "mc",
+      "frage": "Der RSI steht bei 78. Was bedeutet das?",
+      "optionen": ["Die Aktie ist überkauft und muss jetzt fallen", "Der Kurs ist in den letzten Wochen stark gestiegen", "78 % der Anleger sind optimistisch", "Die Aktie ist 78 € wert"],
+      "richtig": 1,
+      "braucht": ["rsi", "ueberkauft"],
+      "erklaerung": "Ein RSI über 70 zeigt, dass der Kurs zuletzt stark gestiegen ist. Ob er fällt, sagt der RSI nicht. Im starken Aufwärtstrend bleibt er oft lange so hoch."
+    },
+    {
+      "typ": "wf",
+      "frage": "Ein RSI unter 30 ist ein sicheres Kaufsignal.",
+      "richtig": false,
+      "braucht": ["ueberverkauft", "abwaertstrend"],
+      "erklaerung": "Falsch. In einem Abwärtstrend kann der RSI lange unter 30 bleiben, während der Kurs weiter fällt. Ohne Trendwechsel ist das ein Griff ins fallende Messer."
+    },
+    {
+      "typ": "mc",
+      "frage": "Der Kurs macht ein höheres Hoch, der RSI aber ein tieferes Hoch als beim letzten Mal. Wie heißt das?",
+      "optionen": ["Bullische Divergenz", "Bärische Divergenz", "Golden Cross", "Fehlausbruch"],
+      "richtig": 1,
+      "braucht": ["baerisch", "divergenz"],
+      "erklaerung": "Der Kurs steigt weiter, die Dynamik aber nicht: Das ist eine bärische Divergenz. Ein Warnzeichen, kein sicherer Verkaufszeitpunkt."
+    },
+    {
+      "typ": "mc",
+      "frage": "Das MACD-Histogramm wird seit Tagen kleiner, der Kurs steigt aber noch leicht. Was zeigt das?",
+      "optionen": ["Die Aufwärtsdynamik lässt nach", "Der Kurs wird sicher morgen fallen", "Das Volumen steigt", "Ein Golden Cross steht bevor"],
+      "richtig": 0,
+      "braucht": ["histogramm", "macd", "momentum"],
+      "erklaerung": "Kleinere Balken heißen: Der Abstand zwischen MACD- und Signallinie schrumpft, die Bewegung verliert an Schwung. Das ist ein Hinweis, keine Vorhersage."
+    },
+    {
+      "typ": "mc",
+      "frage": "Woraus werden RSI und MACD berechnet?",
+      "optionen": ["Aus Nachrichten und Quartalszahlen", "Aus den Kursen der Vergangenheit", "Aus den Orders aller Anleger", "Aus Prognosen von Analysten"],
+      "richtig": 1,
+      "braucht": ["oszillator", "indikator"],
+      "erklaerung": "Beide werden aus vergangenen Kursen berechnet. Sie enthalten keine neuen Informationen und laufen deshalb immer hinterher."
+    },
+    {
+      "typ": "mc",
+      "frage": "Aufwärtstrend, Kurs über der steigenden 50-Tage-Linie. Bei welchem RSI-Wert passt ein Rücksetzer am besten zu einem Pullback-Einstieg?",
+      "optionen": ["RSI 85", "RSI 40 bis 50", "RSI 15", "Der RSI spielt dabei keine Rolle"],
+      "richtig": 1,
+      "braucht": ["rsi", "pullback", "aufwaertstrend"],
+      "erklaerung": "Im Aufwärtstrend fällt der RSI bei normalen Rücksetzern oft nur auf 40 bis 50. Ein RSI von 15 würde eher zeigen, dass der Trend in Gefahr ist, und 85 ist ein Zeichen für einen steilen Anstieg ohne Rücksetzer."
+    },
+    {
+      "typ": "wf",
+      "frage": "Je mehr Indikatoren man gleichzeitig nutzt, desto zuverlässiger werden die Signale.",
+      "richtig": false,
+      "braucht": ["indikator", "fehlsignal"],
+      "erklaerung": "Falsch. Fast alle Indikatoren werden aus denselben Kursen berechnet. Viele Indikatoren führen eher zu widersprüchlichen Signalen und Selbsttäuschung."
+    }
+  ],
+
+  "uebungen": [
+    {
+      "id": "t8-rsi-lesen",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Was zeigt der RSI?",
+      "frage": "Unten siehst du den RSI. Was zeigt er am Ende des Charts?",
+      "kurse": { "seed": 2, "start": 40, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.2, "seitwaerts": true }, { "tage": 10, "trend": 1.6, "vola": 1.0 }] },
+      "chart": { "unterfenster": "rsi", "hoehe": 320 },
+      "optionen": ["Überkauft: Der Kurs ist zuletzt stark gestiegen", "Überverkauft: Der Kurs ist stark gefallen", "Neutral um 50"],
+      "richtig": 0,
+      "braucht": ["rsi", "ueberkauft"],
+      "pruefung": { "bedingungen": ["rsi()[49] > 75"] },
+      "erklaerung": "Der RSI steht bei {{rsi()[49]|0}}, also deutlich über 70. Der Kurs ist in den letzten zehn Tagen stark gestiegen. Für einen **neuen** Kauf ist das ein ungünstiger Moment, weil der Stop weit weg wäre. Ein Verkaufssignal ist es trotzdem nicht."
+    },
+    {
+      "id": "t8-rsi-70",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Wann wird es überkauft?",
+      "frage": "Tippe auf den Tag, an dem der RSI zum ersten Mal **über 70** steigt.",
+      "kurse": { "seed": 1, "start": 40, "phasen": [{ "tage": 30, "trend": -0.2, "vola": 1.2 }, { "tage": 20, "trend": 1.2, "vola": 1.0 }, { "tage": 10, "trend": -0.3, "vola": 1.2 }] },
+      "chart": { "unterfenster": "rsi", "hoehe": 320 },
+      "ziel": { "typ": "rsi", "wert": 70, "richtung": "ueber", "ab": 15 },
+      "toleranz": 1,
+      "braucht": ["rsi", "ueberkauft"],
+      "erklaerung": "An diesem Tag steigt der RSI über die Marke von 70. Der Kurs war zu diesem Zeitpunkt schon einige Tage kräftig gestiegen. Der RSI zeigt also, was bereits passiert ist, nicht was kommt."
+    },
+    {
+      "id": "t8-trend-ueberkauft",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Überkauft = verkaufen?",
+      "frage": "Ein Trader hat verkauft, als der RSI zum ersten Mal über 70 stieg. War das eine gute Idee?",
+      "kurse": { "seed": 1, "start": 30, "phasen": [{ "tage": 70, "trend": 0.9, "vola": 1.0 }] },
+      "chart": { "unterfenster": "rsi", "hoehe": 320 },
+      "optionen": ["Ja, überkauft heißt immer verkaufen", "Nein, im starken Aufwärtstrend blieb der RSI lange hoch und der Kurs stieg weiter", "Man kann das nicht sagen"],
+      "richtig": 1,
+      "braucht": ["ueberkauft", "aufwaertstrend", "rsi"],
+      "pruefung": { "bedingungen": ["k[69].c > k[rsi().findIndex(v => v > 70)].c * 1.2"] },
+      "loesung": { "marker": [{ "index": "=rsi().findIndex(v => v > 70)", "text": "RSI > 70" }] },
+      "erklaerung": "Nach dem ersten Überschreiten von 70 (Kurs {{k[rsi().findIndex(v => v > 70)].c}} €) stieg der Kurs noch bis {{k[69].c}} €, also um weitere {{(k[69].c / k[rsi().findIndex(v => v > 70)].c - 1) * 100|0}} %. In einem starken Trend ist „überkauft“ ein Zeichen von Stärke, nicht von Schwäche."
+    },
+    {
+      "id": "t8-divergenz",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Kurs und RSI im Widerspruch",
+      "frage": "Vergleiche die beiden Kurshochs mit den RSI-Werten darunter. Was liegt vor?",
+      "kurse": { "seed": 4, "start": 30, "phasen": [{ "tage": 25, "trend": 1.2, "vola": 1.0 }, { "tage": 8, "trend": -0.8, "vola": 1.0 }, { "tage": 15, "trend": 0.4, "vola": 0.9 }] },
+      "chart": { "unterfenster": "rsi", "hoehe": 320 },
+      "optionen": ["Bärische Divergenz: höheres Kurshoch, aber tieferes RSI-Hoch", "Bullische Divergenz: tieferes Kurstief, aber höheres RSI-Tief", "Keine Divergenz: Kurs und RSI laufen gleich"],
+      "richtig": 0,
+      "braucht": ["baerisch", "divergenz", "rsi"],
+      "pruefung": { "bedingungen": ["hoch(34, 47) > hoch(15, 30) * 1.005", "max(...rsi().slice(34, 48).filter(v => v !== null)) < max(...rsi().slice(15, 31).filter(v => v !== null)) - 10"] },
+      "erklaerung": "Das zweite Kurshoch ({{hoch(34, 47)}} €) liegt über dem ersten ({{hoch(15, 30)}} €). Der RSI erreicht beim zweiten Hoch aber nur etwa {{max(...rsi().slice(34, 48).filter(v => v !== null))|0}} statt {{max(...rsi().slice(15, 31).filter(v => v !== null))|0}}. Der Anstieg verliert an Kraft: eine bärische Divergenz. Für einen neuen Long-Trade ist das ein Warnzeichen."
+    },
+    {
+      "id": "t8-macd",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Was sagt das Histogramm?",
+      "frage": "Unten siehst du den MACD. Der Kurs steigt am Ende noch leicht. Was zeigen die Balken des Histogramms?",
+      "kurse": { "seed": 31, "start": 30, "phasen": [{ "tage": 35, "trend": 0.9, "vola": 1.0 }, { "tage": 10, "trend": 0.15, "vola": 0.9 }] },
+      "chart": { "unterfenster": "macd", "hoehe": 320 },
+      "optionen": ["Die Aufwärtsdynamik nimmt zu", "Die Aufwärtsdynamik lässt nach", "Der Kurs ist überverkauft"],
+      "richtig": 1,
+      "braucht": ["macd", "histogramm", "momentum"],
+      "pruefung": { "bedingungen": ["macd().histo[39] > 0", "macd().histo[44] < macd().histo[39] * 0.5", "k[44].c > k[39].c"] },
+      "erklaerung": "Die Histogramm-Balken werden deutlich kleiner, obwohl der Kurs noch steigt. Die Bewegung verliert an Schwung. Das heißt nicht, dass der Kurs fallen muss, aber ein neuer Kauf hätte weniger Rückenwind."
+    },
+    {
+      "id": "t8-ueberverkauft",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Überverkauft = Schnäppchen?",
+      "frage": "Der RSI ist tief unter 30 gefallen, die Aktie ist „überverkauft“. Long oder abwarten?",
+      "hilfe": "Schau nicht nur auf den RSI. Wie sieht der Trend aus? Gibt es höhere Tiefs?",
+      "kurse": { "seed": 1, "start": 70, "phasen": [{ "tage": 40, "trend": -0.6, "vola": 1.3 }, { "tage": 5, "trend": -2.0, "vola": 1.0 }, { "tage": 20, "trend": -0.5, "vola": 1.4 }] },
+      "chart": { "unterfenster": "rsi", "hoehe": 360 },
+      "stopp": 45,
+      "ideal": "warten",
+      "braucht": ["ueberverkauft", "abwaertstrend", "rsi"],
+      "pruefung": { "standard": "verlust", "bedingungen": ["rsi()[44] < 28"] },
+      "aufloesung": "Ein RSI unter 30 allein ist kein Kaufsignal. Der Kurs war in einem klaren Abwärtstrend mit tieferen Hochs und Tiefs. Überverkauft kann in so einer Lage lange bleiben. Erst ein Trendwechsel (Tag 5) würde einen Long-Trade rechtfertigen."
+    }
+  ]
+}

@@ -1,0 +1,245 @@
+{
+  "nr": 4,
+  "titel": "Charts lesen",
+  "ziel": "Du kannst jede Kerze lesen (Eröffnung, Hoch, Tief, Schluss), weißt, was Körper und Dochte erzählen, welche Zeiteinheit für Swing-Trading passt und wann eine logarithmische Skala sinnvoll ist.",
+
+  "abschluss": {
+    "kernpunkte": [
+      "Jede Kerze zeigt vier Werte: Eröffnung, Hoch, Tief und Schluss (OHLC).",
+      "Grün heißt: Schluss über Eröffnung. Das sagt nichts darüber, ob der Kurs gegenüber dem Vortag gestiegen ist.",
+      "Lange Dochte zeigen, dass Preise kurz erreicht und dann wieder verlassen wurden.",
+      "Für Swing-Trading: Wochenchart für den Überblick, Tageschart für die Entscheidung.",
+      "Auf der logarithmischen Skala sind gleiche Prozentbewegungen gleich hoch. Gut für lange Zeiträume und große Bewegungen."
+    ],
+    "vorschau": "Was ist ein Trend? Höhere Hochs und höhere Tiefs, Trendlinien, Seitwärtsphasen und woran du erkennst, dass ein Trend kippt."
+  },
+
+  "lektion": [
+    {
+      "titel": "Linienchart oder Kerzenchart?",
+      "grafik": { "typ": "chart", "kurse": { "seed": 11, "start": 40, "phasen": [{ "tage": 40, "trend": 0.45, "vola": 1.5 }] }, "chart": { "art": "linie", "unterfenster": "keins", "hoehe": 170 } },
+      "text": "Ein **Linienchart** _Line Chart_ verbindet nur die Schlusskurse. Er ist übersichtlich und zeigt gut die Richtung.\n\nEin **Kerzenchart** _Candlestick Chart_ zeigt für jeden Tag vier Werte. Du siehst also auch, wie stark der Kurs innerhalb des Tages geschwankt hat und wer am Ende die Oberhand hatte.\n\nOben siehst du denselben Kursverlauf wie in deinem ersten Chart an Tag 1, nur als Linie. Swing-Trader arbeiten fast immer mit Kerzencharts, weil sie mehr Information enthalten."
+    },
+    {
+      "titel": "OHLC: vier Werte pro Kerze",
+      "text": "Jede Kerze steht für einen Zeitraum, im Tageschart für einen Handelstag. Sie zeigt vier Preise, abgekürzt **OHLC** _Open, High, Low, Close_:\n\n- **Eröffnung** _Open_: der erste Kurs des Tages\n- **Hoch** _High_: der höchste Kurs des Tages\n- **Tief** _Low_: der tiefste Kurs des Tages\n- **Schluss** _Close_: der letzte Kurs des Tages\n\nDer **Schlusskurs** gilt als wichtigster Wert. Er zeigt, worauf sich Käufer und Verkäufer am Ende des Tages geeinigt haben. Viele Trader treffen ihre Entscheidungen deshalb nach Handelsschluss.",
+      "merke": "In den Chart-Übungen siehst du alle vier Werte, wenn du den Finger auf eine Kerze hältst (E, H, T, S)."
+    },
+    {
+      "titel": "Aufbau einer Kerze",
+      "grafik": { "typ": "kerze" },
+      "text": "Der dicke Teil heißt **Körper** _Real Body_. Er reicht von der Eröffnung bis zum Schluss.\n\n- **Grün:** Der Schluss liegt **über** der Eröffnung. Der Kurs ist im Laufe des Tages gestiegen.\n- **Rot:** Der Schluss liegt **unter** der Eröffnung.\n\nDie dünnen Striche heißen **Docht** _Wick_ oder Schatten _Shadow_. Der obere Docht reicht bis zum Tageshoch, der untere bis zum Tagestief.\n\nAchtung: Eine rote Kerze heißt nicht automatisch, dass die Aktie gegenüber gestern verloren hat. Eröffnet sie mit einer Kurslücke nach oben und fällt dann etwas, ist die Kerze rot, der Schluss kann aber trotzdem über dem Vortag liegen.",
+      "merke": "Die Farben sind nicht überall gleich. In manchen Apps sind steigende Kerzen weiß oder hohl. Prüfe das in jeder neuen App."
+    },
+    {
+      "titel": "Was Körper und Dochte erzählen",
+      "text": "- **Langer Körper:** Der Kurs hat sich über den Tag deutlich in eine Richtung bewegt. Eine Seite (Käufer oder Verkäufer) war klar stärker.\n- **Kurzer Körper:** Eröffnung und Schluss liegen nah beieinander. Keine Seite hat sich durchgesetzt.\n- **Langer unterer Docht:** Der Kurs war im Tagesverlauf deutlich tiefer, Käufer haben ihn aber wieder nach oben gedrückt. Tiefere Preise wurden abgelehnt.\n- **Langer oberer Docht:** Der Kurs war zwischendurch deutlich höher, ist aber wieder gefallen. Höhere Preise wurden abgelehnt.\n\nEine einzelne Kerze ist eine Momentaufnahme. Aussagekräftig wird sie erst im Zusammenhang: Wo im Chart steht sie, und wie war das Volumen?"
+    },
+    {
+      "titel": "Doji und Hammer",
+      "text": "Zwei Kerzenformen begegnen dir oft:\n\n- **Doji** _Doji_: Eröffnung und Schluss sind (fast) gleich, der Körper ist nur ein Strich. Zeichen von **Unentschlossenheit**.\n- **Hammer** _Hammer_: kleiner Körper oben, langer unterer Docht, mindestens etwa doppelt so lang wie der Körper. Nach einem Kursrückgang zeigt er: Verkäufer haben den Kurs tief gedrückt, Käufer haben fast alles zurückgeholt.\n\nEs gibt Dutzende solcher Kerzenmuster mit fantasievollen Namen. Für den Anfang reichen diese zwei. Wichtig ist: **Kein Kerzenmuster ist allein ein Kaufsignal.** Es ist ein Hinweis, den du mit Trend (Tag 5) und Unterstützungen (Tag 6) zusammen betrachtest."
+    },
+    {
+      "titel": "Zeiteinheiten",
+      "text": "Eine Kerze kann jeden Zeitraum darstellen. Diesen Zeitraum nennt man **Zeiteinheit** _Timeframe_:\n\n- **Stundenchart:** eine Kerze pro Stunde, eher für Daytrader\n- **Tageschart:** eine Kerze pro Handelstag, die Hauptansicht für Swing-Trader\n- **Wochenchart:** eine Kerze pro Woche (5 Handelstage), gut für den großen Überblick\n\nBewährtes Vorgehen für Swing-Trader: **erst der Wochenchart, dann der Tageschart.** Im Wochenchart siehst du, in welche Richtung sich der Kurs langfristig bewegt (Trends lernst du an Tag 5). Im Tageschart suchst du dann den passenden Einstieg.",
+      "merke": "Ein Chart kann im Tageschart nach unten zeigen und im Wochenchart trotzdem seit Monaten steigen. Es kommt immer auf die Zeiteinheit an."
+    },
+    {
+      "titel": "Volumen genauer lesen",
+      "text": "Das Volumen hast du an Tag 1 kennengelernt. Jetzt geht es darum, es zu deuten:\n\n- Vergleiche das Volumen immer mit den **Tagen davor**. Ein absoluter Wert sagt wenig.\n- **Große Kerze mit hohem Volumen:** Viele Marktteilnehmer stehen hinter der Bewegung. Sie ist eher ernst zu nehmen.\n- **Große Kerze mit niedrigem Volumen:** Die Bewegung ist weniger glaubwürdig.\n- **Extrem hohes Volumen** tritt oft bei Nachrichten auf, zum Beispiel bei Quartalszahlen.\n\nAn Tag 7 lernst du, wie man Volumen gezielt als Bestätigung nutzt."
+    },
+    {
+      "titel": "Lineare oder logarithmische Skala?",
+      "grafik": { "typ": "chart", "kurse": { "seed": 7, "start": 10, "phasen": [{ "tage": 120, "trend": 1.0, "vola": 2 }] }, "chart": { "skala": "log", "unterfenster": "keins", "hoehe": 190 } },
+      "text": "Die Preisachse kann zwei Arten haben:\n\n- **Linear** _Linear Scale_: Gleiche Abstände bedeuten gleiche **Euro-Beträge**. Ein Anstieg von 10 € auf 20 € ist genauso hoch wie einer von 100 € auf 110 €.\n- **Logarithmisch** _Log Scale_: Gleiche Abstände bedeuten gleiche **Prozente**. Ein Anstieg von 10 € auf 20 € (+100 %) ist genauso hoch wie einer von 100 € auf 200 € (+100 %).\n\nOben siehst du einen Kurs, der sich über 120 Tage vervielfacht hat, auf logarithmischer Skala. Auf linearer Skala würden die Bewegungen am Anfang winzig aussehen.\n\nFaustregel: Für ein paar Wochen ist die Skala egal. Für lange Zeiträume und starke Anstiege ist die logarithmische Skala ehrlicher."
+    },
+    {
+      "titel": "Was ein Chart nicht zeigt",
+      "text": "Ein Chart zeigt, was der Kurs **in der Vergangenheit** getan hat, und wie die Marktteilnehmer sich verhalten haben. Er zeigt nicht:\n\n- was morgen passiert\n- warum sich der Kurs bewegt hat (Nachrichten, Zahlen, Gerüchte)\n- ob das Unternehmen gut oder schlecht wirtschaftet\n\nChartanalyse ist deshalb kein Blick in die Zukunft, sondern eine Methode, um Situationen mit **günstigem Chance-Risiko-Verhältnis** zu finden und sinnvolle Stops zu setzen. Genau dafür nutzt du sie."
+    },
+    {
+      "titel": "Zusammenfassung",
+      "text": "- **OHLC:** Eröffnung, Hoch, Tief, Schluss. Der Schlusskurs ist der wichtigste.\n- **Grün** = Schluss über Eröffnung, **rot** = Schluss unter Eröffnung.\n- **Körper** = Eröffnung bis Schluss, **Dochte** = Hoch und Tief.\n- **Doji** = Unentschlossenheit, **Hammer** = tiefere Preise abgelehnt. Kein Muster ist allein ein Signal.\n- **Zeiteinheiten:** Wochenchart für den Überblick, Tageschart für die Entscheidung.\n- **Logarithmische Skala:** gleiche Prozente, gleiche Höhe.",
+      "merke": "Morgen (Tag 5): Trends erkennen."
+    }
+  ],
+
+  "vokabeln": [
+    { "id": "kerzenchart", "de": "Kerzenchart", "en": "Candlestick Chart", "erklaerung": "Chart, der für jeden Zeitraum Eröffnung, Hoch, Tief und Schluss als Kerze zeigt." },
+    { "id": "linienchart", "de": "Linienchart", "en": "Line Chart", "erklaerung": "Chart, der nur die Schlusskurse mit einer Linie verbindet. Übersichtlich, zeigt aber keine Tagesschwankungen." },
+    { "id": "ohlc", "de": "OHLC", "en": "Open, High, Low, Close", "erklaerung": "Die vier Werte jeder Kerze: Eröffnung, Hoch, Tief und Schluss." },
+    { "id": "tageshoch", "de": "Tageshoch", "en": "High", "erklaerung": "Höchster Kurs eines Handelstages. Das obere Ende des oberen Dochts." },
+    { "id": "tagestief", "de": "Tagestief", "en": "Low", "erklaerung": "Tiefster Kurs eines Handelstages. Das untere Ende des unteren Dochts." },
+    { "id": "koerper", "de": "Kerzenkörper", "en": "Real Body", "erklaerung": "Der dicke Teil der Kerze zwischen Eröffnung und Schluss. Grün: Schluss über Eröffnung. Rot: Schluss unter Eröffnung.", "beispiel": "Eröffnung 50 €, Schluss 52,50 €: grüner Körper von 2,50 €." },
+    { "id": "docht", "de": "Docht / Schatten", "en": "Wick / Shadow", "erklaerung": "Die dünnen Striche über und unter dem Körper. Sie reichen bis zum Hoch und bis zum Tief des Zeitraums." },
+    { "id": "doji", "de": "Doji", "en": "Doji", "erklaerung": "Kerze, bei der Eröffnung und Schluss (fast) gleich sind. Zeichen von Unentschlossenheit." },
+    { "id": "hammer", "de": "Hammer", "en": "Hammer", "erklaerung": "Kerze mit kleinem Körper oben und langem unteren Docht. Nach einem Rückgang zeigt sie, dass tiefere Preise abgelehnt wurden. Kein Kaufsignal für sich allein." },
+    { "id": "zeiteinheit", "de": "Zeiteinheit", "en": "Timeframe", "erklaerung": "Zeitraum, den eine Kerze darstellt, z. B. eine Stunde, ein Tag oder eine Woche.", "beispiel": "Swing-Trader: Wochenchart für den Überblick, Tageschart für den Einstieg." },
+    { "id": "logskala", "de": "Logarithmische Skala", "en": "Log Scale", "erklaerung": "Preisachse, auf der gleiche Prozentbewegungen gleich hoch sind. Sinnvoll für lange Zeiträume und große Bewegungen.", "beispiel": "10 € → 20 € und 100 € → 200 € (beide +100 %) sind gleich hoch." }
+  ],
+
+  "quiz": [
+    {
+      "typ": "mc",
+      "frage": "Was bedeutet eine **grüne** Kerze im Tageschart?",
+      "optionen": ["Der Schlusskurs lag über dem Eröffnungskurs", "Der Kurs ist gegenüber dem Vortag gestiegen", "Das Volumen war höher als am Vortag", "Der Kurs war den ganzen Tag über im Plus"],
+      "richtig": 0,
+      "braucht": ["koerper", "schlusskurs", "eroeffnung"],
+      "erklaerung": "Die Farbe vergleicht nur Schluss und Eröffnung **desselben** Tages. Ob der Kurs gegenüber gestern gestiegen ist, siehst du nur im Vergleich mit dem Schlusskurs des Vortags."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Eine Kerze: Eröffnung 50,00 €, Schluss 52,50 €. Wie groß ist der Körper in Euro?",
+      "loesung": 2.5,
+      "toleranz": 0.01,
+      "einheit": "€",
+      "braucht": ["koerper"],
+      "erklaerung": "Der Körper reicht von der Eröffnung bis zum Schluss: 52,50 € − 50,00 € = 2,50 €. Die Kerze ist grün."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Eine Kerze: Eröffnung 40 €, Hoch 44 €, Tief 39 €, Schluss 43 €. Wie groß ist die Tagesspanne (Hoch minus Tief)?",
+      "loesung": 5,
+      "toleranz": 0.01,
+      "einheit": "€",
+      "braucht": ["ohlc", "tageshoch", "tagestief"],
+      "erklaerung": "Spanne = Hoch − Tief = 44 € − 39 € = 5 €. Der Körper ist nur 3 € groß (40 € bis 43 €), der Rest sind die Dochte."
+    },
+    {
+      "typ": "mc",
+      "frage": "Was zeigt ein **langer unterer Docht**?",
+      "optionen": ["Der Kurs hat den ganzen Tag verloren", "Der Kurs war tief, Käufer haben ihn wieder hochgedrückt", "Es wurde kaum gehandelt", "Die Aktie wird morgen steigen"],
+      "richtig": 1,
+      "braucht": ["docht"],
+      "erklaerung": "Der untere Docht reicht bis zum Tagestief. Ist er lang und der Schluss liegt deutlich höher, wurden tiefere Preise abgelehnt. Eine Garantie für morgen ist das aber nicht."
+    },
+    {
+      "typ": "mc",
+      "frage": "Was gilt auf einer **logarithmischen** Preisachse?",
+      "optionen": ["Gleiche Abstände bedeuten gleiche Euro-Beträge", "Gleiche Abstände bedeuten gleiche Prozentveränderungen", "Die Achse zeigt das Volumen", "Sie ist nur für Linien-Charts geeignet"],
+      "richtig": 1,
+      "braucht": ["logskala"],
+      "erklaerung": "Auf der logarithmischen Skala ist +100 % immer gleich hoch, egal ob von 10 € auf 20 € oder von 100 € auf 200 €."
+    },
+    {
+      "typ": "wf",
+      "frage": "Im Wochenchart steht jede Kerze für eine ganze Handelswoche.",
+      "richtig": true,
+      "braucht": ["zeiteinheit"],
+      "erklaerung": "Richtig. Die Kerze zeigt Eröffnung am Montag, Hoch und Tief der Woche und den Schluss am Freitag."
+    },
+    {
+      "typ": "mc",
+      "frage": "Eine Kerze hat (fast) keinen Körper, aber Dochte nach oben und unten. Wie heißt sie, und was zeigt sie?",
+      "optionen": ["Hammer, starke Käufer", "Doji, Unentschlossenheit", "Kurslücke, Nachrichten", "Linienchart, nur Schlusskurse"],
+      "richtig": 1,
+      "braucht": ["doji"],
+      "erklaerung": "Bei einem Doji sind Eröffnung und Schluss fast gleich. Im Laufe des Tages ging es hoch und runter, aber am Ende hat sich keine Seite durchgesetzt."
+    },
+    {
+      "typ": "mc",
+      "frage": "Welches Vorgehen passt für Swing-Trader mit 1 bis 2 Wochen Haltedauer?",
+      "optionen": ["Nur der 5-Minuten-Chart", "Wochenchart für den Überblick, Tageschart für die Entscheidung", "Nur der Monatschart", "Die Zeiteinheit spielt keine Rolle"],
+      "richtig": 1,
+      "braucht": ["zeiteinheit"],
+      "erklaerung": "Der Wochenchart zeigt die große Richtung, der Tageschart passt zur Haltedauer von Tagen bis Wochen. Kurze Zeiteinheiten erzeugen für Swing-Trader vor allem Unruhe."
+    }
+  ],
+
+  "uebungen": [
+    {
+      "id": "t4-rote-kerze",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Rot heißt nicht immer Verlust",
+      "frage": "Die letzte Kerze ist **rot**. Was sagt das sicher aus? (Halte den Finger auf die letzten beiden Kerzen.)",
+      "kurse": { "seed": 3, "start": 30, "phasen": [{ "tage": 19, "trend": 0.25, "vola": 1.2 }, { "tage": 1, "gap": 3.5, "trend": -1.0, "vola": 0.6 }] },
+      "optionen": ["Der Schlusskurs lag unter dem Eröffnungskurs dieses Tages", "Die Aktie hat gegenüber dem Vortag verloren", "An diesem Tag wurde wenig gehandelt"],
+      "richtig": 0,
+      "braucht": ["koerper", "schlusskurs", "eroeffnung"],
+      "pruefung": { "bedingungen": ["k[19].c < k[19].o", "k[19].c > k[18].c"] },
+      "loesung": { "marker": [{ "index": 19, "text": "rot, aber über Vortag" }] },
+      "erklaerung": "Rot heißt nur: Schluss ({{k[19].c}} €) unter Eröffnung ({{k[19].o}} €). Hier hat die Aktie mit einer Kurslücke nach oben eröffnet und dann etwas abgegeben. Gegenüber dem Vortag (Schluss {{k[18].c}} €) liegt sie trotzdem **im Plus**."
+    },
+    {
+      "id": "t4-koerper",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Die stärkste Kerze",
+      "frage": "Tippe auf die Kerze mit dem **größten Körper**.",
+      "kurse": { "seed": 9, "start": 40, "phasen": [{ "tage": 15, "trend": 0.1, "vola": 1.2 }, { "tage": 1, "form": "gross", "trend": 0.5, "vola": 1.2, "volumen": 2.5 }, { "tage": 14, "trend": 0.2, "vola": 1.2 }] },
+      "ziel": "groessterKoerper",
+      "toleranz": 0,
+      "braucht": ["koerper"],
+      "pruefung": { "eindeutig": true },
+      "erklaerung": "An diesem Tag lagen Eröffnung und Schluss besonders weit auseinander: ein großer grüner Körper. Die Käufer waren den ganzen Tag klar stärker. Schau auch aufs Volumen: Es war deutlich höher als an den Tagen davor. Das macht die Bewegung glaubwürdiger."
+    },
+    {
+      "id": "t4-hammer",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Finde den Hammer",
+      "frage": "Nach dem Kursrückgang taucht eine Kerze mit einem **langen unteren Docht** auf. Tippe auf diesen Hammer.",
+      "kurse": { "seed": 14, "start": 50, "phasen": [{ "tage": 18, "trend": -0.6, "vola": 1.2 }, { "tage": 1, "form": "hammer", "vola": 1.3, "volumen": 1.8 }, { "tage": 11, "trend": 0.5, "vola": 1.2 }] },
+      "ziel": "laengsterUntererDocht",
+      "toleranz": 0,
+      "braucht": ["hammer", "docht"],
+      "pruefung": { "eindeutig": true },
+      "erklaerung": "Der Hammer an Tag 19: Der Kurs fiel im Tagesverlauf bis {{k[18].l}} €, schloss aber bei {{k[18].c}} €. Tiefere Preise wurden abgelehnt. Hier drehte der Kurs danach nach oben. Das ist aber nicht garantiert: Ein Hammer allein ist kein Kaufsignal."
+    },
+    {
+      "id": "t4-sternschnuppe",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Abgelehnte Höhen",
+      "frage": "Tippe auf die Kerze mit dem **längsten oberen Docht**.",
+      "kurse": { "seed": 31, "start": 30, "phasen": [{ "tage": 20, "trend": 0.6, "vola": 1.2 }, { "tage": 1, "form": "sternschnuppe", "vola": 1.3, "volumen": 1.8 }, { "tage": 9, "trend": -0.5, "vola": 1.2 }] },
+      "ziel": "laengsterObererDocht",
+      "toleranz": 0,
+      "braucht": ["docht", "tageshoch"],
+      "pruefung": { "eindeutig": true },
+      "erklaerung": "Hier stieg der Kurs im Tagesverlauf bis {{k[20].h}} €, fiel dann aber zurück und schloss bei {{k[20].c}} €. Höhere Preise wurden abgelehnt. Nach einem Anstieg ist das ein Warnzeichen, dass die Käufer an Kraft verlieren."
+    },
+    {
+      "id": "t4-spanne",
+      "stufe": "erkennen",
+      "typ": "rechnen",
+      "titel": "Lies die Kerze ab",
+      "frage": "Halte den Finger auf die **letzte Kerze** und lies Hoch (H) und Tief (T) ab. Wie groß war die Tagesspanne (Hoch minus Tief) in Euro?",
+      "kurse": { "seed": 44, "start": 60, "phasen": [{ "tage": 30, "trend": 0.2, "vola": 1.6 }] },
+      "loesung": "=k[29].h - k[29].l",
+      "toleranz": 0.02,
+      "einheit": "€",
+      "braucht": ["tageshoch", "tagestief"],
+      "loesungChart": { "linien": [{ "preis": "=k[29].h", "text": "Hoch", "ab": 25 }, { "preis": "=k[29].l", "text": "Tief", "ab": 25, "farbe": "rot" }] },
+      "erklaerung": "Hoch {{k[29].h}} € − Tief {{k[29].l}} € = **{{k[29].h - k[29].l}} €**. Die Tagesspanne zeigt, wie stark der Kurs innerhalb eines Tages schwankt. Für einen sinnvollen Stop-Loss ist das wichtig: Liegt er näher als die normale Tagesspanne, wirst du leicht ausgestoppt."
+    },
+    {
+      "id": "t4-linie",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Was fehlt im Linienchart?",
+      "frage": "Das ist ein Linienchart. Was kannst du darin **nicht** ablesen?",
+      "kurse": { "seed": 44, "start": 60, "phasen": [{ "tage": 30, "trend": 0.2, "vola": 1.6 }] },
+      "chart": { "art": "linie", "unterfenster": "keins" },
+      "optionen": ["Die Richtung des Kurses", "Wie stark der Kurs innerhalb eines Tages geschwankt hat", "Den Schlusskurs jedes Tages"],
+      "richtig": 1,
+      "braucht": ["linienchart", "tageshoch", "tagestief"],
+      "erklaerung": "Ein Linienchart verbindet nur die Schlusskurse. Hoch, Tief und Eröffnung fehlen. Ob ein Tag ruhig oder wild war, siehst du nicht. Deshalb arbeiten Swing-Trader mit Kerzencharts."
+    },
+    {
+      "id": "t4-log",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Gleich hoch, aber was genau?",
+      "frage": "Dieser Chart nutzt eine **logarithmische Skala**. Zwei Anstiege sehen gleich hoch aus. Was haben sie gemeinsam?",
+      "kurse": { "seed": 7, "start": 10, "phasen": [{ "tage": 120, "trend": 1.0, "vola": 2 }] },
+      "chart": { "skala": "log", "unterfenster": "keins" },
+      "optionen": ["Den gleichen Anstieg in Euro", "Den gleichen Anstieg in Prozent", "Das gleiche Volumen"],
+      "richtig": 1,
+      "braucht": ["logskala"],
+      "pruefung": { "bedingungen": ["k[119].c > k[0].c * 2.5"] },
+      "erklaerung": "Auf der logarithmischen Skala bedeutet gleiche Höhe gleiche **Prozentveränderung**. Der Kurs ist hier von {{k[0].c}} € auf {{k[119].c}} € gestiegen. Auf einer linearen Skala würde der Anfang fast flach aussehen, obwohl er prozentual genauso stark war."
+    }
+  ]
+}
