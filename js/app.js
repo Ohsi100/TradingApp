@@ -20,12 +20,18 @@ const inhalte = {};     // Tag-Nr -> Inhalt aus content/tag-XX.json
 async function start() {
   store.laden();
   zurueckEl.innerHTML = icon('chevron-left', 24);
-  tabbar.innerHTML = [
+  const tabs = [
     ['plan', '#/', 'calendar-days', 'Plan'],
     ['wiederholen', '#/wiederholen', 'repeat', 'Wiederholen'],
     ['glossar', '#/glossar', 'book-open', 'Glossar'],
     ['fortschritt', '#/fortschritt', 'chart-column', 'Fortschritt']
-  ].map(([tab, href, ico, name]) => `<ion-tab-button tab="${tab}" href="${href}">${icon(ico, 22)}<ion-label>${name}</ion-label></ion-tab-button>`).join('');
+  ];
+  tabbar.innerHTML = tabs.map(([tab, , ico, name]) => `<ion-tab-button tab="${tab}">${icon(ico, 22)}<ion-label>${name}</ion-label></ion-tab-button>`).join('');
+  // Ohne <ion-tabs> wechselt Ionic die Seite nicht selbst. Wir hören auf das Tipp-Ereignis und wechseln selbst.
+  tabbar.addEventListener('ionTabButtonClick', e => {
+    const ziel = tabs.find(t => t[0] === e.detail.tab)?.[1];
+    if (ziel) location.hash = ziel;
+  });
   app.innerHTML = skeleton();
   try {
     plan = (await ladeJson('content/tage.json')).tage;
