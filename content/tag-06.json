@@ -204,7 +204,7 @@
       "titel": "Einstieg am Retest",
       "frage": "Ausbruch, dann Rücksetzer zur alten Widerstandszone (gelb). Der Kurs dreht dort. Long oder abwarten?",
       "hilfe": "Stop unter die gelbe Zone (mit etwas Abstand), Ziel mindestens 2 : 1.",
-      "kurse": { "seed": 2, "start": 40, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.3, "seitwaerts": true }, { "tage": 1, "trend": 3, "vola": 0.8, "volumen": 3 }, { "tage": 6, "trend": 0.7, "vola": 1.1 }, { "tage": 5, "trend": -0.8, "vola": 1.0, "volumen": 0.7 }, { "tage": 15, "trend": 0.7, "vola": 1.2 }] },
+      "kurse": { "seed": 11, "start": 40, "phasen": [{ "tage": 40, "trend": 0, "vola": 1.3, "seitwaerts": true }, { "tage": 1, "trend": 3, "vola": 0.8, "volumen": 3 }, { "tage": 6, "trend": 0.7, "vola": 1.1 }, { "tage": 5, "trend": -0.8, "vola": 1.0, "volumen": 0.7 }, { "tage": 15, "trend": 0.7, "vola": 1.2 }] },
       "vorgaben": { "zonen": [{ "von": "=hoch(0, 39) * 0.985", "bis": "=hoch(0, 39)" }] },
       "stopp": 52,
       "ideal": "long",

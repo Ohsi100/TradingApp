@@ -65,5 +65,7 @@ export function zaehleHoch(wurzel, dauer = 250) {
       if (k < 1) requestAnimationFrame(schritt);
     };
     requestAnimationFrame(schritt);
+    // Falls der Browser die Animation pausiert (App im Hintergrund): Endwert trotzdem setzen
+    setTimeout(() => { el.textContent = text(ziel); }, dauer + 100);
   });
 }

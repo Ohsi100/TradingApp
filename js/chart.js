@@ -35,6 +35,7 @@ export class KerzenChart {
 
     this.box = document.createElement('div');
     this.box.className = 'chart-box';
+    this.box.chart = this;   // für das automatische Durchspielen der Übungen (Tests)
     this.canvas = document.createElement('canvas');
     this.canvas.style.height = hoehe + 'px';
     const label = document.createElement('div');
@@ -162,7 +163,7 @@ export class KerzenChart {
   layout() {
     const w = this.canvas.clientWidth, h = this.canvas.clientHeight;
     const rechts = 58, links = 6, oben = 26, unten = 18;
-    const anteil = this.unterfenster === 'keins' ? 1 : this.unterfenster === 'volumen' ? 0.76 : 0.66;
+    const anteil = this.unterfenster === 'keins' ? 1 : this.unterfenster === 'volumen' ? 0.76 : 0.6;
     const preisH = (h - oben - unten) * anteil;
     const volOben = oben + preisH + 6;
     const volH = Math.max(0, h - unten - volOben);
@@ -236,7 +237,9 @@ export class KerzenChart {
     }
     // Tage-Achse
     g.textBaseline = 'alphabetic';
-    for (let i = 9; i < this.slots; i += 10) {
+    // Beschriftung alle 10 Tage, bei schmalen Charts entsprechend seltener (mindestens 30 px Abstand)
+    const tagSchritt = 10 * Math.max(1, Math.ceil(30 / (L.slotW * 10)));
+    for (let i = tagSchritt - 1; i < this.slots; i += tagSchritt) {
       g.fillText(String(i + 1), this.x(i, L) - 6, L.h - 4);
     }
 
@@ -402,16 +405,20 @@ export class KerzenChart {
       g.fillText('70', L.w - L.rechts + 6, yr(70)); g.fillText('30', L.w - L.rechts + 6, yr(30));
       linie(this.rsi, yr, farbe.akzent, 2);
     } else if (this.unterfenster === 'macd') {
-      const m = this.macd, sicht = [...m.linie, ...m.signal, ...m.histo].filter((v, j) => v !== null && (j % this.kerzen.length) < this.sichtbar);
-      const gr = Math.max(...sicht.map(Math.abs), 0.01);
-      const ym = v => L.volOben + L.volH / 2 - v / gr * (L.volH / 2 - 4);
+      // Linien und Histogramm haben eigene Skalen (gemeinsame Nulllinie), damit das Histogramm gut sichtbar ist
+      const m = this.macd, bis = this.sichtbar;
+      const groesster = arr => Math.max(...arr.slice(0, bis).filter(v => v !== null).map(Math.abs), 0.01);
+      const grLinie = Math.max(groesster(m.linie), groesster(m.signal)), grHisto = groesster(m.histo);
+      const halb = L.volH / 2 - 4, mitte = L.volOben + L.volH / 2;
+      const ym = v => mitte - v / grLinie * halb;
+      const yh = v => mitte - v / grHisto * halb * 0.85;
       g.strokeStyle = farbe.rand; g.lineWidth = 1;
-      g.beginPath(); g.moveTo(L.links, ym(0)); g.lineTo(L.w - L.rechts, ym(0)); g.stroke();
-      for (let i = 0; i < this.sichtbar; i++) {
+      g.beginPath(); g.moveTo(L.links, mitte); g.lineTo(L.w - L.rechts, mitte); g.stroke();
+      for (let i = 0; i < bis; i++) {
         const v = m.histo[i];
         if (v === null) continue;
         g.fillStyle = v >= 0 ? farbe.gruen : farbe.rot; g.globalAlpha = 0.45;
-        g.fillRect(this.x(i, L) - kw / 2, Math.min(ym(0), ym(v)), kw, Math.abs(ym(v) - ym(0)));
+        g.fillRect(this.x(i, L) - kw / 2, Math.min(mitte, yh(v)), kw, Math.abs(yh(v) - mitte));
       }
       g.globalAlpha = 1;
       linie(m.linie, ym, farbe.akzent, 2);

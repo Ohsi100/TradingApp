@@ -209,7 +209,7 @@
       "titel": "Rücksetzer zur 20-Tage-Linie",
       "frage": "Aufwärtstrend, der Kurs ist mit wenig Volumen bis an die steigende 20-Tage-Linie (blau) zurückgekommen. Long oder abwarten?",
       "hilfe": "Stop unter das Tief des Rücksetzers (oder unter die 50-Tage-Linie), Ziel mindestens 2 : 1.",
-      "kurse": { "seed": 6, "start": 30, "phasen": [{ "tage": 55, "trend": 0.5, "vola": 1.2 }, { "tage": 5, "trend": -0.8, "vola": 1.0, "volumen": 0.7 }, { "tage": 18, "trend": 0.6, "vola": 1.2 }] },
+      "kurse": { "seed": 3, "start": 30, "phasen": [{ "tage": 55, "trend": 0.5, "vola": 1.2 }, { "tage": 5, "trend": -0.8, "vola": 1.0, "volumen": 0.7 }, { "tage": 18, "trend": 0.6, "vola": 1.2 }] },
       "chart": { "indikatoren": [{ "typ": "sma", "laenge": 20 }, { "typ": "sma", "laenge": 50 }] },
       "stopp": 60,
       "ideal": "long",

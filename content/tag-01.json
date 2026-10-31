@@ -272,8 +272,9 @@
       "titel": "Deine erste Entscheidung",
       "frage": "Der Kurs steigt seit Wochen und hat gerade etwas zurückgesetzt. Steigst du jetzt ein (Long) oder wartest du ab?",
       "hilfe": "**Vorschau auf Tag 3:** So sehen die Entscheiden-Übungen aus. Was ein **Stop-Loss** ist, lernst du an Tag 2, was **R** und das **Chance-Risiko-Verhältnis** sind, an Tag 3. Probier es einfach aus: Du kaufst zum letzten Schlusskurs. Setze den Stop-Loss (dort steigst du mit Verlust aus) unter das letzte Tief und das Kursziel mindestens doppelt so weit vom Einstieg entfernt.",
-      "kurse": { "seed": 101, "start": 40, "phasen": [{ "tage": 40, "trend": 0.5, "vola": 1.3 }, { "tage": 5, "trend": -0.7, "vola": 1.1 }, { "tage": 20, "trend": 0.55, "vola": 1.3 }] },
+      "kurse": { "seed": 118, "start": 40, "phasen": [{ "tage": 40, "trend": 0.5, "vola": 1.3 }, { "tage": 5, "trend": -0.7, "vola": 1.1 }, { "tage": 20, "trend": 0.55, "vola": 1.3 }] },
       "stopp": 45,
+      "pruefung": { "standard": "gewinn" },
       "ideal": "long",
       "aufloesung": "Ein steigender Kurs mit kleinem Rücksetzer ist ein klassischer Einstieg für Swing-Trader. Man kauft nicht am Hoch, sondern nach einem Rücksetzer, und der Stop liegt sinnvoll unter dem letzten Tief. Hier stieg der Kurs weiter. Das ist aber nicht garantiert, deshalb gibt es den Stop. Ab Tag 3 übst du solche Entscheidungen richtig."
     }

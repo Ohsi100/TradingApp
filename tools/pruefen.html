@@ -157,6 +157,8 @@
         const erg = simuliere(k, ab, e, s, z);
         const art = erg.grund === 'gapStop' ? 'gapStop' : erg.r > 0 ? 'gewinn' : 'verlust';
         if (p.standard && p.standard !== art) F(ort, `Standard-Trade soll "${p.standard}" ergeben, ergibt "${art}" (${erg.r.toFixed(2)} R)`);
+        // Wer der Anleitung folgt (Stop knapp unter dem letzten Tief), darf nicht für einen zu engen Stop kritisiert werden
+        if (u.ideal === 'long' && e - tief * 0.995 < schwankung * 1.2) F(ort, `Stop nach Anleitung wäre zu eng: ${(e - tief * 0.995).toFixed(2)} € Abstand bei ${schwankung.toFixed(2)} € Tagesschwankung`);
         infos.push(`${ort}: Standard-Trade ${art} ${erg.r.toFixed(2)} R, Einstieg ${e}`);
       }
     }

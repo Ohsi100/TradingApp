@@ -348,13 +348,16 @@ function entscheidenUebung(ctx) {
   const { u, kerzen } = ctx;
   const ab = u.stopp;
   const einstieg = kerzen[ab - 1].c;
-  const chart = new KerzenChart(ctx.chartEl, kerzen, chartOptionen(u, { sichtbar: ab, slots: kerzen.length, hoehe: u.chart?.hoehe ?? 340, polster: 0.3 }));
-  const basis = [{ typ: 'ab', index: ab }, ...vorgaben(u)];
-  chart.setzeOverlays(basis);
-
+  const chart = new KerzenChart(ctx.chartEl, kerzen, chartOptionen(u, { sichtbar: ab, slots: kerzen.length, hoehe: u.chart?.hoehe ?? 340, polster: 0.06 }));
   // Durchschnittliche Tagesschwankung der letzten 14 Tage (für die Bewertung des Stops)
   const letzte = kerzen.slice(Math.max(0, ab - 14), ab);
   const schwankung = letzte.reduce((s, k) => s + (k.h - k.l), 0) / letzte.length;
+
+  // Unsichtbarer Preisbereich: Stop unter dem letzten Tief und Ziele bis etwa 3,5 R müssen antippbar sein
+  const tief10 = Math.min(...kerzen.slice(Math.max(0, ab - 10), ab).map(k => k.l));
+  const r1 = einstieg - tief10 + schwankung;
+  const basis = [{ typ: 'ab', index: ab }, { typ: 'bereich', von: tief10 - schwankung * 2, bis: einstieg + 3.5 * r1 }, ...vorgaben(u)];
+  chart.setzeOverlays(basis);
 
   ctx.steuer.innerHTML = `
     <ion-card><ion-card-content class="klein-text">${markup(u.hilfe ?? '')}</ion-card-content></ion-card>
