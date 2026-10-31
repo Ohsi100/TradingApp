@@ -639,7 +639,8 @@ function seiteFortschritt() {
 // ---------- Offline & Updates ----------
 function serviceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('sw.js').then(reg => {
+  // updateViaCache 'none': bei der Update-Prüfung nie den Browser-Zwischenspeicher nutzen (sonst bis zu 10 Min. Verzögerung).
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
     const zeigeHinweis = w => toast('Update verfügbar', { knopf: { text: 'Jetzt laden', aktion: () => w.postMessage('skipWaiting') } });
     if (reg.waiting && navigator.serviceWorker.controller) zeigeHinweis(reg.waiting);
     reg.addEventListener('updatefound', () => {
