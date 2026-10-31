@@ -209,4 +209,110 @@ ion-toast { --border-radius: var(--radius-knopf); --background: var(--flaeche-er
 /* Skeleton beim Laden */
 .skeleton-karte { background: var(--flaeche); border-radius: var(--radius-karte); padding: 16px; margin-bottom: 12px; }
 
+/* ---------- Ladebildschirm ---------- */
+#splash {
+  position: fixed; inset: 0; z-index: 1000; background: var(--bg);
+  display: grid; place-items: center; transition: opacity var(--dauer) ease;
+}
+#splash.weg { opacity: 0; pointer-events: none; }
+.splash-inhalt { text-align: center; animation: einblenden var(--dauer) ease-out; }
+.splash-inhalt img { border-radius: 22px; display: block; margin: 0 auto 16px; }
+.splash-name { font-size: 24px; font-weight: 700; color: var(--text); }
+.splash-unter { font-size: 14px; color: var(--text-gedaempft); margin-top: 4px; }
+
+/* ---------- Seitenübergänge (kurz und dezent) ---------- */
+#app.rein-vor { animation: rein-vor var(--dauer) ease-out; }
+#app.rein-zurueck { animation: rein-zurueck var(--dauer) ease-out; }
+#app.rein { animation: rein var(--dauer) ease-out; }
+@keyframes rein-vor { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+@keyframes rein-zurueck { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+@keyframes rein { from { opacity: 0; } to { opacity: 1; } }
+.einblenden { animation: einblenden var(--dauer) ease-out; }
+
+/* ---------- Cockpit (Startseite) ---------- */
+.cockpit-kopf { display: flex; gap: 16px; align-items: center; margin-bottom: 16px; }
+.ring-box { position: relative; width: 112px; height: 112px; flex: none; }
+.ring { width: 100%; height: 100%; }
+.ring circle { fill: none; stroke-width: 10; }
+.ring-bahn { stroke: var(--flaeche-erhoeht); }
+.ring-wert {
+  stroke: var(--akzent); stroke-linecap: round;
+  stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--wert));
+  transform: rotate(-90deg); transform-origin: 60px 60px;
+  animation: ring-fuellen var(--dauer) ease-out;
+}
+@keyframes ring-fuellen { from { stroke-dashoffset: 100; } }
+.ring-text { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+.ring-text b { font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.ring-text span { font-size: 13px; color: var(--text-gedaempft); }
+.cockpit-info { min-width: 0; }
+.cockpit-info .karte-titel { font-size: 18px; margin-bottom: 8px; }
+.serie { display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--text-gedaempft); margin-top: 4px; }
+.serie svg { color: var(--akzent); flex: none; }
+.serie b { color: var(--text); font-variant-numeric: tabular-nums; }
+.serie.positiv, .serie.positiv svg { color: var(--positiv); }
+ion-button.weiter-knopf { min-height: 60px; --padding-start: 16px; --padding-end: 12px; }
+.weiter-inhalt { display: flex; flex-direction: column; align-items: flex-start; flex: 1; min-width: 0; text-align: left; line-height: 1.25; }
+.weiter-inhalt span { font-size: 17px; font-weight: 700; }
+.weiter-inhalt small { font-size: 13px; font-weight: 500; opacity: 0.85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+ion-button.weiter-knopf svg { margin: 0; }
+.statistik.drei { grid-template-columns: 1fr 1fr 1fr; }
+.statistik.drei .kachel { padding: 12px 6px; }
+.statistik.drei .zahl { font-size: 22px; }
+.r-summe { font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.r-summe.plus, .text-positiv { color: var(--positiv); }
+.r-summe.minus, .text-negativ { color: var(--negativ); }
+.r-kurve { width: 100%; height: auto; display: block; margin-top: 12px; }
+.r-kurve .null-linie { stroke: var(--linie); stroke-dasharray: 4 4; }
+.r-kurve .kurve { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-dasharray: 1; animation: kurve-zeichnen var(--dauer) ease-out; }
+@keyframes kurve-zeichnen { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.abschnitt { font-size: 14px !important; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-gedaempft) !important; margin: 20px 4px 8px !important; }
+
+/* ---------- Tagesabschluss ---------- */
+.abschluss-kopf { text-align: center; padding: 16px 0 8px; }
+.abschluss-symbol {
+  width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 12px;
+  display: grid; place-items: center; background: var(--positiv-weich); color: var(--positiv);
+  animation: einblenden var(--dauer) ease-out;
+}
+.abschluss-kopf h2 { margin-bottom: 4px !important; }
+.kernpunkte { list-style: none; padding: 0; margin: 0; }
+.kernpunkte li { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--linie); }
+.kernpunkte li:last-child { border-bottom: 0; }
+.kernpunkte svg { color: var(--positiv); flex: none; margin-top: 2px; }
+
+/* ---------- Karteikarte mit Drehung ---------- */
+.flip { perspective: 1200px; margin-bottom: 12px; cursor: pointer; user-select: none; -webkit-user-select: none; }
+.flip-innen { display: grid; transition: transform var(--dauer) ease-in-out; transform-style: preserve-3d; animation: einblenden var(--dauer) ease-out; }
+.flip.umgedreht .flip-innen { transform: rotateY(180deg); }
+.flip-seite {
+  grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  min-height: 260px; display: flex; flex-direction: column; justify-content: center; text-align: center;
+  padding: 24px 16px; background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius-karte);
+}
+.flip-seite.hinten { transform: rotateY(180deg); background: var(--flaeche-erhoeht); }
+.flip-seite .begriff { font-size: 26px; font-weight: 700; line-height: 1.25; }
+.flip-seite .begriff.klein { font-size: 18px; margin-bottom: 12px; }
+.flip-seite .rueckseite { text-align: left; }
+
+/* ---------- Chart: Fadenkreuz-Info, Live-Anzeige ---------- */
+.chart-box canvas { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: pan-y; }
+.chart-info {
+  position: absolute; left: 6px; right: 64px; top: 4px; z-index: 2;
+  display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline;
+  background: var(--flaeche-erhoeht); border: 1px solid var(--linie); border-radius: 8px;
+  padding: 4px 8px; font-size: 13px; font-variant-numeric: tabular-nums; pointer-events: none;
+}
+.chart-tipp { display: flex; gap: 6px; align-items: center; margin: 0 0 12px; }
+.chart-tipp svg { color: var(--akzent); flex: none; }
+ion-card.live ion-card-content { padding: 12px 16px 16px; }
+.live-r { font-size: 40px; font-weight: 800; text-align: center; font-variant-numeric: tabular-nums; line-height: 1.2; margin-top: 4px; transition: color var(--dauer); }
+.live-r.plus { color: var(--positiv); }
+.live-r.minus { color: var(--negativ); }
+.live-text { text-align: center; padding: 12px 0; color: var(--text-gedaempft); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
 .fusszeile { text-align: center; color: var(--text-gedaempft); font-size: 13px; margin: 24px 0 8px; }

@@ -4,7 +4,7 @@ import * as leitner from './leitner.js';
 import { zeigeUebung, optionKnopf, markiereOptionen, box } from './uebungen.js';
 import { grafik } from './grafiken.js';
 import { icon } from './icons.js';
-import { toast, bestaetigen } from './ui.js';
+import { toast, bestaetigen, vibriere, zaehleHoch, ruhigeBewegung } from './ui.js';
 import { esc, markup, mischen, leseZahl, zahl, heute } from './util.js';
 
 const app = document.getElementById('app');
@@ -15,9 +15,11 @@ const tabbar = document.getElementById('tabbar');
 
 let plan = [];          // Übersicht aller 10 Tage
 const inhalte = {};     // Tag-Nr -> Inhalt aus content/tag-XX.json
+let letzteTiefe = 0;    // für die Richtung der Seitenübergänge
 
 // ---------- Start ----------
 async function start() {
+  const startZeit = performance.now();
   store.laden();
   zurueckEl.innerHTML = icon('chevron-left', 24);
   const tabs = [
@@ -37,6 +39,7 @@ async function start() {
     plan = (await ladeJson('content/tage.json')).tage;
     await Promise.all(plan.filter(t => t.datei).map(async t => { inhalte[t.nr] = await ladeJson(t.datei); }));
   } catch (e) {
+    splashWeg();
     app.innerHTML = leer('triangle-alert', 'Inhalte konnten nicht geladen werden', esc(e.message),
       '<ion-button onclick="location.reload()">Neu laden</ion-button>');
     return;
@@ -44,7 +47,16 @@ async function start() {
   window.addEventListener('hashchange', zeichnen);
   zurueckEl.onclick = () => { location.hash = zurueckEl.dataset.ziel || '#/'; };
   zeichnen();
+  // Ladebildschirm kurz stehen lassen, damit er nicht nur aufblitzt
+  setTimeout(splashWeg, Math.max(0, 450 - (performance.now() - startZeit)));
   serviceWorker();
+}
+
+function splashWeg() {
+  const s = document.getElementById('splash');
+  if (!s) return;
+  s.classList.add('weg');
+  setTimeout(() => s.remove(), 300);
 }
 
 async function ladeJson(pfad) {
@@ -63,9 +75,11 @@ function leer(ico, titel, text, aktion = '') {
   return `<div class="leer">${icon(ico, 40)}<h3>${titel}</h3><p>${text}</p>${aktion}</div>`;
 }
 
-const karte = inhalt => `<ion-card><ion-card-content>${inhalt}</ion-card-content></ion-card>`;
+const karte = (inhalt, klasse = '') => `<ion-card class="${klasse}"><ion-card-content>${inhalt}</ion-card-content></ion-card>`;
 const prozent = x => Math.round(x * 100) + ' %';
 const balken = x => `<ion-progress-bar value="${Math.min(1, x).toFixed(3)}"></ion-progress-bar>`;
+const hoch = (wert, { stellen = 0, vor = '', nach = '' } = {}) =>
+  `<span data-hoch="${wert}" data-stellen="${stellen}" data-vor="${vor}" data-nach="${nach}">${zahl(wert, stellen)}${nach}</span>`;
 
 // Listeneintrag: Icon links, Titel + Untertitel, rechts Status
 function eintrag({ href, ico, icoKlasse = '', start, titel, info, ende = '', klasse = '', detail = true }) {
@@ -97,6 +111,94 @@ function tagFortschritt(nr) {
   return { teile, gesamt, uebErledigt: ueb };
 }
 
+function gesamtFortschritt() {
+  return plan.reduce((s, t) => s + (tagFortschritt(t.nr)?.gesamt ?? 0), 0) / plan.length;
+}
+
+// Alle Entscheidungen aus den Chart-Übungen, in der Reihenfolge, in der sie gemacht wurden
+function entscheidungen() {
+  const liste = [];
+  for (const t of plan) {
+    const inhalt = inhalte[t.nr];
+    if (!inhalt) continue;
+    const s = store.tag(t.nr);
+    for (const u of inhalt.uebungen) {
+      const e = s.uebungen[u.id];
+      if (u.typ === 'entscheiden' && e?.erledigt) liste.push({ r: e.r ?? 0, zeit: e.zeit ?? 0, gut: e.gut, entscheidung: e.entscheidung });
+    }
+  }
+  return liste.sort((a, b) => a.zeit - b.zeit);
+}
+
+function quizQuote() {
+  let fragen = 0, richtig = 0;
+  for (const t of plan) {
+    const inhalt = inhalte[t.nr];
+    const s = inhalt && store.tag(t.nr);
+    if (s && s.quiz.letzte !== null) { fragen += inhalt.quiz.length; richtig += s.quiz.letzte; }
+  }
+  return fragen ? richtig / fragen : null;
+}
+
+// Wo geht es weiter? Fällige Wiederholung zuerst, dann der erste unfertige Teil des ersten unfertigen Tages.
+function naechsterSchritt() {
+  const faellig = faelligeKarten().length;
+  if (faellig) return { titel: 'Wiederholen', info: `${faellig} fällige Begriffe zuerst`, href: '#/wiederholen/faellig' };
+  for (const t of plan) {
+    const inhalt = inhalte[t.nr];
+    if (!inhalt) continue;
+    const f = tagFortschritt(t.nr), s = store.tag(t.nr);
+    if (f.gesamt >= 1) {
+      if (!s.abgeschlossen) return { titel: `Tag ${t.nr} abschließen`, info: 'Deine Zusammenfassung', href: `#/tag/${t.nr}/abschluss` };
+      continue;
+    }
+    if (!f.teile.lektion) {
+      const pos = s.lektionPos ?? 0;
+      return { titel: `Tag ${t.nr} · Lektion`, info: pos ? `Häppchen ${pos + 1} von ${inhalt.lektion.length}` : inhalt.titel, href: `#/tag/${t.nr}/lektion/${pos}` };
+    }
+    if (f.teile.vokabeln < 1) {
+      const neu = inhalt.vokabeln.filter(k => !leitner.istGesehen(k.id)).length;
+      return { titel: `Tag ${t.nr} · Vokabeln`, info: neu ? `${neu} neue Begriffe` : 'Begriffe festigen', href: `#/tag/${t.nr}/vokabeln/gemischt` };
+    }
+    if (!f.teile.quiz) return { titel: `Tag ${t.nr} · Quiz`, info: `${inhalt.quiz.length} Fragen`, href: `#/tag/${t.nr}/quiz` };
+    const i = inhalt.uebungen.findIndex(u => !s.uebungen[u.id]?.erledigt);
+    return { titel: `Tag ${t.nr} · Chart-Übung ${i + 1}`, info: inhalt.uebungen[i].titel, href: `#/tag/${t.nr}/uebung/${i}` };
+  }
+  return { titel: 'Alles erledigt', info: 'Neue Lerntage folgen bald', href: '#/fortschritt' };
+}
+
+// ---------- Kleine Grafiken (SVG) ----------
+function ring(anteil) {
+  const wert = Math.round(anteil * 100);
+  return `<div class="ring-box">
+    <svg viewBox="0 0 120 120" class="ring" aria-hidden="true">
+      <circle cx="60" cy="60" r="52" class="ring-bahn"/>
+      <circle cx="60" cy="60" r="52" class="ring-wert" pathLength="100" style="--wert:${wert}"/>
+    </svg>
+    <div class="ring-text"><b>${hoch(wert, { nach: ' %' })}</b><span>gesamt</span></div></div>`;
+}
+
+// Kurve der Entscheidungen: Summe der R-Ergebnisse nach jeder Entscheidung
+function rKurve(liste) {
+  const punkte = [0];
+  liste.forEach(e => punkte.push(punkte[punkte.length - 1] + e.r));
+  const w = 300, h = 90, rand = 8;
+  const min = Math.min(0, ...punkte), max = Math.max(0, ...punkte);
+  const sp = max - min || 1;
+  const x = i => rand + i * (w - 2 * rand) / Math.max(1, punkte.length - 1);
+  const y = v => rand + (max - v) / sp * (h - 2 * rand);
+  const pfad = punkte.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+  const flaeche = `${pfad} L${x(punkte.length - 1).toFixed(1)},${y(0).toFixed(1)} L${x(0).toFixed(1)},${y(0).toFixed(1)} Z`;
+  const summe = punkte[punkte.length - 1];
+  const farbe = summe >= 0 ? 'var(--positiv)' : 'var(--negativ)';
+  return `<svg viewBox="0 0 ${w} ${h}" class="r-kurve" role="img" aria-label="Verlauf deiner Entscheidungen in R">
+    <line x1="${rand}" x2="${w - rand}" y1="${y(0)}" y2="${y(0)}" class="null-linie"/>
+    <path d="${flaeche}" style="fill:${farbe};opacity:.12"/>
+    <path d="${pfad}" pathLength="1" class="kurve" style="stroke:${farbe}"/>
+    ${punkte.slice(1).map((v, i) => `<circle cx="${x(i + 1)}" cy="${y(v)}" r="3.5" style="fill:${liste[i].r > 0 ? 'var(--positiv)' : liste[i].r < 0 ? 'var(--negativ)' : 'var(--text-gedaempft)'}"/>`).join('')}
+  </svg>`;
+}
+
 // ---------- Router ----------
 function zeichnen() {
   const teile = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
@@ -112,6 +214,7 @@ function zeichnen() {
     else if (c === 'quiz') seite = seiteQuiz(nr);
     else if (c === 'uebungen') seite = seiteUebungen(nr);
     else if (c === 'uebung') seite = seiteUebung(nr, Number(d));
+    else if (c === 'abschluss') seite = seiteAbschluss(nr);
   }
   else if (a === 'wiederholen' && !b) seite = seiteWiederholen();
   else if (a === 'wiederholen' && b === 'faellig') seite = seiteVokabelSitzung(faelligeKarten(), 'gemischt', '#/wiederholen', 'Wiederholung');
@@ -126,16 +229,37 @@ function zeichnen() {
   tabbar.selectedTab = seite.nav ?? (a || 'plan');
   app.innerHTML = seite.html ?? '';
   seite.danach?.(app);
+  zaehleHoch(app);
+  uebergang(teile.length);
   inhaltEl.scrollToTop?.(0);
 }
 
-// ---------- Tagesplan ----------
+// Seitenübergang: tiefer = von rechts, zurück = von links, Tabwechsel = einblenden
+function uebergang(tiefe) {
+  if (ruhigeBewegung()) return;
+  const klasse = tiefe > letzteTiefe ? 'rein-vor' : tiefe < letzteTiefe ? 'rein-zurueck' : 'rein';
+  letzteTiefe = tiefe;
+  app.classList.remove('rein-vor', 'rein-zurueck', 'rein');
+  void app.offsetWidth;
+  app.classList.add(klasse);
+}
+
+// ---------- Startseite (Cockpit) ----------
 function seitePlan() {
   const fortschritte = plan.map(t => tagFortschritt(t.nr));
   const vorhanden = fortschritte.filter(Boolean);
-  const gesamt = fortschritte.reduce((s, f) => s + (f?.gesamt ?? 0), 0) / plan.length;
+  const gesamt = gesamtFortschritt();
+  const serie = store.lernserie();
+  const schritt = naechsterSchritt();
+  const ents = entscheidungen();
+  const summeR = ents.reduce((s, e) => s + e.r, 0);
+  const karten = alleKarten();
+  const sicher = karten.filter(k => leitner.istSicher(k.id)).length;
+  const gelernt = karten.filter(k => (leitner.status(k.id)?.box ?? 0) >= 2).length;
+  const quote = quizQuote();
+  const uebErledigt = vorhanden.reduce((s, f) => s + f.uebErledigt, 0);
+  const uebGesamt = plan.reduce((s, t) => s + (inhalte[t.nr]?.uebungen.length ?? 0), 0);
   const empfohlen = plan.find((t, i) => fortschritte[i] && fortschritte[i].gesamt < 1);
-  const faellig = faelligeKarten().length;
 
   const tage = plan.map((t, i) => {
     const f = fortschritte[i];
@@ -154,16 +278,38 @@ function seitePlan() {
     });
   });
 
+  const kachel = (wert, text) => `<div class="kachel"><div class="zahl">${wert}</div><div class="hinweis">${text}</div></div>`;
+  const serieText = serie.tage === 0 ? 'Starte heute deine Lernserie'
+    : `<b>${serie.tage}</b> ${serie.tage === 1 ? 'Tag' : 'Tage'} in Folge gelernt`;
+
   return {
     titel: 'Trading-Lernapp',
     html: `
-      ${karte(`<div class="karte-titel">Swing-Trading in 10 Tagen</div>
-        <div class="hinweis">Jeden Tag ca. 30 Minuten: Lektion, Vokabeln, Quiz, Chart-Übungen.</div>
-        <div class="zeile" style="margin-top:12px"><span class="wachsen">Gesamtfortschritt</span><b class="zahlen">${prozent(gesamt)}</b></div>
-        ${balken(gesamt)}`)}
-      ${faellig ? liste([eintrag({ href: '#/wiederholen/faellig', ico: 'repeat', titel: 'Zuerst wiederholen', info: `${faellig} Begriff${faellig === 1 ? '' : 'e'} fällig`, klasse: 'hervor' })]) : ''}
+      ${karte(`
+        <div class="cockpit-kopf">
+          ${ring(gesamt)}
+          <div class="cockpit-info">
+            <div class="karte-titel">Swing-Trading in 10 Tagen</div>
+            <div class="serie">${icon('calendar-days', 18)}<span>${serieText}</span></div>
+            <div class="serie ${serie.heuteGelernt ? 'positiv' : ''}">${icon(serie.heuteGelernt ? 'circle-check' : 'target', 18)}<span>${serie.heuteGelernt ? 'Heute schon gelernt' : 'Heute noch offen'}</span></div>
+          </div>
+        </div>
+        <ion-button expand="block" class="weiter-knopf" href="${schritt.href}">
+          <div class="weiter-inhalt"><span>Weiter lernen</span><small>${esc(schritt.titel)} · ${esc(schritt.info)}</small></div>${icon('chevron-right', 22)}
+        </ion-button>`, 'cockpit')}
+      <div class="statistik drei">
+        ${kachel(hoch(gelernt), 'Begriffe gelernt')}
+        ${kachel(quote === null ? '–' : hoch(Math.round(quote * 100), { nach: ' %' }), 'Quiz-Quote')}
+        ${kachel(`${hoch(uebErledigt)}/${uebGesamt}`, 'Chart-Übungen')}
+      </div>
+      ${karte(`
+        <div class="zeile"><div class="wachsen"><h3 style="margin:0">Deine Entscheidungen</h3>
+          <div class="hinweis">${ents.length ? `${ents.length} Entscheidung${ents.length === 1 ? '' : 'en'} in den Chart-Übungen` : 'Summe aller Ergebnisse in R'}</div></div>
+          ${ents.length ? `<div class="r-summe ${summeR > 0 ? 'plus' : summeR < 0 ? 'minus' : ''}">${hoch(summeR, { stellen: 1, vor: '+', nach: ' R' })}</div>` : ''}</div>
+        ${ents.length ? rKurve(ents) : `<p class="hinweis" style="margin:12px 0 0">Noch keine Entscheidungen. Die erste wartet in den Chart-Übungen von Tag 1.</p>`}`)}
+      <h3 class="abschnitt">Lernplan</h3>
       ${liste(tage)}
-      <p class="fusszeile">Lerninhalt, keine Anlageberatung.<br>Version ${esc(self.APP_VERSION)} · ${vorhanden.length} von 10 Tagen verfügbar</p>`
+      <p class="fusszeile">Lerninhalt, keine Anlageberatung.<br>Version ${esc(self.APP_VERSION)} · ${vorhanden.length} von 10 Tagen verfügbar · ${sicher} Begriffe sicher</p>`
   };
 }
 
@@ -184,11 +330,13 @@ function seiteTag(nr) {
       ${karte(`<div class="hinweis">Ziel für heute</div><div>${esc(inhalt.ziel)}</div>${balken(f.gesamt)}`)}
       ${faellig ? liste([eintrag({ href: '#/wiederholen/faellig', ico: 'repeat', titel: 'Wiederholung zuerst', info: `${faellig} fällige Begriffe`, klasse: 'hervor' })]) : ''}
       ${liste([
-        teil(`#/tag/${nr}/lektion`, 'book-open-text', '1. Lektion', `${inhalt.lektion.length} Häppchen · ca. 10 Min`, f.teile.lektion),
+        teil(`#/tag/${nr}/lektion/${t.lektion ? 0 : (t.lektionPos ?? 0)}`, 'book-open-text', '1. Lektion', `${inhalt.lektion.length} Häppchen · ca. 10 Min`, f.teile.lektion),
         teil(`#/tag/${nr}/vokabeln`, 'layers', '2. Vokabeln', `${inhalt.vokabeln.length} Begriffe · ca. 5 Min`, f.teile.vokabeln),
         teil(`#/tag/${nr}/quiz`, 'circle-help', '3. Quiz', t.quiz.beste !== null ? `Bestes Ergebnis: ${t.quiz.beste} von ${inhalt.quiz.length}` : `${inhalt.quiz.length} Fragen · ca. 5 Min`, f.teile.quiz),
         teil(`#/tag/${nr}/uebungen`, 'chart-candlestick', '4. Chart-Übungen', `${f.uebErledigt} von ${inhalt.uebungen.length} erledigt · ca. 10 Min`, f.teile.uebungen)
-      ])}`
+      ])}
+      ${liste([eintrag({ href: `#/tag/${nr}/abschluss`, ico: 'flag', icoKlasse: f.gesamt >= 1 ? 'positiv' : '', titel: 'Tagesabschluss',
+        info: f.gesamt >= 1 ? 'Deine Zusammenfassung von heute' : 'Wird freigeschaltet, wenn alle vier Teile erledigt sind', klasse: f.gesamt >= 1 ? 'hervor' : '' })])}`
   };
 }
 
@@ -199,6 +347,8 @@ function seiteLektion(nr, i) {
   i = Math.max(0, Math.min(n - 1, i));
   const h = inhalt.lektion[i];
   const letzte = i === n - 1;
+  const s = store.tag(nr);
+  if (!s.lektion) { s.lektionPos = i; store.speichern(); }
   return {
     titel: `Lektion ${i + 1}/${n}`,
     zurueck: `#/tag/${nr}`,
@@ -222,6 +372,8 @@ function seiteLektion(nr, i) {
         if (letzte) {
           store.tag(nr).lektion = true;
           store.speichern();
+          store.aktivitaet();
+          vibriere('richtig');
           toast('Lektion abgeschlossen. Weiter mit den Vokabeln.', { farbe: 'success' });
           location.hash = `#/tag/${nr}/vokabeln`;
         } else geh(i + 1);
@@ -255,9 +407,9 @@ function seiteVokabelMenue(nr) {
     nav: 'plan',
     html: `
       ${karte(`<div class="drei-zahlen">
-        <div><b>${neu}</b><span class="hinweis">neu</span></div>
-        <div><b class="positiv">${sicher}</b><span class="hinweis">sicher</span></div>
-        <div><b class="negativ">${wackel}</b><span class="hinweis">wackelig</span></div></div>`)}
+        <div><b>${hoch(neu)}</b><span class="hinweis">neu</span></div>
+        <div><b class="positiv">${hoch(sicher)}</b><span class="hinweis">sicher</span></div>
+        <div><b class="negativ">${hoch(wackel)}</b><span class="hinweis">wackelig</span></div></div>`)}
       ${liste([
         modus('gemischt', 'shuffle', 'Gemischt (empfohlen)', 'Alle Abfragearten durcheinander'),
         modus('karte', 'layers', 'Begriff → Erklärung', 'Karteikarte umdrehen, selbst bewerten'),
@@ -298,7 +450,8 @@ function seiteVokabelSitzung(karten, modus, zurueck, titel) {
         if (!schlange.length) return ende();
         const k = schlange.shift();
         const m = modus === 'gemischt' ? mischen(['karte', 'umgekehrt', 'mc'])[0] : modus;
-        const kopf = `<div class="zaehler">${erledigt + 1} von ${erledigt + schlange.length + 1}</div>`;
+        const gesamt = erledigt + schlange.length + 1;
+        const kopf = `<div class="zaehler">${erledigt + 1} von ${gesamt}</div>${balken(erledigt / gesamt)}<div class="abstand"></div>`;
         if (m === 'mc') zeigeMC(k, kopf); else zeigeKarte(k, m, kopf);
       };
 
@@ -316,22 +469,32 @@ function seiteVokabelSitzung(karten, modus, zurueck, titel) {
       const begriffHtml = k => `<div class="begriff">${esc(k.de)}</div><div class="en" style="margin-top:6px">${esc(k.en)}</div>`;
       const vorder = (k, m) => m === 'karte' ? begriffHtml(k) : `<div style="font-size:18px">${esc(maskiere(k.erklaerung, k))}</div>`;
       const rueck = (k, m) => m === 'karte'
-        ? `<div class="rueckseite">${esc(k.erklaerung)}${k.beispiel ? `<div class="beispiel">Beispiel: ${esc(k.beispiel)}</div>` : ''}</div>`
+        ? `<div class="begriff klein">${esc(k.de)}</div><div class="rueckseite">${esc(k.erklaerung)}${k.beispiel ? `<div class="beispiel">Beispiel: ${esc(k.beispiel)}</div>` : ''}</div>`
         : `${begriffHtml(k)}${k.beispiel ? `<div class="beispiel">Beispiel: ${esc(k.beispiel)}</div>` : ''}`;
 
+      // Karteikarte mit echter Drehung (Vorder- und Rückseite)
       function zeigeKarte(k, m, kopf) {
         kasten.innerHTML = `${kopf}
-          <div class="kartei" id="kartei">${vorder(k, m)}<div class="tipp-hinweis">${icon('refresh-cw', 16)}Antippen zum Umdrehen</div></div>
+          <div class="flip" id="kartei" role="button" aria-label="Karte umdrehen">
+            <div class="flip-innen">
+              <div class="flip-seite vorne">${vorder(k, m)}<div class="tipp-hinweis">${icon('refresh-cw', 16)}Antippen zum Umdrehen</div></div>
+              <div class="flip-seite hinten">${rueck(k, m)}</div>
+            </div>
+          </div>
           <div id="bewertung"></div>`;
-        kasten.querySelector('#kartei').onclick = function () {
-          if (this.dataset.offen) return;
-          this.dataset.offen = '1';
-          this.innerHTML = vorder(k, m) + '<hr>' + rueck(k, m);
-          kasten.querySelector('#bewertung').innerHTML = `<div class="knopf-reihe drei">
+        const flip = kasten.querySelector('#kartei');
+        flip.onclick = () => {
+          if (flip.classList.contains('umgedreht')) return;
+          flip.classList.add('umgedreht');
+          vibriere('tipp');
+          kasten.querySelector('#bewertung').innerHTML = `<div class="knopf-reihe drei einblenden">
             <ion-button color="danger" data-e="nicht">Nicht gewusst</ion-button>
             <ion-button color="medium" data-e="unsicher">Unsicher</ion-button>
             <ion-button color="success" data-e="gewusst">Gewusst</ion-button></div>`;
-          kasten.querySelectorAll('[data-e]').forEach(b => b.onclick = () => bewerte(k, b.dataset.e));
+          kasten.querySelectorAll('[data-e]').forEach(b => b.onclick = () => {
+            vibriere(b.dataset.e === 'gewusst' ? 'richtig' : b.dataset.e === 'nicht' ? 'falsch' : 'tipp');
+            bewerte(k, b.dataset.e);
+          });
         };
       }
 
@@ -361,10 +524,11 @@ function seiteVokabelSitzung(karten, modus, zurueck, titel) {
         kasten.innerHTML = `
           <div class="leer">${icon('sparkles', 40)}<h3>Geschafft!</h3></div>
           ${karte(`<div class="drei-zahlen">
-            <div><b class="positiv">${zaehler.gewusst}</b><span class="hinweis">gewusst</span></div>
-            <div><b>${zaehler.unsicher}</b><span class="hinweis">unsicher</span></div>
-            <div><b class="negativ">${zaehler.nicht}</b><span class="hinweis">nicht gewusst</span></div></div>`)}
+            <div><b class="positiv">${hoch(zaehler.gewusst)}</b><span class="hinweis">gewusst</span></div>
+            <div><b>${hoch(zaehler.unsicher)}</b><span class="hinweis">unsicher</span></div>
+            <div><b class="negativ">${hoch(zaehler.nicht)}</b><span class="hinweis">nicht gewusst</span></div></div>`)}
           <ion-button expand="block" href="${zurueck}">Fertig</ion-button>`;
+        zaehleHoch(kasten);
       }
 
       naechste();
@@ -392,7 +556,7 @@ function seiteQuiz(nr) {
         else if (f.typ === 'wf') antwort = `<div class="optionen">${optionKnopf('Richtig', 'data-j="1"')}${optionKnopf('Falsch', 'data-j="0"')}</div>`;
         else if (f.typ === 'rechnen') antwort = `<div class="eingabe-reihe"><input class="eingabe" inputmode="decimal" autocomplete="off" placeholder="Deine Antwort" aria-label="Deine Antwort"><span class="einheit">${esc(f.einheit ?? '')}</span></div>
           <div class="abstand"></div><ion-button expand="block" id="pruefen">${icon('check', 20)}Prüfen</ion-button>`;
-        kasten.innerHTML = `<div class="zaehler">Frage ${i + 1} von ${fragen.length}</div>
+        kasten.innerHTML = `<div class="zaehler">Frage ${i + 1} von ${fragen.length}</div>${balken(i / fragen.length)}<div class="abstand"></div>
           ${karte(`${f.typ === 'wf' ? '<div class="hinweis">Richtig oder falsch?</div>' : ''}${markup(f.frage)}`)}
           ${antwort}<div id="q-erg"></div>`;
 
@@ -412,6 +576,7 @@ function seiteQuiz(nr) {
             inp.disabled = true;
             kasten.querySelector('#pruefen').remove();
             const ok = Math.abs(wert - f.loesung) <= (f.toleranz ?? 0);
+            vibriere(ok ? 'richtig' : 'falsch');
             inp.classList.add(ok ? 'richtig' : 'falsch');
             aufloesen(ok, ok ? 'Richtig!' : `Leider falsch. Richtig ist ${zahl(f.loesung, Number.isInteger(f.loesung) ? 0 : 2)} ${f.einheit ?? ''}.`);
           };
@@ -433,14 +598,16 @@ function seiteQuiz(nr) {
         t.quiz.beste = Math.max(t.quiz.beste ?? 0, punkte);
         t.quiz.versuche++;
         store.speichern();
+        store.aktivitaet();
         const quote = punkte / fragen.length;
         kasten.innerHTML = `
-          ${karte(`<div class="r-ergebnis ${quote >= 0.7 ? 'plus' : 'minus'}">${punkte} / ${fragen.length}</div>
+          ${karte(`<div class="r-ergebnis ${quote >= 0.7 ? 'plus' : 'minus'}">${hoch(punkte)} / ${fragen.length}</div>
             <p class="mittig">${quote === 1 ? 'Perfekt!' : quote >= 0.7 ? 'Gut gemacht!' : 'Schau dir die Lektion ruhig noch einmal an und versuch es erneut.'}</p>`)}
           <div class="knopf-spalte">
             <ion-button expand="block" href="#/tag/${nr}/uebungen">${icon('chart-candlestick', 20)}Weiter zu den Chart-Übungen</ion-button>
             <ion-button expand="block" color="medium" id="nochmal">${icon('refresh-cw', 18)}Quiz wiederholen</ion-button>
           </div>`;
+        zaehleHoch(kasten);
         kasten.querySelector('#nochmal').onclick = () => { i = 0; punkte = 0; zeige(); };
       };
 
@@ -490,15 +657,75 @@ function seiteUebung(nr, i) {
       const starten = () => {
         weiter.innerHTML = '';
         zeigeUebung(kasten, u, ergebnis => {
-          store.tag(nr).uebungen[u.id] = { ...ergebnis, datum: heute() };
+          store.tag(nr).uebungen[u.id] = { ...ergebnis, datum: heute(), zeit: Date.now() };
           store.speichern();
+          store.aktivitaet();
           weiter.innerHTML = i + 1 < alleUeb.length
             ? `<div class="abstand"></div><ion-button expand="block" href="#/tag/${nr}/uebung/${i + 1}">Nächste Übung${icon('chevron-right', 20)}</ion-button>`
-            : `<div class="abstand"></div><ion-button expand="block" href="#/tag/${nr}">${icon('flag', 20)}Tag ${nr} abschließen</ion-button>`;
+            : `<div class="abstand"></div><ion-button expand="block" href="#/tag/${nr}/abschluss">${icon('flag', 20)}Zum Tagesabschluss</ion-button>`;
         }, starten);
       };
       starten();
     }
+  };
+}
+
+// ---------- Tagesabschluss ----------
+function seiteAbschluss(nr) {
+  const inhalt = inhalte[nr];
+  const f = tagFortschritt(nr);
+  const s = store.tag(nr);
+  const fertig = f.gesamt >= 1;
+  const naechster = plan.find(t => t.nr === nr + 1);
+
+  if (!fertig) {
+    const offen = [
+      [!f.teile.lektion, 'Lektion', `#/tag/${nr}/lektion/${s.lektionPos ?? 0}`, 'book-open-text'],
+      [f.teile.vokabeln < 1, 'Vokabeln', `#/tag/${nr}/vokabeln/gemischt`, 'layers'],
+      [!f.teile.quiz, 'Quiz', `#/tag/${nr}/quiz`, 'circle-help'],
+      [f.teile.uebungen < 1, 'Chart-Übungen', `#/tag/${nr}/uebungen`, 'chart-candlestick']
+    ].filter(x => x[0]);
+    return {
+      titel: `Tag ${nr}: Abschluss`, zurueck: `#/tag/${nr}`, nav: 'plan',
+      html: `${leer('flag', 'Fast geschafft', `Noch ${offen.length} ${offen.length === 1 ? 'Teil' : 'Teile'} offen, dann ist Tag ${nr} abgeschlossen.`)}
+        ${liste(offen.map(([, name, href, ico]) => eintrag({ href, ico, titel: name, info: 'Noch offen' })))}
+        <p class="hinweis">Bei den Vokabeln zählt ein Begriff als gelernt, wenn du ihn mindestens einmal gewusst hast.</p>`
+    };
+  }
+
+  if (!s.abgeschlossen) { s.abgeschlossen = heute(); store.speichern(); }
+  const ueb = inhalt.uebungen.map(u => ({ u, e: s.uebungen[u.id] }));
+  const erkennen = ueb.filter(x => x.u.typ !== 'entscheiden');
+  const erkanntRichtig = erkennen.filter(x => x.e?.richtig).length;
+  const ents = ueb.filter(x => x.u.typ === 'entscheiden');
+  const summeR = ents.reduce((sum, x) => sum + (x.e?.r ?? 0), 0);
+  const guteEnts = ents.filter(x => x.e?.gut).length;
+  const sicher = inhalt.vokabeln.filter(k => leitner.istSicher(k.id)).length;
+  const gelernt = inhalt.vokabeln.filter(k => (leitner.status(k.id)?.box ?? 0) >= 2).length;
+  const kachel = (wert, text) => `<div class="kachel"><div class="zahl">${wert}</div><div class="hinweis">${text}</div></div>`;
+  const kp = inhalt.abschluss?.kernpunkte ?? [];
+
+  return {
+    titel: `Tag ${nr}: Abschluss`, zurueck: `#/tag/${nr}`, nav: 'plan',
+    html: `
+      <div class="abschluss-kopf">
+        <div class="abschluss-symbol">${icon('flag', 32)}</div>
+        <h2>Tag ${nr} geschafft</h2>
+        <p class="hinweis">${esc(inhalt.titel)}</p>
+      </div>
+      <div class="statistik">
+        ${kachel(`${hoch(s.quiz.beste ?? 0)}/${inhalt.quiz.length}`, 'Quiz (bestes Ergebnis)')}
+        ${kachel(`${hoch(gelernt)}/${inhalt.vokabeln.length}`, `Begriffe gelernt · ${sicher} sicher`)}
+        ${kachel(`${hoch(erkanntRichtig)}/${erkennen.length}`, 'Charts richtig erkannt')}
+        ${kachel(`<span class="${summeR > 0 ? 'text-positiv' : summeR < 0 ? 'text-negativ' : ''}">${hoch(summeR, { stellen: 1, vor: '+', nach: ' R' })}</span>`, `Entscheidungen · ${guteEnts} von ${ents.length} gut begründet`)}
+      </div>
+      ${kp.length ? karte(`<h3>Das Wichtigste von heute</h3><ul class="kernpunkte">${kp.map(p => `<li>${icon('circle-check', 20)}<span>${esc(p)}</span></li>`).join('')}</ul>`) : ''}
+      ${naechster ? karte(`<div class="hinweis">Als Nächstes</div><h3>Tag ${naechster.nr}: ${esc(naechster.titel)}</h3>
+        ${inhalt.abschluss?.vorschau ? `<p style="margin:0">${esc(inhalt.abschluss.vorschau)}</p>` : ''}
+        ${inhalte[naechster.nr] ? `<div class="abstand"></div><ion-button expand="block" href="#/tag/${naechster.nr}">Tag ${naechster.nr} starten${icon('chevron-right', 20)}</ion-button>`
+          : `<div class="abstand"></div><ion-chip class="warnung">${icon('lock', 14)}Inhalte folgen</ion-chip>`}`) : ''}
+      <ion-button expand="block" color="medium" href="#/">Zum Tagesplan</ion-button>`,
+    danach() { vibriere('ziel'); }
   };
 }
 
@@ -559,35 +786,41 @@ function seiteFortschritt() {
   const neu = karten.filter(k => !leitner.istGesehen(k.id)).length;
   const sicher = karten.filter(k => leitner.istSicher(k.id)).length;
   const wackel = wackelKarten();
-  let fragen = 0, richtig = 0, lektionen = 0, tageFertig = 0, uebungen = 0, uebGesamt = 0;
+  let lektionen = 0, tageFertig = 0, uebungen = 0, uebGesamt = 0;
   for (const t of plan) {
     const inhalt = inhalte[t.nr];
     if (!inhalt) continue;
     const s = store.tag(t.nr);
-    if (s.quiz.letzte !== null) { fragen += inhalt.quiz.length; richtig += s.quiz.letzte; }
     if (s.lektion) lektionen++;
     if (tagFortschritt(t.nr).gesamt >= 1) tageFertig++;
     uebungen += inhalt.uebungen.filter(u => s.uebungen[u.id]?.erledigt).length;
     uebGesamt += inhalt.uebungen.length;
   }
+  const quote = quizQuote();
+  const serie = store.lernserie();
   const kachel = (wert, text) => `<div class="kachel"><div class="zahl">${wert}</div><div class="hinweis">${text}</div></div>`;
+  const vibration = store.d().einstellungen.vibration !== false;
 
   return {
     titel: 'Fortschritt',
     html: `
       ${store.istSpeicherOk() ? '' : box('warnung', 'Speichern nicht möglich', '<p>Der Browser erlaubt gerade kein Speichern. Dein Fortschritt geht beim Schließen verloren.</p>')}
       <div class="statistik">
-        ${kachel(`${tageFertig}/10`, 'Tage erledigt')}
-        ${kachel(`${lektionen}`, 'Lektionen gelesen')}
-        ${kachel(fragen ? prozent(richtig / fragen) : '–', 'Quiz-Quote (letzter Versuch)')}
-        ${kachel(`${uebungen}/${uebGesamt}`, 'Chart-Übungen')}
-        ${kachel(`${sicher}`, 'sichere Begriffe')}
-        ${kachel(`${wackel.length}`, 'Wackelkandidaten')}
+        ${kachel(`${hoch(tageFertig)}/10`, 'Tage erledigt')}
+        ${kachel(hoch(serie.tage), 'Tage in Folge gelernt')}
+        ${kachel(quote === null ? '–' : hoch(Math.round(quote * 100), { nach: ' %' }), 'Quiz-Quote (letzter Versuch)')}
+        ${kachel(`${hoch(uebungen)}/${uebGesamt}`, 'Chart-Übungen')}
+        ${kachel(hoch(sicher), 'sichere Begriffe')}
+        ${kachel(hoch(wackel.length), 'Wackelkandidaten')}
       </div>
       ${karte(`<h3>Karteikasten</h3>
-        <div class="leitner-boxen">${boxen.map((n, i) => `<div><b>${n}</b><span>Fach ${i + 1}</span></div>`).join('')}</div>
-        <p class="hinweis" style="margin-bottom:0">${neu} Begriffe noch nicht gelernt. Fach 4 und 5 gelten als sicher.</p>`)}
+        <div class="leitner-boxen">${boxen.map((n, i) => `<div><b>${hoch(n)}</b><span>Fach ${i + 1}</span></div>`).join('')}</div>
+        <p class="hinweis" style="margin-bottom:0">${neu} Begriffe noch nicht gelernt. ${lektionen} Lektion${lektionen === 1 ? '' : 'en'} gelesen. Fach 4 und 5 gelten als sicher.</p>`)}
       ${wackel.length ? karte(`<h3>Wackelkandidaten</h3>${wackel.map(k => `<div class="glossar-eintrag"><b>${esc(k.de)}</b> <span class="en">${esc(k.en)}</span></div>`).join('')}`) : ''}
+      <h3 class="abschnitt">Einstellungen</h3>
+      <ion-list class="gruppe" lines="none">
+        <ion-item><ion-toggle id="vibration" justify="space-between" ${vibration ? 'checked' : ''}>Vibration bei Antworten und im Chart</ion-toggle></ion-item>
+      </ion-list>
       ${karte(`<h3>Sicherung</h3>
         <p class="hinweis" style="margin-top:0">Dein Fortschritt liegt nur auf diesem Handy. Speichere ab und zu eine Sicherung, z. B. in deinen Downloads oder in der Cloud.</p>
         <div class="knopf-spalte">
@@ -600,6 +833,11 @@ function seiteFortschritt() {
         <ion-button expand="block" color="danger" fill="outline" id="reset">${icon('trash-2', 20)}Fortschritt löschen</ion-button>`)}
       <p class="fusszeile">Lerninhalt, keine Anlageberatung. Alle Charts sind simulierte Übungsdaten.<br>Version ${esc(self.APP_VERSION)}</p>`,
     danach(el) {
+      el.querySelector('#vibration').addEventListener('ionChange', e => {
+        store.d().einstellungen.vibration = e.detail.checked;
+        store.speichern();
+        vibriere('richtig');
+      });
       el.querySelector('#export').onclick = () => {
         const blob = new Blob([store.exportieren()], { type: 'application/json' });
         const a = document.createElement('a');

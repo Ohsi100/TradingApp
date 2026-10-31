@@ -3,6 +3,17 @@
   "titel": "Börse & Grundbegriffe",
   "ziel": "Du weißt, was an der Börse gehandelt wird, wie ein Kurs zustande kommt, was dich ein Trade kostet und wie sich Swing-Trading von anderen Stilen unterscheidet.",
 
+  "abschluss": {
+    "kernpunkte": [
+      "Du kaufst zum Briefkurs (Ask) und verkaufst zum Geldkurs (Bid). Der Unterschied, der Spread, ist ein versteckter Kostenpunkt.",
+      "Jeder Trade kostet zweimal Ordergebühr. Bei kleinen Positionen fällt das stark ins Gewicht.",
+      "Einen Index kann man nicht kaufen, einen ETF auf den Index schon.",
+      "Long gewinnt bei steigenden Kursen. Short gewinnt bei fallenden Kursen, hat aber ein unbegrenztes Verlustrisiko.",
+      "Eine gute Entscheidung kann verlieren. Bewerte deine Trades nach deinem Plan, nicht nach dem einzelnen Ergebnis."
+    ],
+    "vorschau": "Wie sagst du dem Broker genau, was er tun soll? Market-, Limit- und Stop-Order, Trailing Stop, und warum ein Stop bei einer Kurslücke schlechter ausgeführt werden kann, als du denkst."
+  },
+
   "lektion": [
     {
       "titel": "Worum es heute geht",

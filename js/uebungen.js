@@ -2,6 +2,7 @@
 import { KerzenChart } from './chart.js';
 import { erzeugeKurse } from './kurse.js';
 import { icon } from './icons.js';
+import { vibriere, zaehleHoch } from './ui.js';
 import { esc, markup, zahl } from './util.js';
 
 // Gemeinsame Bausteine (auch von app.js genutzt)
@@ -11,6 +12,7 @@ export function optionKnopf(text, attr) {
 
 // Markiert richtige/falsche Option mit Farbe UND Icon (Bedeutung nie nur über Farbe).
 export function markiereOptionen(alle, istRichtig, gewaehlt) {
+  vibriere(istRichtig(gewaehlt) ? 'richtig' : 'falsch');
   alle.forEach(x => {
     x.disabled = true;
     if (istRichtig(x)) { x.classList.add('richtig'); x.querySelector('.option-ico').innerHTML = icon('circle-check'); }
@@ -22,6 +24,8 @@ export function box(art, titel, inhalt) {
   const ico = { positiv: 'circle-check', negativ: 'circle-x', warnung: 'triangle-alert' }[art] ?? 'info';
   return `<div class="box ${art}"><div class="box-titel">${icon(ico, 20)}<span>${titel}</span></div>${inhalt}</div>`;
 }
+
+const rText = r => `${r > 0 ? '+' : ''}${zahl(r, 1)} R`;
 
 export function zeigeUebung(el, u, fertig, nochmal) {
   const kerzen = erzeugeKurse(u.kurse);
@@ -56,11 +60,13 @@ function nochmalKnopf(ctx) {
   ctx.ergebnis.append(b);
 }
 
+const kreuzHinweis = '<p class="hinweis chart-tipp">Tipp: Finger auf den Chart halten zeigt die Kurse jedes Tages.</p>';
+
 // ---------- Erkennen: Auswahl ----------
 function auswahl(ctx) {
   const { u, kerzen } = ctx;
   const chart = new KerzenChart(ctx.chartEl, kerzen, { hoehe: 280 });
-  ctx.steuer.innerHTML = `<div class="optionen">${u.optionen.map((o, i) => optionKnopf(esc(o), `data-i="${i}"`)).join('')}</div>`;
+  ctx.steuer.innerHTML = `${kreuzHinweis}<div class="optionen">${u.optionen.map((o, i) => optionKnopf(esc(o), `data-i="${i}"`)).join('')}</div>`;
   const alle = [...ctx.steuer.querySelectorAll('.option')];
   alle.forEach(b => b.onclick = () => {
     const richtig = Number(b.dataset.i) === u.richtig;
@@ -93,7 +99,7 @@ function tippen(ctx) {
   const { u, kerzen } = ctx;
   const chart = new KerzenChart(ctx.chartEl, kerzen, { hoehe: 300 });
   let wahl = null;
-  ctx.steuer.innerHTML = `<p class="hinweis">Tippe in den Chart. Du kannst deine Wahl ändern, bis du auf „Prüfen“ tippst.</p>
+  ctx.steuer.innerHTML = `<p class="hinweis">Tippe in den Chart. Du kannst deine Wahl ändern, bis du auf „Prüfen“ tippst. Finger gedrückt halten zeigt die Kurse jedes Tages.</p>
     <ion-button expand="block" disabled>${icon('check', 20)}Prüfen</ion-button>`;
   const pruefen = ctx.steuer.querySelector('ion-button');
   chart.beiTipp(p => {
@@ -106,6 +112,7 @@ function tippen(ctx) {
     chart.beiTipp(null);
     const ziel = zielIndex(u.ziel, kerzen);
     const richtig = Math.abs(wahl - ziel) <= (u.toleranz ?? 0);
+    vibriere(richtig ? 'richtig' : 'falsch');
     const ov = [{ typ: 'senkrecht', index: ziel, farbe: 'gruen', dick: 1, gestrichelt: true }, { typ: 'marker', index: ziel, text: 'Lösung', farbe: 'gruen' }];
     if (!richtig) ov.push({ typ: 'marker', index: wahl, text: 'Deine Wahl', farbe: 'rot', unten: true });
     chart.setzeOverlays(ov);
@@ -146,7 +153,7 @@ function entscheidenUebung(ctx) {
   const { u, kerzen } = ctx;
   const ab = u.stopp;
   const einstieg = kerzen[ab - 1].c;
-  const chart = new KerzenChart(ctx.chartEl, kerzen, { sichtbar: ab, slots: kerzen.length, hoehe: 330, polster: 0.3 });
+  const chart = new KerzenChart(ctx.chartEl, kerzen, { sichtbar: ab, slots: kerzen.length, hoehe: 340, polster: 0.3 });
   const basis = [{ typ: 'ab', index: ab }];
   chart.setzeOverlays(basis);
 
@@ -159,18 +166,28 @@ function entscheidenUebung(ctx) {
     <div class="knopf-reihe">
       <ion-button color="success" data-a="long">Einsteigen (Long)</ion-button>
       <ion-button color="medium" data-a="warten">Abwarten</ion-button>
-    </div>`;
+    </div>${kreuzHinweis}`;
   ctx.steuer.querySelector('[data-a=long]').onclick = () => setzeStop();
   ctx.steuer.querySelector('[data-a=warten]').onclick = () => abwarten();
 
-  let stop = null, ziel = null;
+  let stop = null, ziel = null, laeuft = false;
   const linien = () => [
     ...basis,
+    ...(stop !== null ? [{ typ: 'flaeche', von: einstieg, bis: stop, farbe: 'rot', ab: ab - 1 }] : []),
+    ...(ziel !== null ? [{ typ: 'flaeche', von: einstieg, bis: ziel, farbe: 'gruen', ab: ab - 1 }] : []),
     { typ: 'linie', preis: einstieg, farbe: 'akzent', text: 'Einstieg' },
-    ...(stop !== null ? [{ typ: 'linie', preis: stop, farbe: 'rot', text: 'Stop-Loss' }] : []),
-    ...(ziel !== null ? [{ typ: 'linie', preis: ziel, farbe: 'gruen', text: 'Kursziel' }] : [])
+    ...(stop !== null ? [{ typ: 'linie', id: 'stop', preis: stop, farbe: 'rot', text: 'Stop-Loss', ziehbar: !laeuft }] : []),
+    ...(ziel !== null ? [{ typ: 'linie', id: 'ziel', preis: ziel, farbe: 'gruen', text: 'Kursziel', ziehbar: !laeuft }] : [])
   ];
   const schritt = (titel, text) => `<ion-card><ion-card-content><h3>${titel}</h3><p class="hinweis" style="margin:0">${text}</p><p class="u-meldung" style="margin:8px 0 0;color:var(--warnung)"></p></ion-card-content></ion-card>`;
+
+  // Linien mit dem Finger verschieben; Stop bleibt unter, Ziel über dem Einstieg
+  chart.beiZiehen((id, preis) => {
+    if (id === 'stop') stop = Math.min(preis, Math.round((einstieg - 0.01) * 100) / 100);
+    if (id === 'ziel') ziel = Math.max(preis, Math.round((einstieg + 0.01) * 100) / 100);
+    chart.setzeOverlays(linien());
+    if (stop !== null && ziel !== null) aktualisiereWerte();
+  });
 
   function setzeStop() {
     stop = ziel = null;
@@ -180,6 +197,7 @@ function entscheidenUebung(ctx) {
       if (!p.imPreisbereich) return;
       if (p.preis >= einstieg) {
         ctx.steuer.querySelector('.u-meldung').textContent = 'Der Stop muss unter dem Einstieg liegen. Tippe weiter unten.';
+        vibriere('falsch');
         return;
       }
       stop = p.preis;
@@ -194,6 +212,7 @@ function entscheidenUebung(ctx) {
       if (!p.imPreisbereich) return;
       if (p.preis <= einstieg) {
         ctx.steuer.querySelector('.u-meldung').textContent = 'Das Ziel muss über dem Einstieg liegen. Tippe weiter oben.';
+        vibriere('falsch');
         return;
       }
       ziel = p.preis;
@@ -202,27 +221,39 @@ function entscheidenUebung(ctx) {
     });
   }
 
+  function werteHtml() {
+    const risiko = einstieg - stop, crv = (ziel - einstieg) / risiko;
+    const crvKlasse = crv >= 2 ? 'positiv' : crv >= 1.5 ? 'warnung' : 'negativ';
+    return `
+      <div class="zeile"><span class="wachsen">Einstieg</span><b>${zahl(einstieg)} €</b></div>
+      <div class="zeile"><span class="wachsen">Stop-Loss</span><b class="stop">${zahl(stop)} €</b></div>
+      <div class="zeile"><span class="wachsen">Kursziel</span><b class="ziel">${zahl(ziel)} €</b></div>
+      <div class="abstand"></div>
+      <div class="zeile"><span class="wachsen">Risiko pro Aktie (= 1 R)</span><b>${zahl(risiko)} €</b></div>
+      <div class="zeile"><span class="wachsen">Chance-Risiko-Verhältnis</span><ion-chip class="${crvKlasse}">${zahl(crv, 1)} : 1</ion-chip></div>`;
+  }
+  function aktualisiereWerte() {
+    const w = ctx.steuer.querySelector('.werte');
+    if (w) w.innerHTML = werteHtml();
+  }
+
   function zusammenfassung() {
     chart.beiTipp(null);
-    const risiko = einstieg - stop, chance = ziel - einstieg;
     ctx.steuer.innerHTML = `
-      <ion-card><ion-card-content class="werte">
-        <div class="zeile"><span class="wachsen">Einstieg</span><b>${zahl(einstieg)} €</b></div>
-        <div class="zeile"><span class="wachsen">Stop-Loss</span><b class="stop">${zahl(stop)} €</b></div>
-        <div class="zeile"><span class="wachsen">Kursziel</span><b class="ziel">${zahl(ziel)} €</b></div>
-        <div class="abstand"></div>
-        <div class="zeile"><span class="wachsen">Risiko pro Aktie (= 1 R)</span><b>${zahl(risiko)} €</b></div>
-        <div class="zeile"><span class="wachsen">Chance-Risiko-Verhältnis</span><b>${zahl(chance / risiko, 1)} : 1</b></div>
-      </ion-card-content></ion-card>
+      <ion-card><ion-card-content class="werte">${werteHtml()}</ion-card-content></ion-card>
+      <p class="hinweis chart-tipp">${icon('target', 16)} Ziehe die Linien mit dem Finger, um Stop und Ziel zu verschieben.</p>
       <div class="knopf-reihe">
         <ion-button color="medium" data-a="neu">Neu setzen</ion-button>
         <ion-button data-a="los">Weiterlaufen lassen</ion-button>
       </div>`;
     ctx.steuer.querySelector('[data-a=neu]').onclick = setzeStop;
     ctx.steuer.querySelector('[data-a=los]').onclick = () => {
-      ctx.steuer.innerHTML = '<p class="hinweis mittig">Der Chart läuft weiter …</p>';
+      laeuft = true;
+      chart.beiZiehen(null);
       const erg = simuliere(kerzen, ab, einstieg, stop, ziel);
-      abspielen(erg.index + 1, () => {
+      liveAnzeige();
+      abspielen(erg.index + 1, n => aktualisiereLive(n), () => {
+        vibriere(erg.r > 0 ? 'ziel' : 'stop');
         // Nach dem Ausstieg den Rest zeigen: Was wäre danach passiert?
         chart.setzeSichtbar(kerzen.length);
         chart.setzeOverlays([...linien(), { typ: 'senkrecht', index: erg.index, farbe: 'text2', dick: 1, gestrichelt: true }, { typ: 'marker', index: erg.index, preis: erg.ausstieg, text: 'Ausstieg', farbe: erg.r > 0 ? 'gruen' : 'rot' }]);
@@ -232,14 +263,41 @@ function entscheidenUebung(ctx) {
     };
   }
 
-  function abspielen(bis, danach) {
+  // Live-Anzeige während der Chart weiterläuft: Tag, offenes Ergebnis in R, Tempo
+  let tempo = 130;
+  function liveAnzeige(ohneR = false) {
+    ctx.steuer.innerHTML = `
+      <ion-card class="live"><ion-card-content>
+        <div class="zeile"><span class="wachsen hinweis live-tag">Tag ${ab} von ${kerzen.length}</span>
+          <ion-button size="small" color="medium" class="tempo">2× schneller</ion-button></div>
+        ${ohneR ? '<div class="live-text">Du wartest ab und schaust zu …</div>' : `<div class="live-r">${rText(0)}</div><div class="hinweis mittig">offenes Ergebnis</div>`}
+        <ion-progress-bar value="0"></ion-progress-bar>
+      </ion-card-content></ion-card>`;
+    const t = ctx.steuer.querySelector('.tempo');
+    t.onclick = () => { tempo = 55; t.disabled = true; };
+  }
+  function aktualisiereLive(n, ohneR = false) {
+    const tag = ctx.steuer.querySelector('.live-tag');
+    if (!tag) return;
+    tag.textContent = `Tag ${n} von ${kerzen.length}`;
+    ctx.steuer.querySelector('ion-progress-bar').value = (n - ab) / (kerzen.length - ab);
+    if (ohneR) return;
+    const r = (kerzen[n - 1].c - einstieg) / (einstieg - stop);
+    const el = ctx.steuer.querySelector('.live-r');
+    el.textContent = rText(r);
+    el.className = `live-r ${r > 0 ? 'plus' : r < 0 ? 'minus' : ''}`;
+  }
+
+  function abspielen(bis, jeKerze, danach) {
     let n = ab;
-    const t = setInterval(() => {
-      if (!ctx.el.isConnected) { clearInterval(t); return; }
+    const weiter = () => {
+      if (!ctx.el.isConnected) return;
       n++;
       chart.setzeSichtbar(n);
-      if (n >= bis) { clearInterval(t); danach(); }
-    }, 130);
+      jeKerze(n);
+      if (n >= bis) danach(); else setTimeout(weiter, tempo);
+    };
+    setTimeout(weiter, tempo);
   }
 
   function zeigeErgebnisLong(erg) {
@@ -268,29 +326,31 @@ function entscheidenUebung(ctx) {
 
     ctx.ergebnis.innerHTML = `
       <ion-card><ion-card-content>
-        <div class="r-ergebnis ${plus ? 'plus' : 'minus'}">${erg.r > 0 ? '+' : ''}${zahl(erg.r, 1)} R</div>
+        <div class="r-ergebnis ${plus ? 'plus' : 'minus'}"><span data-hoch="${erg.r}" data-stellen="1" data-vor="+" data-nach=" R">0 R</span></div>
         <p class="hinweis mittig" style="margin:0">${plus ? 'Gewinn' : 'Verlust'} pro Aktie: ${zahl(erg.ausstieg - einstieg)} € · 1 R = ${zahl(risiko)} €</p>
         <p style="margin:12px 0 0">${grundText}</p>
       </ion-card-content></ion-card>
       ${box(urteil[0], urteil[1], `<p>${urteil[2]}</p>${maengel.length ? `<ul>${maengel.map(m => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}`)}
       ${box('info', 'Auflösung', markup(u.aufloesung))}`;
+    zaehleHoch(ctx.ergebnis);
     nochmalKnopf(ctx);
     ctx.fertig({ erledigt: true, entscheidung: 'long', r: Math.round(erg.r * 100) / 100, gut });
   }
 
   function abwarten() {
-    ctx.steuer.innerHTML = '<p class="hinweis mittig">Du wartest ab. Der Chart läuft weiter …</p>';
-    abspielen(kerzen.length, () => {
+    liveAnzeige(true);
+    abspielen(kerzen.length, n => aktualisiereLive(n, true), () => {
       // Was wäre mit einem Standard-Trade passiert? Stop unter dem Tief der letzten 10 Tage, Ziel 2 R.
       const tief = Math.min(...kerzen.slice(ab - 10, ab).map(k => k.l));
       const s = Math.round((tief - schwankung * 0.2) * 100) / 100;
       const z = Math.round((einstieg + 2 * (einstieg - s)) * 100) / 100;
       const erg = simuliere(kerzen, ab, einstieg, s, z);
-      stop = s; ziel = z;
+      stop = s; ziel = z; laeuft = true;
       chart.setzeOverlays([...linien(), { typ: 'marker', index: erg.index, preis: erg.ausstieg, text: 'Ausstieg', farbe: erg.r > 0 ? 'gruen' : 'rot' }]);
       ctx.steuer.innerHTML = '';
       const gut = u.ideal === 'warten';
-      const hypo = `Zum Vergleich: Ein Kauf mit Stop knapp unter dem Tief der letzten 10 Tage (${zahl(s)} €) und Ziel bei 2 R (${zahl(z)} €) hätte <b>${erg.r > 0 ? '+' : ''}${zahl(erg.r, 1)} R</b> ergeben (im Chart eingezeichnet).`;
+      vibriere(gut ? 'richtig' : 'falsch');
+      const hypo = `Zum Vergleich: Ein Kauf mit Stop knapp unter dem Tief der letzten 10 Tage (${zahl(s)} €) und Ziel bei 2 R (${zahl(z)} €) hätte <b>${rText(erg.r)}</b> ergeben (im Chart eingezeichnet).`;
       const text = gut
         ? (erg.r > 0
           ? 'Abwarten war hier vernünftig, auch wenn ein Kauf diesmal Gewinn gebracht hätte. Ohne Rückenwind durch den Trend ist das eher Glück.'

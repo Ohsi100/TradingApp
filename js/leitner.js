@@ -1,6 +1,6 @@
 // Leitner-System: 5 Fächer. Richtig = ein Fach weiter, falsch = zurück in Fach 1.
 // Je höher das Fach, desto seltener kommt die Karte dran.
-import { d, speichern } from './store.js';
+import { d, speichern, aktivitaet } from './store.js';
 import { heute, tageZwischen } from './util.js';
 
 export const ABSTAND = [0, 1, 2, 4, 7]; // Tage bis zur nächsten Abfrage, je Fach 1–5
@@ -36,6 +36,7 @@ export function bewerten(id, ergebnis) {
   s.zuletzt = heute();
   karten[id] = s;
   speichern();
+  aktivitaet();
 }
 
 export const istSicher = id => (status(id)?.box ?? 0) >= 4;

@@ -7,10 +7,30 @@ function leer() {
   return {
     format: 1,
     karten: {},      // Begriff-ID -> { box, faellig, gesehen, falsch, richtig }
-    tage: {},        // Tag-Nr -> { lektion: bool, quiz: { beste, letzte, versuche }, uebungen: { id: { erledigt, r } } }
-    einstellungen: { theme: 'dunkel' }
+    tage: {},        // Tag-Nr -> { lektion: bool, lektionPos, quiz: { beste, letzte, versuche }, uebungen: { id: { erledigt, r, zeit } }, abgeschlossen }
+    aktiv: [],       // Daten ("JJJJ-MM-TT"), an denen gelernt wurde (für die Lernserie)
+    einstellungen: { vibration: true }
   };
 }
+
+// Heute als Lerntag merken (für die Lernserie)
+export function aktivitaet() {
+  const h = heute();
+  if (!daten.aktiv.includes(h)) { daten.aktiv.push(h); speichern(); }
+}
+
+// Wie viele Tage in Folge gelernt? Zählt ab heute, oder ab gestern, wenn heute noch nichts passiert ist.
+export function lernserie() {
+  const tage = new Set(daten.aktiv);
+  const t = new Date();
+  if (!tage.has(heute())) t.setDate(t.getDate() - 1);
+  let n = 0;
+  while (tage.has(datumText(t))) { n++; t.setDate(t.getDate() - 1); }
+  return { tage: n, heuteGelernt: tage.has(heute()) };
+}
+
+const datumText = t => `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, '0')}-${String(t.getDate()).padStart(2, '0')}`;
+const heute = () => datumText(new Date());
 
 let daten = leer();
 let speicherOk = true;
@@ -18,7 +38,11 @@ let speicherOk = true;
 export function laden() {
   try {
     const roh = localStorage.getItem(SCHLUESSEL);
-    if (roh) daten = Object.assign(leer(), JSON.parse(roh));
+    if (roh) {
+      const gespeichert = JSON.parse(roh);
+      daten = Object.assign(leer(), gespeichert);
+      daten.einstellungen = { ...leer().einstellungen, ...gespeichert.einstellungen };
+    }
   } catch {
     speicherOk = false;
   }
@@ -58,8 +82,8 @@ export function importieren(text) {
 }
 
 export function zuruecksetzen() {
-  const theme = daten.einstellungen?.theme;
+  const einstellungen = daten.einstellungen;
   daten = leer();
-  if (theme) daten.einstellungen.theme = theme;
+  daten.einstellungen = { ...daten.einstellungen, ...einstellungen };
   speichern();
 }
