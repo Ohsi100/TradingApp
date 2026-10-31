@@ -1,16 +1,37 @@
 // Chart-Übungen: "Erkennen" (Auswahl oder Antippen) und "Entscheiden" (Long/Abwarten mit Stop und Ziel).
 import { KerzenChart } from './chart.js';
 import { erzeugeKurse } from './kurse.js';
+import { icon } from './icons.js';
 import { esc, markup, zahl } from './util.js';
+
+// Gemeinsame Bausteine (auch von app.js genutzt)
+export function optionKnopf(text, attr) {
+  return `<button class="option" ${attr}><span class="option-text">${text}</span><span class="option-ico"></span></button>`;
+}
+
+// Markiert richtige/falsche Option mit Farbe UND Icon (Bedeutung nie nur über Farbe).
+export function markiereOptionen(alle, istRichtig, gewaehlt) {
+  alle.forEach(x => {
+    x.disabled = true;
+    if (istRichtig(x)) { x.classList.add('richtig'); x.querySelector('.option-ico').innerHTML = icon('circle-check'); }
+    else if (x === gewaehlt) { x.classList.add('falsch'); x.querySelector('.option-ico').innerHTML = icon('circle-x'); }
+  });
+}
+
+export function box(art, titel, inhalt) {
+  const ico = { positiv: 'circle-check', negativ: 'circle-x', warnung: 'triangle-alert' }[art] ?? 'info';
+  return `<div class="box ${art}"><div class="box-titel">${icon(ico, 20)}<span>${titel}</span></div>${inhalt}</div>`;
+}
 
 export function zeigeUebung(el, u, fertig, nochmal) {
   const kerzen = erzeugeKurse(u.kurse);
+  const entscheiden = u.stufe === 'entscheiden';
   el.innerHTML = `
-    <div class="karte">
-      <span class="pille ${u.stufe === 'entscheiden' ? 'gelb' : ''}">${u.stufe === 'entscheiden' ? 'Entscheiden' : 'Erkennen'}</span>
-      <h3 style="margin-top:8px">${esc(u.titel)}</h3>
+    <ion-card><ion-card-content>
+      <ion-chip class="${entscheiden ? 'warnung' : 'akzent'}">${icon(entscheiden ? 'target' : 'scan-search', 16)}${entscheiden ? 'Entscheiden' : 'Erkennen'}</ion-chip>
+      <h3 style="margin-top:12px">${esc(u.titel)}</h3>
       <div>${markup(u.frage)}</div>
-    </div>
+    </ion-card-content></ion-card>
     <div class="u-chart"></div>
     <div class="u-steuerung"></div>
     <div class="u-ergebnis"></div>`;
@@ -22,14 +43,15 @@ export function zeigeUebung(el, u, fertig, nochmal) {
   };
   if (u.typ === 'auswahl') auswahl(ctx);
   else if (u.typ === 'tippen') tippen(ctx);
-  else if (u.typ === 'entscheiden') entscheiden(ctx);
+  else if (u.typ === 'entscheiden') entscheidenUebung(ctx);
 }
 
 function nochmalKnopf(ctx) {
-  const b = document.createElement('button');
-  b.className = 'knopf zweit breit';
-  b.textContent = 'Übung wiederholen';
-  b.style.marginTop = '10px';
+  const b = document.createElement('ion-button');
+  b.expand = 'block';
+  b.fill = 'outline';
+  b.innerHTML = `${icon('refresh-cw', 18)}Übung wiederholen`;
+  b.style.marginTop = '12px';
   b.onclick = ctx.nochmal;
   ctx.ergebnis.append(b);
 }
@@ -38,17 +60,13 @@ function nochmalKnopf(ctx) {
 function auswahl(ctx) {
   const { u, kerzen } = ctx;
   const chart = new KerzenChart(ctx.chartEl, kerzen, { hoehe: 280 });
-  ctx.steuer.innerHTML = `<div class="optionen">${u.optionen.map((o, i) => `<button class="option" data-i="${i}">${esc(o)}</button>`).join('')}</div>`;
-  ctx.steuer.querySelectorAll('.option').forEach(b => b.onclick = () => {
-    const i = Number(b.dataset.i);
-    const richtig = i === u.richtig;
-    ctx.steuer.querySelectorAll('.option').forEach((x, j) => {
-      x.disabled = true;
-      if (j === u.richtig) x.classList.add('richtig');
-      else if (j === i) x.classList.add('falsch');
-    });
+  ctx.steuer.innerHTML = `<div class="optionen">${u.optionen.map((o, i) => optionKnopf(esc(o), `data-i="${i}"`)).join('')}</div>`;
+  const alle = [...ctx.steuer.querySelectorAll('.option')];
+  alle.forEach(b => b.onclick = () => {
+    const richtig = Number(b.dataset.i) === u.richtig;
+    markiereOptionen(alle, x => Number(x.dataset.i) === u.richtig, b);
     chart.setzeOverlays(loesungsOverlay(u.loesung, kerzen));
-    ctx.ergebnis.innerHTML = `<div class="erklaerung ${richtig ? 'gut' : 'schlecht'}"><b>${richtig ? 'Richtig!' : 'Nicht ganz.'}</b>${markup(u.erklaerung)}</div>`;
+    ctx.ergebnis.innerHTML = box(richtig ? 'positiv' : 'negativ', richtig ? 'Richtig!' : 'Nicht ganz.', markup(u.erklaerung));
     nochmalKnopf(ctx);
     ctx.fertig({ erledigt: true, richtig });
   });
@@ -76,14 +94,15 @@ function tippen(ctx) {
   const chart = new KerzenChart(ctx.chartEl, kerzen, { hoehe: 300 });
   let wahl = null;
   ctx.steuer.innerHTML = `<p class="hinweis">Tippe in den Chart. Du kannst deine Wahl ändern, bis du auf „Prüfen“ tippst.</p>
-    <button class="knopf breit" disabled>Prüfen</button>`;
-  const pruefen = ctx.steuer.querySelector('button');
+    <ion-button expand="block" disabled>${icon('check', 20)}Prüfen</ion-button>`;
+  const pruefen = ctx.steuer.querySelector('ion-button');
   chart.beiTipp(p => {
     wahl = p.index;
     chart.setzeOverlays([{ typ: 'senkrecht', index: wahl, farbe: 'akzent', dick: 1, gestrichelt: true }, { typ: 'marker', index: wahl, text: 'Deine Wahl', farbe: 'akzent' }]);
     pruefen.disabled = false;
   });
   pruefen.onclick = () => {
+    if (wahl === null) return;
     chart.beiTipp(null);
     const ziel = zielIndex(u.ziel, kerzen);
     const richtig = Math.abs(wahl - ziel) <= (u.toleranz ?? 0);
@@ -91,7 +110,7 @@ function tippen(ctx) {
     if (!richtig) ov.push({ typ: 'marker', index: wahl, text: 'Deine Wahl', farbe: 'rot', unten: true });
     chart.setzeOverlays(ov);
     ctx.steuer.innerHTML = '';
-    ctx.ergebnis.innerHTML = `<div class="erklaerung ${richtig ? 'gut' : 'schlecht'}"><b>${richtig ? 'Richtig!' : 'Nicht ganz. Die grüne Markierung zeigt die Lösung.'}</b>${markup(u.erklaerung)}</div>`;
+    ctx.ergebnis.innerHTML = box(richtig ? 'positiv' : 'negativ', richtig ? 'Richtig!' : 'Nicht ganz. Die grüne Markierung zeigt die Lösung.', markup(u.erklaerung));
     nochmalKnopf(ctx);
     ctx.fertig({ erledigt: true, richtig });
   };
@@ -123,7 +142,7 @@ export function simuliere(kerzen, ab, einstieg, stop, ziel) {
   return { index: letzte, ausstieg: kerzen[letzte].c, grund: 'ende', r: (kerzen[letzte].c - einstieg) / (einstieg - stop) };
 }
 
-function entscheiden(ctx) {
+function entscheidenUebung(ctx) {
   const { u, kerzen } = ctx;
   const ab = u.stopp;
   const einstieg = kerzen[ab - 1].c;
@@ -136,10 +155,10 @@ function entscheiden(ctx) {
   const schwankung = letzte.reduce((s, k) => s + (k.h - k.l), 0) / letzte.length;
 
   ctx.steuer.innerHTML = `
-    <div class="karte klein-text">${markup(u.hilfe ?? '')}</div>
+    <ion-card><ion-card-content class="klein-text">${markup(u.hilfe ?? '')}</ion-card-content></ion-card>
     <div class="knopf-reihe">
-      <button class="knopf gruen" data-a="long">Einsteigen (Long)</button>
-      <button class="knopf zweit" data-a="warten">Abwarten</button>
+      <ion-button color="success" data-a="long">Einsteigen (Long)</ion-button>
+      <ion-button color="medium" data-a="warten">Abwarten</ion-button>
     </div>`;
   ctx.steuer.querySelector('[data-a=long]').onclick = () => setzeStop();
   ctx.steuer.querySelector('[data-a=warten]').onclick = () => abwarten();
@@ -151,11 +170,12 @@ function entscheiden(ctx) {
     ...(stop !== null ? [{ typ: 'linie', preis: stop, farbe: 'rot', text: 'Stop-Loss' }] : []),
     ...(ziel !== null ? [{ typ: 'linie', preis: ziel, farbe: 'gruen', text: 'Kursziel' }] : [])
   ];
+  const schritt = (titel, text) => `<ion-card><ion-card-content><h3>${titel}</h3><p class="hinweis" style="margin:0">${text}</p><p class="u-meldung" style="margin:8px 0 0;color:var(--warnung)"></p></ion-card-content></ion-card>`;
 
   function setzeStop() {
     stop = ziel = null;
     chart.setzeOverlays(linien());
-    ctx.steuer.innerHTML = `<div class="karte"><b>1. Stop-Loss setzen</b><p class="hinweis" style="margin:4px 0 0">Tippe im Chart auf die Höhe, bei der du aussteigen willst, falls der Kurs fällt. Er muss <b>unter</b> dem Einstieg (${zahl(einstieg)} €) liegen.</p><p class="u-meldung hinweis" style="margin:6px 0 0"></p></div>`;
+    ctx.steuer.innerHTML = schritt('1. Stop-Loss setzen', `Tippe im Chart auf die Höhe, bei der du aussteigen willst, falls der Kurs fällt. Er muss <b>unter</b> dem Einstieg (${zahl(einstieg)} €) liegen.`);
     chart.beiTipp(p => {
       if (!p.imPreisbereich) return;
       if (p.preis >= einstieg) {
@@ -169,7 +189,7 @@ function entscheiden(ctx) {
   }
 
   function setzeZiel() {
-    ctx.steuer.innerHTML = `<div class="karte"><b>2. Kursziel setzen</b><p class="hinweis" style="margin:4px 0 0">Tippe auf die Höhe, bei der du Gewinne mitnehmen willst. Es muss <b>über</b> dem Einstieg liegen.</p><p class="u-meldung hinweis" style="margin:6px 0 0"></p></div>`;
+    ctx.steuer.innerHTML = schritt('2. Kursziel setzen', 'Tippe auf die Höhe, bei der du Gewinne mitnehmen willst. Es muss <b>über</b> dem Einstieg liegen.');
     chart.beiTipp(p => {
       if (!p.imPreisbereich) return;
       if (p.preis <= einstieg) {
@@ -186,21 +206,21 @@ function entscheiden(ctx) {
     chart.beiTipp(null);
     const risiko = einstieg - stop, chance = ziel - einstieg;
     ctx.steuer.innerHTML = `
-      <div class="karte">
+      <ion-card><ion-card-content class="werte">
         <div class="zeile"><span class="wachsen">Einstieg</span><b>${zahl(einstieg)} €</b></div>
-        <div class="zeile"><span class="wachsen">Stop-Loss</span><b style="color:var(--rot)">${zahl(stop)} €</b></div>
-        <div class="zeile"><span class="wachsen">Kursziel</span><b style="color:var(--gruen)">${zahl(ziel)} €</b></div>
+        <div class="zeile"><span class="wachsen">Stop-Loss</span><b class="stop">${zahl(stop)} €</b></div>
+        <div class="zeile"><span class="wachsen">Kursziel</span><b class="ziel">${zahl(ziel)} €</b></div>
         <div class="abstand"></div>
         <div class="zeile"><span class="wachsen">Risiko pro Aktie (= 1 R)</span><b>${zahl(risiko)} €</b></div>
         <div class="zeile"><span class="wachsen">Chance-Risiko-Verhältnis</span><b>${zahl(chance / risiko, 1)} : 1</b></div>
-      </div>
+      </ion-card-content></ion-card>
       <div class="knopf-reihe">
-        <button class="knopf zweit" data-a="neu">Neu setzen</button>
-        <button class="knopf" data-a="los">Chart weiterlaufen lassen</button>
+        <ion-button color="medium" data-a="neu">Neu setzen</ion-button>
+        <ion-button data-a="los">Weiterlaufen lassen</ion-button>
       </div>`;
     ctx.steuer.querySelector('[data-a=neu]').onclick = setzeStop;
     ctx.steuer.querySelector('[data-a=los]').onclick = () => {
-      ctx.steuer.innerHTML = '<p class="hinweis" style="text-align:center">Der Chart läuft weiter …</p>';
+      ctx.steuer.innerHTML = '<p class="hinweis mittig">Der Chart läuft weiter …</p>';
       const erg = simuliere(kerzen, ab, einstieg, stop, ziel);
       abspielen(erg.index + 1, () => {
         // Nach dem Ausstieg den Rest zeigen: Was wäre danach passiert?
@@ -241,27 +261,25 @@ function entscheiden(ctx) {
       ende: 'Weder Stop noch Ziel wurden erreicht. Am Ende des Übungszeitraums wurde zum Schlusskurs verkauft.'
     }[erg.grund];
 
-    const urteil = gut && plus ? ['gut', 'Gute Entscheidung, gutes Ergebnis.', 'Du hast nach Plan gehandelt, und der Markt hat mitgespielt.']
-      : gut ? ['neutral', 'Gute Entscheidung, trotzdem verloren.', 'Das gehört dazu. Auch ein guter Trade geht oft schief. Wichtig ist, dass der Verlust durch den Stop begrenzt war. Über viele Trades setzt sich ein guter Plan durch.']
-      : plus ? ['neutral', 'Gewonnen, aber mit Schwächen.', 'Das Ergebnis war positiv, die Entscheidung hatte aber Schwachstellen. Auf Dauer kostet so etwas Geld, auch wenn es diesmal gut ging.']
-      : ['schlecht', 'Verlust, und die Entscheidung hatte Schwächen.', 'Schau dir die Punkte unten an. Genau daraus lernst du am meisten.'];
+    const urteil = gut && plus ? ['positiv', 'Gute Entscheidung, gutes Ergebnis.', 'Du hast nach Plan gehandelt, und der Markt hat mitgespielt.']
+      : gut ? ['info', 'Gute Entscheidung, trotzdem verloren.', 'Das gehört dazu. Auch ein guter Trade geht oft schief. Wichtig ist, dass der Verlust durch den Stop begrenzt war. Über viele Trades setzt sich ein guter Plan durch.']
+      : plus ? ['warnung', 'Gewonnen, aber mit Schwächen.', 'Das Ergebnis war positiv, die Entscheidung hatte aber Schwachstellen. Auf Dauer kostet so etwas Geld, auch wenn es diesmal gut ging.']
+      : ['negativ', 'Verlust, und die Entscheidung hatte Schwächen.', 'Schau dir die Punkte unten an. Genau daraus lernst du am meisten.'];
 
     ctx.ergebnis.innerHTML = `
-      <div class="karte">
+      <ion-card><ion-card-content>
         <div class="r-ergebnis ${plus ? 'plus' : 'minus'}">${erg.r > 0 ? '+' : ''}${zahl(erg.r, 1)} R</div>
-        <p class="hinweis" style="text-align:center;margin:0">${plus ? 'Gewinn' : 'Verlust'} pro Aktie: ${zahl(erg.ausstieg - einstieg)} € · 1 R = ${zahl(risiko)} €</p>
-        <p>${grundText}</p>
-      </div>
-      <div class="erklaerung ${urteil[0]}"><b>${urteil[1]}</b><p>${urteil[2]}</p>
-        ${maengel.length ? `<ul>${maengel.map(m => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}
-      </div>
-      <div class="erklaerung neutral"><b>Auflösung</b>${markup(u.aufloesung)}</div>`;
+        <p class="hinweis mittig" style="margin:0">${plus ? 'Gewinn' : 'Verlust'} pro Aktie: ${zahl(erg.ausstieg - einstieg)} € · 1 R = ${zahl(risiko)} €</p>
+        <p style="margin:12px 0 0">${grundText}</p>
+      </ion-card-content></ion-card>
+      ${box(urteil[0], urteil[1], `<p>${urteil[2]}</p>${maengel.length ? `<ul>${maengel.map(m => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}`)}
+      ${box('info', 'Auflösung', markup(u.aufloesung))}`;
     nochmalKnopf(ctx);
     ctx.fertig({ erledigt: true, entscheidung: 'long', r: Math.round(erg.r * 100) / 100, gut });
   }
 
   function abwarten() {
-    ctx.steuer.innerHTML = '<p class="hinweis" style="text-align:center">Du wartest ab. Der Chart läuft weiter …</p>';
+    ctx.steuer.innerHTML = '<p class="hinweis mittig">Du wartest ab. Der Chart läuft weiter …</p>';
     abspielen(kerzen.length, () => {
       // Was wäre mit einem Standard-Trade passiert? Stop unter dem Tief der letzten 10 Tage, Ziel 2 R.
       const tief = Math.min(...kerzen.slice(ab - 10, ab).map(k => k.l));
@@ -281,8 +299,8 @@ function entscheiden(ctx) {
           ? 'Hier wäre ein Einstieg vernünftig gewesen. Abwarten kostet zwar kein Geld, aber wer gute Gelegenheiten auslässt, verschenkt auf Dauer Gewinne.'
           : 'Die Ausgangslage sprach eigentlich für einen Einstieg. Dass du dir hier einen Verlust erspart hast, war Glück und kein Zeichen, dass Abwarten besser war.');
       ctx.ergebnis.innerHTML = `
-        <div class="erklaerung ${gut ? 'gut' : 'neutral'}"><b>${gut ? 'Abwarten passt hier.' : 'Hier hätte sich ein Einstieg angeboten.'}</b><p>${text}</p><p>${hypo}</p></div>
-        <div class="erklaerung neutral"><b>Auflösung</b>${markup(u.aufloesung)}</div>`;
+        ${box(gut ? 'positiv' : 'warnung', gut ? 'Abwarten passt hier.' : 'Hier hätte sich ein Einstieg angeboten.', `<p>${text}</p><p>${hypo}</p>`)}
+        ${box('info', 'Auflösung', markup(u.aufloesung))}`;
       nochmalKnopf(ctx);
       ctx.fertig({ erledigt: true, entscheidung: 'warten', r: 0, gut });
     });

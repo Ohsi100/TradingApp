@@ -1,13 +1,17 @@
 // Hauptprogramm: lädt die Inhalte, verwaltet die Seiten (Routen) und zeichnet sie.
 import * as store from './store.js';
 import * as leitner from './leitner.js';
-import { zeigeUebung } from './uebungen.js';
+import { zeigeUebung, optionKnopf, markiereOptionen, box } from './uebungen.js';
 import { grafik } from './grafiken.js';
+import { icon } from './icons.js';
+import { toast, bestaetigen } from './ui.js';
 import { esc, markup, mischen, leseZahl, zahl, heute } from './util.js';
 
 const app = document.getElementById('app');
+const inhaltEl = document.getElementById('inhalt');
 const titelEl = document.getElementById('titel');
 const zurueckEl = document.getElementById('zurueck');
+const tabbar = document.getElementById('tabbar');
 
 let plan = [];          // Übersicht aller 10 Tage
 const inhalte = {};     // Tag-Nr -> Inhalt aus content/tag-XX.json
@@ -15,12 +19,20 @@ const inhalte = {};     // Tag-Nr -> Inhalt aus content/tag-XX.json
 // ---------- Start ----------
 async function start() {
   store.laden();
-  themeAnwenden();
+  zurueckEl.innerHTML = icon('chevron-left', 24);
+  tabbar.innerHTML = [
+    ['plan', '#/', 'calendar-days', 'Plan'],
+    ['wiederholen', '#/wiederholen', 'repeat', 'Wiederholen'],
+    ['glossar', '#/glossar', 'book-open', 'Glossar'],
+    ['fortschritt', '#/fortschritt', 'chart-column', 'Fortschritt']
+  ].map(([tab, href, ico, name]) => `<ion-tab-button tab="${tab}" href="${href}">${icon(ico, 22)}<ion-label>${name}</ion-label></ion-tab-button>`).join('');
+  app.innerHTML = skeleton();
   try {
     plan = (await ladeJson('content/tage.json')).tage;
     await Promise.all(plan.filter(t => t.datei).map(async t => { inhalte[t.nr] = await ladeJson(t.datei); }));
   } catch (e) {
-    app.innerHTML = `<div class="karte"><h2>Inhalte konnten nicht geladen werden</h2><p>${esc(e.message)}</p></div>`;
+    app.innerHTML = leer('triangle-alert', 'Inhalte konnten nicht geladen werden', esc(e.message),
+      '<ion-button onclick="location.reload()">Neu laden</ion-button>');
     return;
   }
   window.addEventListener('hashchange', zeichnen);
@@ -35,9 +47,28 @@ async function ladeJson(pfad) {
   return r.json();
 }
 
-function themeAnwenden() {
-  document.documentElement.dataset.theme = store.d().einstellungen.theme || 'dunkel';
+// ---------- Bausteine ----------
+const skeleton = () => [1, 2, 3].map(() => `<div class="skeleton-karte">
+  <ion-skeleton-text animated style="width:55%;height:18px"></ion-skeleton-text>
+  <ion-skeleton-text animated style="width:85%"></ion-skeleton-text>
+  <ion-skeleton-text animated style="width:40%"></ion-skeleton-text></div>`).join('');
+
+function leer(ico, titel, text, aktion = '') {
+  return `<div class="leer">${icon(ico, 40)}<h3>${titel}</h3><p>${text}</p>${aktion}</div>`;
 }
+
+const karte = inhalt => `<ion-card><ion-card-content>${inhalt}</ion-card-content></ion-card>`;
+const prozent = x => Math.round(x * 100) + ' %';
+const balken = x => `<ion-progress-bar value="${Math.min(1, x).toFixed(3)}"></ion-progress-bar>`;
+
+// Listeneintrag: Icon links, Titel + Untertitel, rechts Status
+function eintrag({ href, ico, icoKlasse = '', start, titel, info, ende = '', klasse = '', detail = true }) {
+  const links = start ?? `<span class="ico ${icoKlasse}" slot="start">${icon(ico, 24)}</span>`;
+  return `<ion-item ${href ? `href="${href}" button detail="${detail}"` : 'detail="false"'} class="${klasse}">
+    ${links}<ion-label><h3>${titel}</h3>${info ? `<p>${info}</p>` : ''}</ion-label>${ende}</ion-item>`;
+}
+const liste = items => `<ion-list class="gruppe" lines="full">${items.join('')}</ion-list>`;
+const fertigChip = `<ion-chip class="positiv" slot="end">${icon('check', 16)}Fertig</ion-chip>`;
 
 // ---------- Hilfen für Fortschritt ----------
 const alleKarten = () => Object.values(inhalte).flatMap(t => t.vokabeln.map(k => ({ ...k, tag: t.nr })));
@@ -60,9 +91,6 @@ function tagFortschritt(nr) {
   return { teile, gesamt, uebErledigt: ueb };
 }
 
-const prozent = x => Math.round(x * 100) + ' %';
-const balken = x => `<div class="balken"><i style="width:${Math.round(x * 100)}%"></i></div>`;
-
 // ---------- Router ----------
 function zeichnen() {
   const teile = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
@@ -84,15 +112,15 @@ function zeichnen() {
   else if (a === 'wiederholen' && b === 'wackel') seite = seiteVokabelSitzung(wackelKarten(), 'gemischt', '#/wiederholen', 'Wackelkandidaten');
   else if (a === 'glossar') seite = seiteGlossar();
   else if (a === 'fortschritt') seite = seiteFortschritt();
-  seite ??= { titel: 'Nicht gefunden', zurueck: '#/', html: '<div class="karte">Diese Seite gibt es nicht.</div>' };
+  seite ??= { titel: 'Nicht gefunden', zurueck: '#/', html: leer('inbox', 'Diese Seite gibt es nicht', 'Vielleicht ein alter Link.', '<ion-button href="#/">Zum Tagesplan</ion-button>') };
 
   titelEl.textContent = seite.titel;
   zurueckEl.hidden = !seite.zurueck;
   zurueckEl.dataset.ziel = seite.zurueck || '';
-  document.querySelectorAll('.leiste a').forEach(l => l.classList.toggle('aktiv', l.dataset.nav === (seite.nav ?? (a || 'plan'))));
+  tabbar.selectedTab = seite.nav ?? (a || 'plan');
   app.innerHTML = seite.html ?? '';
   seite.danach?.(app);
-  window.scrollTo(0, 0);
+  inhaltEl.scrollToTop?.(0);
 }
 
 // ---------- Tagesplan ----------
@@ -106,30 +134,29 @@ function seitePlan() {
   const tage = plan.map((t, i) => {
     const f = fortschritte[i];
     if (!f) {
-      return `<div class="karte tag-karte gesperrt"><div class="tag-nr">${t.nr}</div>
-        <div class="wachsen"><b>${esc(t.titel)}</b><div class="hinweis">Inhalte folgen</div></div></div>`;
+      return eintrag({ start: `<div class="tag-nr" slot="start">${t.nr}</div>`, titel: esc(t.titel), info: 'Inhalte folgen',
+        ende: `<span slot="end" class="hinweis">${icon('lock', 18)}</span>`, klasse: 'item-gesperrt' });
     }
-    return `<a class="karte tag-karte ${f.gesamt >= 1 ? 'fertig' : ''}" href="#/tag/${t.nr}">
-      <div class="tag-nr">${f.gesamt >= 1 ? '✓' : t.nr}</div>
-      <div class="wachsen" style="flex:1">
-        <b>${esc(t.titel)}</b> ${empfohlen?.nr === t.nr ? '<span class="pille gruen">Heute</span>' : ''}
-        <div class="hinweis">${prozent(f.gesamt)} erledigt</div>${balken(f.gesamt)}
-      </div></a>`;
-  }).join('');
+    const fertig = f.gesamt >= 1;
+    return eintrag({
+      href: `#/tag/${t.nr}`,
+      start: `<div class="tag-nr ${fertig ? 'fertig' : ''}" slot="start">${fertig ? icon('check', 20) : t.nr}</div>`,
+      titel: esc(t.titel),
+      info: `${prozent(f.gesamt)} erledigt`,
+      ende: empfohlen?.nr === t.nr ? '<ion-chip class="akzent" slot="end">Heute</ion-chip>' : '',
+      klasse: empfohlen?.nr === t.nr ? 'hervor' : ''
+    });
+  });
 
   return {
     titel: 'Trading-Lernapp',
     html: `
-      <div class="karte">
-        <h2 style="margin:0 0 4px">Swing-Trading in 10 Tagen</h2>
+      ${karte(`<div class="karte-titel">Swing-Trading in 10 Tagen</div>
         <div class="hinweis">Jeden Tag ca. 30 Minuten: Lektion, Vokabeln, Quiz, Chart-Übungen.</div>
-        <div class="zeile" style="margin-top:10px"><span class="wachsen">Gesamtfortschritt</span><b>${prozent(gesamt)}</b></div>
-        ${balken(gesamt)}
-      </div>
-      ${faellig ? `<a class="karte teil-karte" href="#/wiederholen/faellig" style="border-color:var(--akzent)">
-          <span class="ico">🔁</span><div class="wachsen" style="flex:1"><b>Zuerst wiederholen</b>
-          <div class="hinweis">${faellig} Begriff${faellig === 1 ? '' : 'e'} fällig</div></div><span>›</span></a>` : ''}
-      ${tage}
+        <div class="zeile" style="margin-top:12px"><span class="wachsen">Gesamtfortschritt</span><b class="zahlen">${prozent(gesamt)}</b></div>
+        ${balken(gesamt)}`)}
+      ${faellig ? liste([eintrag({ href: '#/wiederholen/faellig', ico: 'repeat', titel: 'Zuerst wiederholen', info: `${faellig} Begriff${faellig === 1 ? '' : 'e'} fällig`, klasse: 'hervor' })]) : ''}
+      ${liste(tage)}
       <p class="fusszeile">Lerninhalt, keine Anlageberatung.<br>Version ${esc(self.APP_VERSION)} · ${vorhanden.length} von 10 Tagen verfügbar</p>`
   };
 }
@@ -140,21 +167,22 @@ function seiteTag(nr) {
   const f = tagFortschritt(nr);
   const faellig = faelligeKarten().length;
   const t = store.tag(nr);
-  const status = x => x >= 1 ? '<span class="haken">✓</span>' : x > 0 ? `<span class="hinweis">${prozent(x)}</span>` : '<span class="hinweis">›</span>';
-  const teil = (href, ico, name, info, x) => `<a class="karte teil-karte" href="${href}"><span class="ico">${ico}</span>
-    <div style="flex:1"><b>${name}</b><div class="hinweis">${info}</div></div>${status(x)}</a>`;
+  const status = x => x >= 1 ? fertigChip : x > 0 ? `<span slot="end" class="hinweis zahlen">${prozent(x)}</span>` : '';
+  const teil = (href, ico, name, info, x) => eintrag({ href, ico, icoKlasse: x >= 1 ? 'positiv' : '', titel: name, info, ende: status(x), detail: x < 1 });
 
   return {
     titel: `Tag ${nr}: ${inhalt.titel}`,
     zurueck: '#/',
     nav: 'plan',
     html: `
-      <div class="karte"><div class="hinweis">Ziel für heute</div><div>${esc(inhalt.ziel)}</div>${balken(f.gesamt)}</div>
-      ${faellig ? teil('#/wiederholen/faellig', '🔁', 'Wiederholung zuerst', `${faellig} fällige Begriffe`, 0) : ''}
-      ${teil(`#/tag/${nr}/lektion`, '📘', '1. Lektion', `${inhalt.lektion.length} Häppchen · ca. 10 Min`, f.teile.lektion)}
-      ${teil(`#/tag/${nr}/vokabeln`, '🗂️', '2. Vokabeln', `${inhalt.vokabeln.length} Begriffe · ca. 5 Min`, f.teile.vokabeln)}
-      ${teil(`#/tag/${nr}/quiz`, '❓', '3. Quiz', t.quiz.beste !== null ? `Bestes Ergebnis: ${t.quiz.beste} von ${inhalt.quiz.length}` : `${inhalt.quiz.length} Fragen · ca. 5 Min`, f.teile.quiz)}
-      ${teil(`#/tag/${nr}/uebungen`, '📈', '4. Chart-Übungen', `${f.uebErledigt} von ${inhalt.uebungen.length} erledigt · ca. 10 Min`, f.teile.uebungen)}`
+      ${karte(`<div class="hinweis">Ziel für heute</div><div>${esc(inhalt.ziel)}</div>${balken(f.gesamt)}`)}
+      ${faellig ? liste([eintrag({ href: '#/wiederholen/faellig', ico: 'repeat', titel: 'Wiederholung zuerst', info: `${faellig} fällige Begriffe`, klasse: 'hervor' })]) : ''}
+      ${liste([
+        teil(`#/tag/${nr}/lektion`, 'book-open-text', '1. Lektion', `${inhalt.lektion.length} Häppchen · ca. 10 Min`, f.teile.lektion),
+        teil(`#/tag/${nr}/vokabeln`, 'layers', '2. Vokabeln', `${inhalt.vokabeln.length} Begriffe · ca. 5 Min`, f.teile.vokabeln),
+        teil(`#/tag/${nr}/quiz`, 'circle-help', '3. Quiz', t.quiz.beste !== null ? `Bestes Ergebnis: ${t.quiz.beste} von ${inhalt.quiz.length}` : `${inhalt.quiz.length} Fragen · ca. 5 Min`, f.teile.quiz),
+        teil(`#/tag/${nr}/uebungen`, 'chart-candlestick', '4. Chart-Übungen', `${f.uebErledigt} von ${inhalt.uebungen.length} erledigt · ca. 10 Min`, f.teile.uebungen)
+      ])}`
   };
 }
 
@@ -170,33 +198,34 @@ function seiteLektion(nr, i) {
     zurueck: `#/tag/${nr}`,
     nav: 'plan',
     html: `
-      <div class="karte lektion">
+      <ion-card class="lektion"><ion-card-content>
         <h2>${esc(h.titel)}</h2>
         ${grafik(h.grafik)}
         <div class="text">${markup(h.text)}</div>
         ${h.merke ? `<div class="merke">${markup(h.merke)}</div>` : ''}
-      </div>
+      </ion-card-content></ion-card>
       <div class="punkte">${inhalt.lektion.map((_, j) => `<i class="${j <= i ? 'an' : ''}"></i>`).join('')}</div>
       <div class="knopf-reihe">
-        <button class="knopf zweit" id="zurueck-k" ${i === 0 ? 'disabled' : ''}>‹ Zurück</button>
-        <button class="knopf" id="weiter-k">${letzte ? 'Abschließen ✓' : 'Weiter ›'}</button>
+        <ion-button color="medium" id="zurueck-k" ${i === 0 ? 'disabled' : ''}>${icon('chevron-left', 20)}Zurück</ion-button>
+        <ion-button id="weiter-k">${letzte ? `${icon('check', 20)}Abschließen` : `Weiter${icon('chevron-right', 20)}`}</ion-button>
       </div>
-      <p class="hinweis" style="text-align:center">Tipp: Du kannst auch wischen.</p>`,
+      <p class="hinweis mittig">Tipp: Du kannst auch wischen.</p>`,
     danach(el) {
       const geh = j => { location.hash = `#/tag/${nr}/lektion/${j}`; };
       const weiter = () => {
         if (letzte) {
           store.tag(nr).lektion = true;
           store.speichern();
+          toast('Lektion abgeschlossen. Weiter mit den Vokabeln.', { farbe: 'success' });
           location.hash = `#/tag/${nr}/vokabeln`;
         } else geh(i + 1);
       };
       el.querySelector('#weiter-k').onclick = weiter;
       el.querySelector('#zurueck-k').onclick = () => i > 0 && geh(i - 1);
       let x0 = null;
-      const box = el.querySelector('.lektion');
-      box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
-      box.addEventListener('touchend', e => {
+      const kasten = el.querySelector('.lektion');
+      kasten.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+      kasten.addEventListener('touchend', e => {
         if (x0 === null) return;
         const dx = e.changedTouches[0].clientX - x0;
         x0 = null;
@@ -213,22 +242,22 @@ function seiteVokabelMenue(nr) {
   const neu = karten.filter(k => !leitner.istGesehen(k.id)).length;
   const sicher = karten.filter(k => leitner.istSicher(k.id)).length;
   const wackel = karten.filter(k => leitner.istWackel(k.id)).length;
-  const modus = (m, ico, name, info) => `<a class="karte teil-karte" href="#/tag/${nr}/vokabeln/${m}"><span class="ico">${ico}</span>
-    <div style="flex:1"><b>${name}</b><div class="hinweis">${info}</div></div><span class="hinweis">›</span></a>`;
+  const modus = (m, ico, name, info) => eintrag({ href: `#/tag/${nr}/vokabeln/${m}`, ico, titel: name, info });
   return {
     titel: `Tag ${nr}: Vokabeln`,
     zurueck: `#/tag/${nr}`,
     nav: 'plan',
     html: `
-      <div class="karte zeile" style="justify-content:space-around;text-align:center">
-        <div><b style="font-size:22px">${neu}</b><div class="hinweis">neu</div></div>
-        <div><b style="font-size:22px">${sicher}</b><div class="hinweis">sicher</div></div>
-        <div><b style="font-size:22px">${wackel}</b><div class="hinweis">wackelig</div></div>
-      </div>
-      ${modus('gemischt', '🔀', 'Gemischt (empfohlen)', 'Alle Abfragearten durcheinander')}
-      ${modus('karte', '🗂️', 'Begriff → Erklärung', 'Karteikarte umdrehen, selbst bewerten')}
-      ${modus('umgekehrt', '↩️', 'Erklärung → Begriff', 'Welcher Begriff ist gemeint?')}
-      ${modus('mc', '☑️', 'Multiple Choice', 'Richtige Antwort aus vier auswählen')}
+      ${karte(`<div class="drei-zahlen">
+        <div><b>${neu}</b><span class="hinweis">neu</span></div>
+        <div><b class="positiv">${sicher}</b><span class="hinweis">sicher</span></div>
+        <div><b class="negativ">${wackel}</b><span class="hinweis">wackelig</span></div></div>`)}
+      ${liste([
+        modus('gemischt', 'shuffle', 'Gemischt (empfohlen)', 'Alle Abfragearten durcheinander'),
+        modus('karte', 'layers', 'Begriff → Erklärung', 'Karteikarte umdrehen, selbst bewerten'),
+        modus('umgekehrt', 'arrow-right-left', 'Erklärung → Begriff', 'Welcher Begriff ist gemeint?'),
+        modus('mc', 'list-checks', 'Multiple Choice', 'Richtige Antwort aus vier auswählen')
+      ])}
       <p class="hinweis">Unsichere Begriffe kommen öfter dran (Leitner-System). Begriffe, die du sicher kannst, siehst du erst nach einigen Tagen wieder.</p>`
   };
 }
@@ -247,22 +276,23 @@ function seiteVokabelSitzung(karten, modus, zurueck, titel) {
     titel, zurueck, nav: zurueck.startsWith('#/wiederholen') ? 'wiederholen' : 'plan',
     html: '<div id="sitzung"></div>',
     danach(el) {
-      const box = el.querySelector('#sitzung');
+      const kasten = el.querySelector('#sitzung');
       if (!karten.length) {
-        box.innerHTML = `<div class="karte"><h3>Nichts zu tun 🎉</h3><p>Gerade sind keine Begriffe offen.</p></div>
-          <a class="knopf breit" href="${zurueck}">Zurück</a>`;
+        kasten.innerHTML = leer('circle-check', 'Alles erledigt', 'Gerade sind keine Begriffe offen. Schau morgen wieder vorbei.',
+          `<ion-button href="${zurueck}">Zurück</ion-button>`);
         return;
       }
       const pool = alleKarten();
       const schlange = mischen(karten);
       const nochmal = new Set();
-      let zaehler = { gewusst: 0, unsicher: 0, nicht: 0 }, erledigt = 0;
+      const zaehler = { gewusst: 0, unsicher: 0, nicht: 0 };
+      let erledigt = 0;
 
       const naechste = () => {
         if (!schlange.length) return ende();
         const k = schlange.shift();
         const m = modus === 'gemischt' ? mischen(['karte', 'umgekehrt', 'mc'])[0] : modus;
-        const kopf = `<div class="hinweis" style="text-align:center;margin-bottom:8px">${erledigt + 1} von ${erledigt + schlange.length + 1}</div>`;
+        const kopf = `<div class="zaehler">${erledigt + 1} von ${erledigt + schlange.length + 1}</div>`;
         if (m === 'mc') zeigeMC(k, kopf); else zeigeKarte(k, m, kopf);
       };
 
@@ -277,27 +307,25 @@ function seiteVokabelSitzung(karten, modus, zurueck, titel) {
         naechste();
       };
 
-      const vorder = (k, m) => m === 'karte'
-        ? `<div class="begriff">${esc(k.de)}</div><div class="en" style="margin-top:6px">${esc(k.en)}</div>`
-        : `<div style="font-size:19px">${esc(maskiere(k.erklaerung, k))}</div>`;
+      const begriffHtml = k => `<div class="begriff">${esc(k.de)}</div><div class="en" style="margin-top:6px">${esc(k.en)}</div>`;
+      const vorder = (k, m) => m === 'karte' ? begriffHtml(k) : `<div style="font-size:18px">${esc(maskiere(k.erklaerung, k))}</div>`;
       const rueck = (k, m) => m === 'karte'
         ? `<div class="rueckseite">${esc(k.erklaerung)}${k.beispiel ? `<div class="beispiel">Beispiel: ${esc(k.beispiel)}</div>` : ''}</div>`
-        : `<div class="begriff">${esc(k.de)}</div><div class="en" style="margin-top:6px">${esc(k.en)}</div>
-           ${k.beispiel ? `<div class="beispiel" style="text-align:left">Beispiel: ${esc(k.beispiel)}</div>` : ''}`;
+        : `${begriffHtml(k)}${k.beispiel ? `<div class="beispiel">Beispiel: ${esc(k.beispiel)}</div>` : ''}`;
 
       function zeigeKarte(k, m, kopf) {
-        box.innerHTML = `${kopf}
-          <div class="karte kartei" id="kartei">${vorder(k, m)}<div class="tipp-hinweis">Antippen zum Umdrehen</div></div>
+        kasten.innerHTML = `${kopf}
+          <div class="kartei" id="kartei">${vorder(k, m)}<div class="tipp-hinweis">${icon('refresh-cw', 16)}Antippen zum Umdrehen</div></div>
           <div id="bewertung"></div>`;
-        box.querySelector('#kartei').onclick = function () {
+        kasten.querySelector('#kartei').onclick = function () {
           if (this.dataset.offen) return;
           this.dataset.offen = '1';
-          this.innerHTML = vorder(k, m) + '<hr style="border:0;border-top:1px solid var(--rand);margin:14px 0;width:100%">' + rueck(k, m);
-          box.querySelector('#bewertung').innerHTML = `<div class="knopf-reihe drei">
-            <button class="knopf rot" data-e="nicht">Nicht gewusst</button>
-            <button class="knopf zweit" data-e="unsicher">Unsicher</button>
-            <button class="knopf gruen" data-e="gewusst">Gewusst</button></div>`;
-          box.querySelectorAll('[data-e]').forEach(b => b.onclick = () => bewerte(k, b.dataset.e));
+          this.innerHTML = vorder(k, m) + '<hr>' + rueck(k, m);
+          kasten.querySelector('#bewertung').innerHTML = `<div class="knopf-reihe drei">
+            <ion-button color="danger" data-e="nicht">Nicht gewusst</ion-button>
+            <ion-button color="medium" data-e="unsicher">Unsicher</ion-button>
+            <ion-button color="success" data-e="gewusst">Gewusst</ion-button></div>`;
+          kasten.querySelectorAll('[data-e]').forEach(b => b.onclick = () => bewerte(k, b.dataset.e));
         };
       }
 
@@ -306,35 +334,31 @@ function seiteVokabelSitzung(karten, modus, zurueck, titel) {
         const andere = mischen(pool.filter(x => x.id !== k.id)).slice(0, 3);
         const optionen = mischen([k, ...andere]);
         const frage = richtung === 'begriff'
-          ? `<div class="hinweis">Was bedeutet …</div><div class="begriff" style="font-size:22px">${esc(k.de)}</div><div class="en">${esc(k.en)}</div>`
-          : `<div class="hinweis">Welcher Begriff passt?</div><div style="font-size:18px">${esc(maskiere(k.erklaerung, k))}</div>`;
+          ? `<div class="hinweis">Was bedeutet …</div><div class="karte-titel" style="margin-top:4px">${esc(k.de)}</div><div class="en">${esc(k.en)}</div>`
+          : `<div class="hinweis">Welcher Begriff passt?</div><div style="font-size:18px;margin-top:4px">${esc(maskiere(k.erklaerung, k))}</div>`;
         const text = o => richtung === 'begriff' ? esc(o.erklaerung) : `<b>${esc(o.de)}</b> <span class="en">${esc(o.en)}</span>`;
-        box.innerHTML = `${kopf}<div class="karte">${frage}</div>
-          <div class="optionen">${optionen.map(o => `<button class="option" data-id="${o.id}">${text(o)}</button>`).join('')}</div>
+        kasten.innerHTML = `${kopf}${karte(frage)}
+          <div class="optionen">${optionen.map(o => optionKnopf(text(o), `data-id="${o.id}"`)).join('')}</div>
           <div id="mc-erg"></div>`;
-        box.querySelectorAll('.option').forEach(b => b.onclick = () => {
+        const alle = [...kasten.querySelectorAll('.option')];
+        alle.forEach(b => b.onclick = () => {
           const ok = b.dataset.id === k.id;
-          box.querySelectorAll('.option').forEach(x => {
-            x.disabled = true;
-            if (x.dataset.id === k.id) x.classList.add('richtig');
-            else if (x === b) x.classList.add('falsch');
-          });
-          box.querySelector('#mc-erg').innerHTML = `
-            <div class="erklaerung ${ok ? 'gut' : 'schlecht'}"><b>${ok ? 'Richtig!' : 'Leider falsch.'}</b>
-              <p><b>${esc(k.de)}</b> <span class="en">${esc(k.en)}</span>: ${esc(k.erklaerung)}</p></div>
-            <div class="abstand"></div><button class="knopf breit">Weiter</button>`;
-          box.querySelector('#mc-erg .knopf').onclick = () => bewerte(k, ok ? 'gewusst' : 'nicht');
+          markiereOptionen(alle, x => x.dataset.id === k.id, b);
+          kasten.querySelector('#mc-erg').innerHTML = `
+            ${box(ok ? 'positiv' : 'negativ', ok ? 'Richtig!' : 'Leider falsch.', `<p><b>${esc(k.de)}</b> <span class="en">${esc(k.en)}</span>: ${esc(k.erklaerung)}</p>`)}
+            <div class="abstand"></div><ion-button expand="block">Weiter${icon('chevron-right', 20)}</ion-button>`;
+          kasten.querySelector('#mc-erg ion-button').onclick = () => bewerte(k, ok ? 'gewusst' : 'nicht');
         });
       }
 
       function ende() {
-        box.innerHTML = `<div class="karte" style="text-align:center"><h3>Geschafft!</h3>
-          <div class="zeile" style="justify-content:space-around;margin-top:10px">
-            <div><b style="font-size:22px;color:var(--gruen)">${zaehler.gewusst}</b><div class="hinweis">gewusst</div></div>
-            <div><b style="font-size:22px">${zaehler.unsicher}</b><div class="hinweis">unsicher</div></div>
-            <div><b style="font-size:22px;color:var(--rot)">${zaehler.nicht}</b><div class="hinweis">nicht gewusst</div></div>
-          </div></div>
-          <div class="knopf-spalte"><a class="knopf breit" href="${zurueck}">Fertig</a></div>`;
+        kasten.innerHTML = `
+          <div class="leer">${icon('sparkles', 40)}<h3>Geschafft!</h3></div>
+          ${karte(`<div class="drei-zahlen">
+            <div><b class="positiv">${zaehler.gewusst}</b><span class="hinweis">gewusst</span></div>
+            <div><b>${zaehler.unsicher}</b><span class="hinweis">unsicher</span></div>
+            <div><b class="negativ">${zaehler.nicht}</b><span class="hinweis">nicht gewusst</span></div></div>`)}
+          <ion-button expand="block" href="${zurueck}">Fertig</ion-button>`;
       }
 
       naechste();
@@ -351,53 +375,48 @@ function seiteQuiz(nr) {
     nav: 'plan',
     html: '<div id="quiz"></div>',
     danach(el) {
-      const box = el.querySelector('#quiz');
+      const kasten = el.querySelector('#quiz');
       let i = 0, punkte = 0;
 
       const zeige = () => {
         if (i >= fragen.length) return ende();
         const f = fragen[i];
         let antwort = '';
-        if (f.typ === 'mc') antwort = `<div class="optionen">${f.optionen.map((o, j) => `<button class="option" data-j="${j}">${esc(o)}</button>`).join('')}</div>`;
-        else if (f.typ === 'wf') antwort = `<div class="optionen"><button class="option" data-j="1">Richtig</button><button class="option" data-j="0">Falsch</button></div>`;
-        else if (f.typ === 'rechnen') antwort = `<div class="eingabe-reihe"><input class="eingabe" inputmode="decimal" autocomplete="off" placeholder="Deine Antwort"><span class="einheit">${esc(f.einheit ?? '')}</span></div>
-          <div class="abstand"></div><button class="knopf breit" id="pruefen">Prüfen</button>`;
-        box.innerHTML = `<div class="hinweis" style="text-align:center;margin-bottom:8px">Frage ${i + 1} von ${fragen.length}</div>
-          <div class="karte">${f.typ === 'wf' ? '<div class="hinweis">Richtig oder falsch?</div>' : ''}${markup(f.frage)}</div>
+        if (f.typ === 'mc') antwort = `<div class="optionen">${f.optionen.map((o, j) => optionKnopf(esc(o), `data-j="${j}"`)).join('')}</div>`;
+        else if (f.typ === 'wf') antwort = `<div class="optionen">${optionKnopf('Richtig', 'data-j="1"')}${optionKnopf('Falsch', 'data-j="0"')}</div>`;
+        else if (f.typ === 'rechnen') antwort = `<div class="eingabe-reihe"><input class="eingabe" inputmode="decimal" autocomplete="off" placeholder="Deine Antwort" aria-label="Deine Antwort"><span class="einheit">${esc(f.einheit ?? '')}</span></div>
+          <div class="abstand"></div><ion-button expand="block" id="pruefen">${icon('check', 20)}Prüfen</ion-button>`;
+        kasten.innerHTML = `<div class="zaehler">Frage ${i + 1} von ${fragen.length}</div>
+          ${karte(`${f.typ === 'wf' ? '<div class="hinweis">Richtig oder falsch?</div>' : ''}${markup(f.frage)}`)}
           ${antwort}<div id="q-erg"></div>`;
 
-        const aufloesen = ok => {
+        const aufloesen = (ok, titel) => {
           if (ok) punkte++;
-          box.querySelector('#q-erg').innerHTML = `
-            <div class="erklaerung ${ok ? 'gut' : 'schlecht'}"><b>${ok ? 'Richtig!' : 'Leider falsch.'}</b>${markup(f.erklaerung)}</div>
-            <div class="abstand"></div><button class="knopf breit">${i + 1 < fragen.length ? 'Nächste Frage' : 'Ergebnis ansehen'}</button>`;
-          box.querySelector('#q-erg .knopf').onclick = () => { i++; zeige(); };
+          kasten.querySelector('#q-erg').innerHTML = `
+            ${box(ok ? 'positiv' : 'negativ', titel ?? (ok ? 'Richtig!' : 'Leider falsch.'), markup(f.erklaerung))}
+            <div class="abstand"></div><ion-button expand="block">${i + 1 < fragen.length ? 'Nächste Frage' : 'Ergebnis ansehen'}${icon('chevron-right', 20)}</ion-button>`;
+          kasten.querySelector('#q-erg ion-button').onclick = () => { i++; zeige(); };
         };
 
         if (f.typ === 'rechnen') {
-          const inp = box.querySelector('input');
+          const inp = kasten.querySelector('input');
           const pruef = () => {
             const wert = leseZahl(inp.value);
             if (wert === null) { inp.focus(); return; }
             inp.disabled = true;
-            box.querySelector('#pruefen').remove();
+            kasten.querySelector('#pruefen').remove();
             const ok = Math.abs(wert - f.loesung) <= (f.toleranz ?? 0);
-            inp.style.borderColor = ok ? 'var(--gruen)' : 'var(--rot)';
-            aufloesen(ok);
-            if (!ok) box.querySelector('#q-erg .erklaerung b').textContent = `Leider falsch. Richtig ist ${zahl(f.loesung, Number.isInteger(f.loesung) ? 0 : 2)} ${f.einheit ?? ''}.`;
+            inp.classList.add(ok ? 'richtig' : 'falsch');
+            aufloesen(ok, ok ? 'Richtig!' : `Leider falsch. Richtig ist ${zahl(f.loesung, Number.isInteger(f.loesung) ? 0 : 2)} ${f.einheit ?? ''}.`);
           };
-          box.querySelector('#pruefen').onclick = pruef;
+          kasten.querySelector('#pruefen').onclick = pruef;
           inp.addEventListener('keydown', e => { if (e.key === 'Enter') pruef(); });
         } else {
           const richtigJ = f.typ === 'wf' ? (f.richtig ? 1 : 0) : f.richtig;
-          box.querySelectorAll('.option').forEach(b => b.onclick = () => {
-            const j = Number(b.dataset.j);
-            box.querySelectorAll('.option').forEach(x => {
-              x.disabled = true;
-              if (Number(x.dataset.j) === richtigJ) x.classList.add('richtig');
-              else if (x === b) x.classList.add('falsch');
-            });
-            aufloesen(j === richtigJ);
+          const alle = [...kasten.querySelectorAll('.option')];
+          alle.forEach(b => b.onclick = () => {
+            markiereOptionen(alle, x => Number(x.dataset.j) === richtigJ, b);
+            aufloesen(Number(b.dataset.j) === richtigJ);
           });
         }
       };
@@ -409,15 +428,14 @@ function seiteQuiz(nr) {
         t.quiz.versuche++;
         store.speichern();
         const quote = punkte / fragen.length;
-        box.innerHTML = `<div class="karte" style="text-align:center">
-            <div class="r-ergebnis ${quote >= 0.7 ? 'plus' : 'minus'}">${punkte} / ${fragen.length}</div>
-            <p>${quote === 1 ? 'Perfekt!' : quote >= 0.7 ? 'Gut gemacht!' : 'Schau dir die Lektion ruhig noch einmal an und versuch es erneut.'}</p>
-          </div>
+        kasten.innerHTML = `
+          ${karte(`<div class="r-ergebnis ${quote >= 0.7 ? 'plus' : 'minus'}">${punkte} / ${fragen.length}</div>
+            <p class="mittig">${quote === 1 ? 'Perfekt!' : quote >= 0.7 ? 'Gut gemacht!' : 'Schau dir die Lektion ruhig noch einmal an und versuch es erneut.'}</p>`)}
           <div class="knopf-spalte">
-            <a class="knopf breit" href="#/tag/${nr}/uebungen">Weiter zu den Chart-Übungen</a>
-            <button class="knopf zweit breit" id="nochmal">Quiz wiederholen</button>
+            <ion-button expand="block" href="#/tag/${nr}/uebungen">${icon('chart-candlestick', 20)}Weiter zu den Chart-Übungen</ion-button>
+            <ion-button expand="block" color="medium" id="nochmal">${icon('refresh-cw', 18)}Quiz wiederholen</ion-button>
           </div>`;
-        box.querySelector('#nochmal').onclick = () => { i = 0; punkte = 0; zeige(); };
+        kasten.querySelector('#nochmal').onclick = () => { i = 0; punkte = 0; zeige(); };
       };
 
       zeige();
@@ -431,42 +449,46 @@ function seiteUebungen(nr) {
   const t = store.tag(nr);
   const zeilen = inhalt.uebungen.map((u, i) => {
     const s = t.uebungen[u.id];
-    const info = !s?.erledigt ? '' : u.typ === 'entscheiden'
+    const ergebnis = !s?.erledigt ? '' : u.typ === 'entscheiden'
       ? (s.entscheidung === 'warten' ? 'abgewartet' : `${s.r > 0 ? '+' : ''}${zahl(s.r, 1)} R`)
       : (s.richtig ? 'richtig' : 'falsch');
-    return `<a class="karte teil-karte" href="#/tag/${nr}/uebung/${i}">
-      <span class="ico">${u.stufe === 'entscheiden' ? '🎯' : '🔍'}</span>
-      <div style="flex:1"><b>${i + 1}. ${esc(u.titel)}</b><div class="hinweis">${u.stufe === 'entscheiden' ? 'Entscheiden' : 'Erkennen'}${info ? ' · ' + info : ''}</div></div>
-      ${s?.erledigt ? '<span class="haken">✓</span>' : '<span class="hinweis">›</span>'}</a>`;
-  }).join('');
+    return eintrag({
+      href: `#/tag/${nr}/uebung/${i}`,
+      ico: u.stufe === 'entscheiden' ? 'target' : 'scan-search',
+      icoKlasse: s?.erledigt ? 'positiv' : '',
+      titel: `${i + 1}. ${esc(u.titel)}`,
+      info: `${u.stufe === 'entscheiden' ? 'Entscheiden' : 'Erkennen'}${ergebnis ? ' · ' + ergebnis : ''}`,
+      ende: s?.erledigt ? `<span slot="end" style="color:var(--positiv)">${icon('circle-check', 22)}</span>` : ''
+    });
+  });
   return {
     titel: `Tag ${nr}: Chart-Übungen`,
     zurueck: `#/tag/${nr}`,
     nav: 'plan',
-    html: `<div class="warnung">Alle Charts sind <b>simulierte Übungsdaten</b>, keine echten Aktien.</div>${zeilen}`
+    html: `<div class="box warnung oben"><div class="box-titel">${icon('info', 18)}<span>Simulierte Übungsdaten</span></div><p style="margin-top:4px">Alle Charts sind erzeugt, keine echten Aktien.</p></div>${liste(zeilen)}`
   };
 }
 
 function seiteUebung(nr, i) {
-  const liste = inhalte[nr].uebungen;
-  const u = liste[i];
+  const alleUeb = inhalte[nr].uebungen;
+  const u = alleUeb[i];
   if (!u) return null;
   return {
-    titel: `Übung ${i + 1}/${liste.length}`,
+    titel: `Übung ${i + 1}/${alleUeb.length}`,
     zurueck: `#/tag/${nr}/uebungen`,
     nav: 'plan',
     html: '<div id="uebung"></div><div id="weiter-box"></div>',
     danach(el) {
-      const box = el.querySelector('#uebung');
+      const kasten = el.querySelector('#uebung');
       const weiter = el.querySelector('#weiter-box');
       const starten = () => {
         weiter.innerHTML = '';
-        zeigeUebung(box, u, ergebnis => {
+        zeigeUebung(kasten, u, ergebnis => {
           store.tag(nr).uebungen[u.id] = { ...ergebnis, datum: heute() };
           store.speichern();
-          weiter.innerHTML = i + 1 < liste.length
-            ? `<div class="abstand"></div><a class="knopf breit" href="#/tag/${nr}/uebung/${i + 1}">Nächste Übung ›</a>`
-            : `<div class="abstand"></div><a class="knopf breit" href="#/tag/${nr}">Tag ${nr} abschließen ✓</a>`;
+          weiter.innerHTML = i + 1 < alleUeb.length
+            ? `<div class="abstand"></div><ion-button expand="block" href="#/tag/${nr}/uebung/${i + 1}">Nächste Übung${icon('chevron-right', 20)}</ion-button>`
+            : `<div class="abstand"></div><ion-button expand="block" href="#/tag/${nr}">${icon('flag', 20)}Tag ${nr} abschließen</ion-button>`;
         }, starten);
       };
       starten();
@@ -478,16 +500,19 @@ function seiteUebung(nr, i) {
 function seiteWiederholen() {
   const faellig = faelligeKarten();
   const wackel = wackelKarten();
+  if (!alleKarten().some(k => leitner.istGesehen(k.id))) {
+    return { titel: 'Wiederholen', html: leer('repeat', 'Noch nichts zu wiederholen', 'Sobald du die ersten Vokabeln gelernt hast, erscheinen sie hier zur Wiederholung.', '<ion-button href="#/tag/1/vokabeln">Vokabeln lernen</ion-button>') };
+  }
   return {
     titel: 'Wiederholen',
     html: `
-      <div class="karte"><h3>Fällige Begriffe</h3>
+      ${karte(`<h3>Fällige Begriffe</h3>
         <p class="hinweis" style="margin-top:0">Begriffe, die laut Leitner-System heute wieder drankommen.</p>
-        <a class="knopf breit ${faellig.length ? '' : 'zweit'}" href="#/wiederholen/faellig">${faellig.length} wiederholen</a></div>
-      <div class="karte"><h3>Wackelkandidaten</h3>
+        <ion-button expand="block" href="#/wiederholen/faellig" ${faellig.length ? '' : 'color="medium"'}>${icon('repeat', 20)}${faellig.length} wiederholen</ion-button>`)}
+      ${karte(`<h3>Wackelkandidaten</h3>
         <p class="hinweis" style="margin-top:0">Begriffe, die du schon einmal nicht wusstest und die noch nicht sicher sitzen.</p>
-        ${wackel.length ? `<ul class="liste-kompakt">${wackel.map(k => `<li><b>${esc(k.de)}</b> <span class="en">${esc(k.en)}</span></li>`).join('')}</ul><div class="abstand"></div>` : ''}
-        <a class="knopf breit ${wackel.length ? '' : 'zweit'}" href="#/wiederholen/wackel">${wackel.length} üben</a></div>`
+        ${wackel.length ? `${wackel.map(k => `<div class="glossar-eintrag"><b>${esc(k.de)}</b> <span class="en">${esc(k.en)}</span></div>`).join('')}<div class="abstand"></div>` : ''}
+        <ion-button expand="block" href="#/wiederholen/wackel" ${wackel.length ? '' : 'color="medium"'}>${icon('target', 20)}${wackel.length} üben</ion-button>`)}`
   };
 }
 
@@ -496,20 +521,26 @@ function seiteGlossar() {
   const karten = alleKarten().sort((a, b) => a.de.localeCompare(b.de, 'de'));
   const zeile = k => {
     const s = leitner.status(k.id);
-    const pille = !s ? '' : leitner.istSicher(k.id) ? '<span class="pille gruen">sicher</span>' : leitner.istWackel(k.id) ? '<span class="pille rot">wackelig</span>' : `<span class="pille">Fach ${s.box}</span>`;
-    return `<li data-suche="${esc((k.de + ' ' + k.en + ' ' + k.erklaerung).toLowerCase())}">
-      <div class="zeile"><b class="wachsen">${esc(k.de)} <span class="en" style="font-weight:400">${esc(k.en)}</span></b>${pille}</div>
+    const chip = !s ? '' : leitner.istSicher(k.id) ? `<ion-chip class="positiv">${icon('check', 14)}sicher</ion-chip>`
+      : leitner.istWackel(k.id) ? `<ion-chip class="negativ">${icon('triangle-alert', 14)}wackelig</ion-chip>` : `<ion-chip>Fach ${s.box}</ion-chip>`;
+    return `<div class="glossar-eintrag" data-suche="${esc((k.de + ' ' + k.en + ' ' + k.erklaerung).toLowerCase())}">
+      <div class="zeile"><b class="wachsen">${esc(k.de)} <span class="en" style="font-weight:400">${esc(k.en)}</span></b>${chip}</div>
       <div class="klein-text">${esc(k.erklaerung)}</div>
-      ${k.beispiel ? `<div class="hinweis">Beispiel: ${esc(k.beispiel)}</div>` : ''}</li>`;
+      ${k.beispiel ? `<div class="hinweis">Beispiel: ${esc(k.beispiel)}</div>` : ''}</div>`;
   };
   return {
     titel: 'Glossar',
-    html: `<input class="eingabe" id="suche" placeholder="Suchen (deutsch oder englisch)" style="font-size:17px;margin-bottom:12px">
-      <div class="karte"><ul class="liste-kompakt" id="glossar">${karten.map(zeile).join('')}</ul></div>`,
+    html: `<ion-searchbar id="suche" placeholder="Suchen (deutsch oder englisch)" debounce="100"></ion-searchbar>
+      ${karte(`<div id="glossar">${karten.map(zeile).join('')}</div><div id="keine" hidden>${leer('search', 'Nichts gefunden', 'Versuch es mit einem anderen Wort, auch auf Englisch.')}</div>`)}`,
     danach(el) {
-      el.querySelector('#suche').addEventListener('input', e => {
-        const q = e.target.value.trim().toLowerCase();
-        el.querySelectorAll('#glossar li').forEach(li => { li.hidden = q && !li.dataset.suche.includes(q); });
+      el.querySelector('#suche').addEventListener('ionInput', e => {
+        const q = (e.detail.value ?? '').trim().toLowerCase();
+        let treffer = 0;
+        el.querySelectorAll('#glossar .glossar-eintrag').forEach(x => {
+          x.hidden = !!q && !x.dataset.suche.includes(q);
+          if (!x.hidden) treffer++;
+        });
+        el.querySelector('#keine').hidden = treffer > 0;
       });
     }
   };
@@ -533,44 +564,36 @@ function seiteFortschritt() {
     uebungen += inhalt.uebungen.filter(u => s.uebungen[u.id]?.erledigt).length;
     uebGesamt += inhalt.uebungen.length;
   }
-  const theme = store.d().einstellungen.theme || 'dunkel';
-  const stat = (zahlText, text) => `<div class="karte"><div class="zahl">${zahlText}</div><div class="hinweis">${text}</div></div>`;
+  const kachel = (wert, text) => `<div class="kachel"><div class="zahl">${wert}</div><div class="hinweis">${text}</div></div>`;
 
   return {
     titel: 'Fortschritt',
     html: `
-      ${store.istSpeicherOk() ? '' : '<div class="warnung">Der Browser erlaubt gerade kein Speichern. Dein Fortschritt geht beim Schließen verloren.</div>'}
+      ${store.istSpeicherOk() ? '' : box('warnung', 'Speichern nicht möglich', '<p>Der Browser erlaubt gerade kein Speichern. Dein Fortschritt geht beim Schließen verloren.</p>')}
       <div class="statistik">
-        ${stat(`${tageFertig}/10`, 'Tage erledigt')}
-        ${stat(`${lektionen}`, 'Lektionen gelesen')}
-        ${stat(fragen ? prozent(richtig / fragen) : '–', 'Quiz-Quote (letzter Versuch)')}
-        ${stat(`${uebungen}/${uebGesamt}`, 'Chart-Übungen')}
-        ${stat(`${sicher}`, 'sichere Begriffe')}
-        ${stat(`${wackel.length}`, 'Wackelkandidaten')}
+        ${kachel(`${tageFertig}/10`, 'Tage erledigt')}
+        ${kachel(`${lektionen}`, 'Lektionen gelesen')}
+        ${kachel(fragen ? prozent(richtig / fragen) : '–', 'Quiz-Quote (letzter Versuch)')}
+        ${kachel(`${uebungen}/${uebGesamt}`, 'Chart-Übungen')}
+        ${kachel(`${sicher}`, 'sichere Begriffe')}
+        ${kachel(`${wackel.length}`, 'Wackelkandidaten')}
       </div>
-      <div class="karte"><h3>Karteikasten</h3>
+      ${karte(`<h3>Karteikasten</h3>
         <div class="leitner-boxen">${boxen.map((n, i) => `<div><b>${n}</b><span>Fach ${i + 1}</span></div>`).join('')}</div>
-        <p class="hinweis" style="margin-bottom:0">${neu} Begriffe noch nicht gelernt. Fach 4 und 5 gelten als sicher.</p></div>
-      ${wackel.length ? `<div class="karte"><h3>Wackelkandidaten</h3><ul class="liste-kompakt">${wackel.map(k => `<li><b>${esc(k.de)}</b> <span class="en">${esc(k.en)}</span></li>`).join('')}</ul></div>` : ''}
-      <div class="karte"><h3>Sicherung</h3>
+        <p class="hinweis" style="margin-bottom:0">${neu} Begriffe noch nicht gelernt. Fach 4 und 5 gelten als sicher.</p>`)}
+      ${wackel.length ? karte(`<h3>Wackelkandidaten</h3>${wackel.map(k => `<div class="glossar-eintrag"><b>${esc(k.de)}</b> <span class="en">${esc(k.en)}</span></div>`).join('')}`) : ''}
+      ${karte(`<h3>Sicherung</h3>
         <p class="hinweis" style="margin-top:0">Dein Fortschritt liegt nur auf diesem Handy. Speichere ab und zu eine Sicherung, z. B. in deinen Downloads oder in der Cloud.</p>
         <div class="knopf-spalte">
-          <button class="knopf" id="export">Sicherung speichern (JSON)</button>
-          <button class="knopf zweit" id="import">Sicherung laden</button>
+          <ion-button expand="block" id="export">${icon('download', 20)}Sicherung speichern</ion-button>
+          <ion-button expand="block" color="medium" id="import">${icon('upload', 20)}Sicherung laden</ion-button>
           <input type="file" id="datei" accept="application/json,.json" hidden>
-        </div><p class="u-meldung hinweis" id="meldung"></p></div>
-      <div class="karte"><h3>Darstellung</h3>
-        <select class="eingabe" id="theme">
-          <option value="dunkel" ${theme === 'dunkel' ? 'selected' : ''}>Dunkel</option>
-          <option value="hell" ${theme === 'hell' ? 'selected' : ''}>Hell</option>
-          <option value="system" ${theme === 'system' ? 'selected' : ''}>Wie das Handy</option>
-        </select></div>
-      <div class="karte"><h3>Zurücksetzen</h3>
+        </div>`)}
+      ${karte(`<h3>Zurücksetzen</h3>
         <p class="hinweis" style="margin-top:0">Löscht deinen gesamten Lernfortschritt auf diesem Gerät.</p>
-        <button class="knopf rot breit" id="reset">Fortschritt löschen</button></div>
+        <ion-button expand="block" color="danger" fill="outline" id="reset">${icon('trash-2', 20)}Fortschritt löschen</ion-button>`)}
       <p class="fusszeile">Lerninhalt, keine Anlageberatung. Alle Charts sind simulierte Übungsdaten.<br>Version ${esc(self.APP_VERSION)}</p>`,
     danach(el) {
-      const meldung = t => { el.querySelector('#meldung').textContent = t; };
       el.querySelector('#export').onclick = () => {
         const blob = new Blob([store.exportieren()], { type: 'application/json' });
         const a = document.createElement('a');
@@ -580,31 +603,27 @@ function seiteFortschritt() {
         a.click();
         a.remove();
         setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-        meldung('Sicherung wurde gespeichert (Ordner „Downloads“).');
+        toast('Sicherung gespeichert (Ordner „Downloads“).', { farbe: 'success' });
       };
       const datei = el.querySelector('#datei');
       el.querySelector('#import').onclick = () => datei.click();
       datei.onchange = async () => {
         const f = datei.files[0];
         if (!f) return;
-        if (!confirm('Aktuellen Fortschritt durch die Sicherung ersetzen?')) return;
+        if (!await bestaetigen('Sicherung laden?', 'Dein aktueller Fortschritt wird durch die Sicherung ersetzt.', 'Ersetzen')) return;
         try {
           store.importieren(await f.text());
-          themeAnwenden();
           zeichnen();
+          toast('Sicherung geladen.', { farbe: 'success' });
         } catch (e) {
-          meldung('Fehler: ' + e.message);
+          toast('Fehler: ' + e.message, { farbe: 'danger', dauer: 4000 });
         }
       };
-      el.querySelector('#theme').onchange = e => {
-        store.d().einstellungen.theme = e.target.value;
-        store.speichern();
-        themeAnwenden();
-      };
-      el.querySelector('#reset').onclick = () => {
-        if (confirm('Wirklich den gesamten Lernfortschritt löschen? Das lässt sich nicht rückgängig machen.')) {
+      el.querySelector('#reset').onclick = async () => {
+        if (await bestaetigen('Fortschritt löschen?', 'Das lässt sich nicht rückgängig machen. Speichere vorher eine Sicherung, wenn du unsicher bist.', 'Löschen')) {
           store.zuruecksetzen();
           zeichnen();
+          toast('Fortschritt gelöscht.');
         }
       };
     }
@@ -614,17 +633,13 @@ function seiteFortschritt() {
 // ---------- Offline & Updates ----------
 function serviceWorker() {
   if (!('serviceWorker' in navigator)) return;
-  const banner = document.getElementById('update-banner');
   navigator.serviceWorker.register('sw.js').then(reg => {
-    const zeigeBanner = w => {
-      banner.hidden = false;
-      document.getElementById('update-knopf').onclick = () => w.postMessage('skipWaiting');
-    };
-    if (reg.waiting && navigator.serviceWorker.controller) zeigeBanner(reg.waiting);
+    const zeigeHinweis = w => toast('Update verfügbar', { knopf: { text: 'Jetzt laden', aktion: () => w.postMessage('skipWaiting') } });
+    if (reg.waiting && navigator.serviceWorker.controller) zeigeHinweis(reg.waiting);
     reg.addEventListener('updatefound', () => {
       const neu = reg.installing;
       neu?.addEventListener('statechange', () => {
-        if (neu.state === 'installed' && navigator.serviceWorker.controller) zeigeBanner(neu);
+        if (neu.state === 'installed' && navigator.serviceWorker.controller) zeigeHinweis(neu);
       });
     });
     document.addEventListener('visibilitychange', () => { if (!document.hidden) reg.update().catch(() => {}); });

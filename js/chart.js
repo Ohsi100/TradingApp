@@ -78,22 +78,22 @@ export class KerzenChart {
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
     g.clearRect(0, 0, L.w, L.h);
 
+    // Farben aus theme.css. Die Kurznamen (gruen, rot …) werden in den Übungen benutzt.
     const farbe = {
-      gruen: cssVar('--gruen'), rot: cssVar('--rot'), text2: cssVar('--text2'),
-      rand: cssVar('--rand'), akzent: cssVar('--akzent'), gelb: cssVar('--gelb'), text: cssVar('--text')
+      gruen: cssVar('--positiv'), rot: cssVar('--negativ'), text2: cssVar('--text-gedaempft'),
+      gitter: cssVar('--flaeche-erhoeht'), rand: cssVar('--linie'), akzent: cssVar('--akzent'),
+      gelb: cssVar('--warnung'), text: cssVar('--text'), aufFarbe: cssVar('--auf-farbe')
     };
     const f = n => farbe[n] ?? n;
 
     // Gitter + Preisachse
-    g.font = '11px system-ui, sans-serif';
+    g.font = '13px Inter, system-ui, sans-serif';
     g.textBaseline = 'middle';
     const schritt = schoenerSchritt((L.max - L.min) / 5);
-    g.strokeStyle = farbe.rand; g.fillStyle = farbe.text2; g.lineWidth = 1;
+    g.strokeStyle = farbe.gitter; g.fillStyle = farbe.text2; g.lineWidth = 1;
     for (let p = Math.ceil(L.min / schritt) * schritt; p <= L.max; p += schritt) {
       const yy = Math.round(this.y(p, L)) + 0.5;
-      g.globalAlpha = 0.5;
       g.beginPath(); g.moveTo(L.links, yy); g.lineTo(L.w - L.rechts, yy); g.stroke();
-      g.globalAlpha = 1;
       g.fillText(zahl(p, schritt < 1 ? 2 : 0), L.w - L.rechts + 6, yy);
     }
     // Tage-Achse
@@ -111,7 +111,7 @@ export class KerzenChart {
     }
     // Bereich "Zukunft" leicht markieren
     for (const o of this.overlays.filter(o => o.typ === 'ab')) {
-      g.fillStyle = farbe.rand; g.globalAlpha = 0.25;
+      g.fillStyle = farbe.gitter; g.globalAlpha = 0.6;
       const xx = L.links + o.index * L.slotW;
       g.fillRect(xx, L.oben, L.w - L.rechts - xx, L.volOben + L.volH - L.oben);
       g.globalAlpha = 1;
@@ -144,7 +144,7 @@ export class KerzenChart {
         g.setLineDash([]);
         const t = zahl(o.preis);
         g.fillRect(L.w - L.rechts, yy - 9, L.rechts, 18);
-        g.fillStyle = '#fff'; g.textBaseline = 'middle';
+        g.fillStyle = farbe.aufFarbe; g.textBaseline = 'middle';
         g.fillText(t, L.w - L.rechts + 4, yy);
         if (o.text) {
           g.fillStyle = f(o.farbe ?? 'akzent');

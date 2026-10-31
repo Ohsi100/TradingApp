@@ -1,0 +1,104 @@
+/* Theme "Dunkel & sachlich" (siehe Designvorgaben.md).
+   Alle Farben der App kommen von hier. Keine Hex-Werte an anderen Stellen verwenden. */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('lib/inter/inter-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Design-Tokens */
+  --bg: #0B0E14;
+  --flaeche: #151A23;
+  --flaeche-erhoeht: #1E2530;
+  --linie: #2A3240;
+  --text: #E6E9EF;
+  --text-gedaempft: #8B95A7;
+  --akzent: #4C8DFF;
+  --positiv: #22C55E;
+  --negativ: #EF4444;
+  --warnung: #F59E0B;
+
+  /* Abgeleitet: zarte Hintergründe für Hinweise und Antworten */
+  --akzent-weich: rgba(76, 141, 255, 0.14);
+  --positiv-weich: rgba(34, 197, 94, 0.12);
+  --negativ-weich: rgba(239, 68, 68, 0.12);
+  --warnung-weich: rgba(245, 158, 11, 0.12);
+  --auf-farbe: #0B0E14; /* Text auf farbigen Buttons (Kontrast > 4,5:1) */
+
+  /* Formen und Abstände */
+  --radius-karte: 16px;
+  --radius-knopf: 12px;
+  --dauer: 200ms;
+
+  /* Ionic an die Tokens anbinden */
+  --ion-font-family: 'Inter', system-ui, sans-serif;
+  --ion-background-color: var(--bg);
+  --ion-background-color-rgb: 11, 14, 20;
+  --ion-text-color: var(--text);
+  --ion-text-color-rgb: 230, 233, 239;
+  --ion-border-color: var(--linie);
+  --ion-item-background: var(--flaeche);
+  --ion-card-background: var(--flaeche);
+  --ion-toolbar-background: var(--bg);
+  --ion-toolbar-color: var(--text);
+  --ion-toolbar-border-color: var(--linie);
+  --ion-tab-bar-background: var(--flaeche);
+  --ion-tab-bar-border-color: var(--linie);
+  --ion-tab-bar-color: var(--text-gedaempft);
+  --ion-tab-bar-color-selected: var(--akzent);
+  --ion-overlay-background-color: var(--flaeche-erhoeht);
+  --ion-placeholder-color: var(--text-gedaempft);
+
+  --ion-color-primary: var(--akzent);
+  --ion-color-primary-rgb: 76, 141, 255;
+  --ion-color-primary-contrast: var(--auf-farbe);
+  --ion-color-primary-contrast-rgb: 11, 14, 20;
+  --ion-color-primary-shade: #4379e0;
+  --ion-color-primary-tint: #5e98ff;
+
+  --ion-color-success: var(--positiv);
+  --ion-color-success-rgb: 34, 197, 94;
+  --ion-color-success-contrast: var(--auf-farbe);
+  --ion-color-success-contrast-rgb: 11, 14, 20;
+  --ion-color-success-shade: #1ead53;
+  --ion-color-success-tint: #38cb6e;
+
+  --ion-color-danger: var(--negativ);
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: var(--auf-farbe);
+  --ion-color-danger-contrast-rgb: 11, 14, 20;
+  --ion-color-danger-shade: #d23c3c;
+  --ion-color-danger-tint: #f15757;
+
+  --ion-color-warning: var(--warnung);
+  --ion-color-warning-rgb: 245, 158, 11;
+  --ion-color-warning-contrast: var(--auf-farbe);
+  --ion-color-warning-contrast-rgb: 11, 14, 20;
+  --ion-color-warning-shade: #d88b0a;
+  --ion-color-warning-tint: #f6a823;
+
+  --ion-color-medium: var(--flaeche-erhoeht);
+  --ion-color-medium-rgb: 30, 37, 48;
+  --ion-color-medium-contrast: var(--text);
+  --ion-color-medium-contrast-rgb: 230, 233, 239;
+  --ion-color-medium-shade: #1a212a;
+  --ion-color-medium-tint: #353b45;
+
+  /* Abstufungen, die Ionic für Ränder, Skeletons usw. nutzt */
+  --ion-background-color-step-50: #12161e;
+  --ion-background-color-step-100: var(--flaeche);
+  --ion-background-color-step-150: #1a2029;
+  --ion-background-color-step-200: var(--flaeche-erhoeht);
+  --ion-background-color-step-250: #242c38;
+  --ion-background-color-step-300: var(--linie);
+  --ion-text-color-step-400: var(--text-gedaempft);
+  --ion-text-color-step-500: var(--text-gedaempft);
+  --ion-text-color-step-600: var(--text-gedaempft);
+
+  color-scheme: dark;
+}

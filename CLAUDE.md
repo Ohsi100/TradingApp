@@ -21,6 +21,10 @@ Gründlich statt schnell: Qualität der Lerninhalte ist wichtiger als Funktionsu
 - Für Charts: z. B. TradingView "lightweight-charts" (Open Source, lokal einbinden) oder eigenes Canvas/SVG.
 - Version-Hinweis und "Update verfügbar"-Meldung, wenn eine neue Version auf GitHub Pages liegt.
 
+## Design
+- Halte dich an `Designvorgaben.md` (Kopie im Projektordner), Theme **"Dunkel & sachlich"**.
+- Lege die Farben als CSS-Variablen in einer Datei `theme.css` an und nutze sie überall.
+
 ## Funktionen Version 1 (Urlaub)
 
 ### 1. Tagesplan (Startseite)

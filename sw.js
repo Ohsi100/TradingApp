@@ -1,14 +1,16 @@
 // Service Worker: speichert alle Dateien auf dem Handy, damit die App offline läuft.
-importScripts('version.js');
+importScripts('version.js', 'lib/ionic/dateien.js');
 const CACHE = 'tla-' + self.APP_VERSION;
 
 // Alle Dateien, die offline verfügbar sein müssen. Neue Dateien (z. B. content/tag-02.json) hier ergänzen.
 const DATEIEN = [
-  './', 'index.html', 'version.js', 'manifest.webmanifest', 'css/app.css',
+  './', 'index.html', 'version.js', 'manifest.webmanifest', 'theme.css', 'css/app.css',
   'js/app.js', 'js/store.js', 'js/leitner.js', 'js/chart.js', 'js/kurse.js',
-  'js/grafiken.js', 'js/uebungen.js', 'js/util.js',
+  'js/grafiken.js', 'js/uebungen.js', 'js/util.js', 'js/icons.js', 'js/ui.js',
   'content/tage.json', 'content/tag-01.json',
-  'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png'
+  'lib/inter/inter-latin-wght-normal.woff2',
+  'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
+  ...self.IONIC_DATEIEN
 ];
 
 self.addEventListener('install', e => {
