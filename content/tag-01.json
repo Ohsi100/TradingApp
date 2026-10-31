@@ -1,0 +1,244 @@
+{
+  "nr": 1,
+  "titel": "Börse & Grundbegriffe",
+  "ziel": "Du weißt, was an der Börse gehandelt wird, wie ein Kurs zustande kommt, was dich ein Trade kostet und wie sich Swing-Trading von anderen Stilen unterscheidet.",
+
+  "lektion": [
+    {
+      "titel": "Worum es heute geht",
+      "text": "Bevor wir Charts lesen und Trades planen, brauchen wir eine gemeinsame Sprache. Heute lernst du die wichtigsten Grundbegriffe:\n\n- Aktie, Index und ETF\n- Börse und außerbörslicher Handel\n- Kurs, Geldkurs, Briefkurs und Spread\n- Ordergebühren\n- Long und Short\n- Swing-Trading im Vergleich zu Daytrading und Buy-and-Hold\n\nFachbegriffe stehen immer auch auf Englisch da, z. B. Aktie _Stock_. Die meisten Charts, Bücher und Videos zum Trading sind englisch.",
+      "merke": "Diese App ist ein Lerninhalt und keine Anlageberatung. Hier wird nicht mit echtem Geld gehandelt."
+    },
+    {
+      "titel": "Die Aktie",
+      "text": "Eine **Aktie** _Stock / Share_ ist ein Anteil an einem Unternehmen. Wer eine Aktie besitzt, ist **Aktionär** _Shareholder_ und damit Miteigentümer, wenn auch meist ein sehr kleiner.\n\nMultipliziert man die Zahl aller Aktien mit dem aktuellen Kurs, erhält man den Börsenwert des Unternehmens, die **Marktkapitalisierung** _Market Capitalization_.\n\nBeispiel: Ein Unternehmen hat 10 Millionen Aktien, eine Aktie kostet 50 €. Die Marktkapitalisierung beträgt 10.000.000 × 50 € = 500 Millionen €.",
+      "merke": "Als Swing-Trader interessiert dich vor allem die Kursbewegung der nächsten Tage und Wochen, weniger das Stimmrecht oder die Dividende."
+    },
+    {
+      "titel": "Wo gehandelt wird",
+      "text": "Eine **Börse** _Stock Exchange_ ist ein geregelter, überwachter Marktplatz für Wertpapiere. In Deutschland ist die bekannteste Xetra, das elektronische Handelssystem der Deutschen Börse in Frankfurt (Handelszeit meist 9:00 bis 17:30 Uhr).\n\nBeim **außerbörslichen Handel** _Over the Counter, OTC_ handelst du nicht über eine Börse, sondern direkt mit einem Handelspartner, zum Beispiel einer Bank oder einem sogenannten Market Maker. Viele günstige Broker leiten Orders an solche Handelsplätze weiter, oft mit längeren Handelszeiten.\n\nFür dich wichtig: Der Handelsplatz beeinflusst, zu welchem Preis und zu welchen Zeiten du kaufen und verkaufen kannst.",
+      "merke": "Ein Broker _Broker_ ist dein Vermittler (z. B. eine Bank oder ein Online-Broker). Er leitet deine Order an einen Handelsplatz weiter."
+    },
+    {
+      "titel": "Der Kurs und das Volumen",
+      "text": "Der **Kurs** _Price / Quote_ ist der Preis, zu dem eine Aktie gerade gehandelt wird. Er entsteht aus Angebot und Nachfrage: Wollen mehr Leute kaufen als verkaufen, steigt der Kurs, im umgekehrten Fall fällt er.\n\nDas **Volumen** _Volume_ gibt an, wie viele Aktien in einem Zeitraum gehandelt wurden, zum Beispiel an einem Tag. Im Chart steht es meist als Balken unter den Kursen.\n\nHohes Volumen heißt: Viele Marktteilnehmer haben gehandelt. Das passiert oft bei Nachrichten, zum Beispiel bei Quartalszahlen. Mehr dazu an Tag 7."
+    },
+    {
+      "titel": "Geldkurs, Briefkurs, Spread",
+      "grafik": { "typ": "spread", "bid": 99.90, "ask": 100.10 },
+      "text": "Es gibt nicht nur einen Kurs, sondern immer zwei:\n\n- **Geldkurs** _Bid_: der höchste Preis, den ein Käufer gerade bietet. Zu diesem Preis kannst du **sofort verkaufen**.\n- **Briefkurs** _Ask / Offer_: der niedrigste Preis, zu dem ein Verkäufer gerade anbietet. Zu diesem Preis kannst du **sofort kaufen**.\n\nDer Unterschied heißt **Spread** _Bid-Ask Spread_. Er ist ein versteckter Kostenpunkt: Wer kauft und sofort wieder verkauft, verliert genau den Spread.",
+      "merke": "Merkhilfe: Beim **Geld**kurs bietet jemand Geld, das ist der Käufer. Beim **Brief**kurs bietet jemand das Wertpapier an (früher „Brief“ genannt), das ist der Verkäufer. Der Briefkurs ist immer der höhere: Du kaufst teurer und verkaufst billiger."
+    },
+    {
+      "titel": "Spread in Zahlen",
+      "text": "Beispiel: Geldkurs 99,90 €, Briefkurs 100,10 €. Der Spread beträgt 0,20 € pro Aktie.\n\nDu kaufst 50 Aktien zu 100,10 € und verkaufst sie sofort wieder zu 99,90 €. Verlust: 50 × 0,20 € = **10 €**, ohne dass sich der Kurs bewegt hat.\n\nIn Prozent: 0,20 € von rund 100 € sind 0,2 %.\n\nWie groß der Spread ist, hängt von der **Liquidität** _Liquidity_ ab, also davon, wie viel gehandelt wird. Große, viel gehandelte Aktien haben oft einen Spread von wenigen Hundertstel Prozent. Kleine Werte, Handel außerhalb der Hauptbörsenzeit und hektische Phasen haben deutlich größere Spreads.",
+      "merke": "Prüfe vor jedem Kauf den Spread. Ein großer Spread frisst einen Teil des möglichen Gewinns."
+    },
+    {
+      "titel": "Ordergebühren",
+      "text": "Für jede Order verlangt der Broker eine **Ordergebühr** _Commission / Order Fee_. Oft ist das ein fester Betrag (z. B. 1 € oder 5 €) oder ein Prozentsatz mit Mindestbetrag. Dazu kommen je nach Handelsplatz kleine Börsengebühren.\n\nWichtig: Ein Trade besteht aus **Kauf und Verkauf**, du zahlst also zweimal.\n\nBeispiel: 5 € pro Order, Position 1.000 €. Kauf + Verkauf = 10 € = 1 % der Position. Die Aktie muss also schon um 1 % steigen, nur damit du die Gebühren wieder drin hast (der Spread kommt noch dazu).",
+      "merke": "Je kleiner die Position, desto stärker fallen feste Gebühren ins Gewicht."
+    },
+    {
+      "titel": "Index und ETF",
+      "text": "Ein **Index** _Index_ misst, wie sich eine Gruppe von Aktien entwickelt. Der DAX enthält die 40 größten börsennotierten Unternehmen Deutschlands, der S&P 500 rund 500 große US-Unternehmen. Ein Index ist eine Kennzahl. Man kann ihn **nicht direkt kaufen**.\n\nEin **ETF** _Exchange Traded Fund_ ist ein börsengehandelter Fonds, der einen Index möglichst genau nachbildet. Mit einem einzigen Kauf besitzt du so indirekt alle Aktien des Index. Er wird wie eine Aktie an der Börse gehandelt.\n\nFür Swing-Trader sind Indizes außerdem ein Stimmungsbarometer: Steigt der Gesamtmarkt, haben es einzelne Aktien leichter zu steigen (mehr an Tag 9).",
+      "merke": "Kleine Besonderheit: Der DAX ist ein Performance-Index. In seinen Wert fließen die Dividenden mit ein, als würden sie wieder angelegt."
+    },
+    {
+      "titel": "Long und Short",
+      "grafik": { "typ": "longshort" },
+      "text": "Eine **Position** _Position_ ist das, was du gerade hältst.\n\n**Long** _Long_ heißt: Du kaufst und profitierst, wenn der Kurs steigt. Kauf zu 50 €, Verkauf zu 55 €: +5 € pro Aktie.\n\n**Short** _Short / Short Selling_ heißt: Du profitierst, wenn der Kurs fällt. Technisch leihst du dir die Aktie, verkaufst sie zu 50 € und kaufst sie später zum Beispiel zu 45 € zurück: +5 € pro Aktie.\n\nVorsicht beim Short: Ein Kurs kann nur bis 0 € fallen, aber theoretisch unbegrenzt steigen. Der mögliche Verlust ist deshalb **nicht begrenzt**.",
+      "merke": "In dieser App übst du nur Long-Trades. Für den Einstieg ist das einfacher und gut beherrschbar."
+    },
+    {
+      "titel": "Drei Trading-Stile",
+      "grafik": { "typ": "haltedauer" },
+      "text": "- **Daytrading** _Day Trading_: Positionen werden innerhalb eines Tages eröffnet und geschlossen. Das braucht viel Bildschirmzeit, und Spread und Gebühren fallen stark ins Gewicht.\n- **Swing-Trading** _Swing Trading_: Positionen werden einige Tage bis wenige Wochen gehalten (bei dir: 1 bis 2 Wochen). Ziel ist es, einen „Schwung“ im Kurs mitzunehmen. Man arbeitet meist mit dem Tageschart.\n- **Buy-and-Hold** _Buy and Hold_: Kaufen und über Jahre halten, oft mit breiten ETFs. Kurze Schwankungen spielen dabei kaum eine Rolle.\n\nSwing-Trading passt zu Menschen, die nicht den ganzen Tag vor dem Bildschirm sitzen wollen. Der Preis dafür: Du hältst Positionen über Nacht und übers Wochenende. Dabei können Kurslücken entstehen (Tag 2)."
+    },
+    {
+      "titel": "Zusammenfassung",
+      "text": "- Aktie = Anteil an einem Unternehmen. Index = Kennzahl für viele Aktien. ETF = Fonds, der einen Index nachbildet.\n- Kaufen zum Briefkurs (Ask), verkaufen zum Geldkurs (Bid). Der Unterschied ist der Spread.\n- Jeder Trade kostet zweimal Gebühren plus den Spread.\n- Long = Gewinn bei steigendem Kurs. Short = Gewinn bei fallendem Kurs, mit unbegrenztem Verlustrisiko.\n- Swing-Trading = Haltedauer von Tagen bis Wochen.\n\nJetzt kommen die Vokabeln, danach das Quiz und zum Schluss die ersten Chart-Übungen.",
+      "merke": "Morgen (Tag 2): Orderarten. Wie sage ich dem Broker genau, was er tun soll?"
+    }
+  ],
+
+  "vokabeln": [
+    { "id": "aktie", "de": "Aktie", "en": "Stock / Share", "erklaerung": "Wertpapier, das einen Anteil an einem Unternehmen verbrieft. Der Besitzer ist Miteigentümer.", "beispiel": "Du kaufst 20 Stück zu je 50 € und besitzt damit einen winzigen Teil des Unternehmens für 1.000 €." },
+    { "id": "aktionaer", "de": "Aktionär", "en": "Shareholder", "erklaerung": "Person oder Institution, die Aktien eines Unternehmens besitzt und damit Miteigentümer ist." },
+    { "id": "marktkap", "de": "Marktkapitalisierung", "en": "Market Capitalization", "erklaerung": "Börsenwert eines Unternehmens: Anzahl aller Aktien mal aktueller Kurs.", "beispiel": "10 Mio. Aktien × 50 € = 500 Mio. € Börsenwert." },
+    { "id": "boerse", "de": "Börse", "en": "Stock Exchange", "erklaerung": "Geregelter und überwachter Marktplatz, auf dem Wertpapiere zu festen Regeln und Handelszeiten gehandelt werden.", "beispiel": "Xetra (Deutsche Börse), meist 9:00 bis 17:30 Uhr." },
+    { "id": "otc", "de": "Außerbörslicher Handel", "en": "Over the Counter (OTC)", "erklaerung": "Handel direkt mit einem Handelspartner (z. B. Bank oder Market Maker) statt über eine Börse. Oft mit längeren Handelszeiten." },
+    { "id": "broker", "de": "Broker", "en": "Broker", "erklaerung": "Vermittler (Bank oder Online-Broker), der deine Orders an einen Handelsplatz weiterleitet und dein Depot führt." },
+    { "id": "kurs", "de": "Kurs", "en": "Price / Quote", "erklaerung": "Preis, zu dem ein Wertpapier gerade gehandelt wird. Er entsteht aus Angebot und Nachfrage." },
+    { "id": "volumen", "de": "Volumen", "en": "Volume", "erklaerung": "Anzahl der gehandelten Stücke in einem Zeitraum, z. B. an einem Tag. Im Chart als Balken unter den Kursen.", "beispiel": "An einem normalen Tag werden 1 Mio. Aktien gehandelt, am Tag der Quartalszahlen 4 Mio." },
+    { "id": "bid", "de": "Geldkurs", "en": "Bid", "erklaerung": "Höchster Preis, den ein Käufer gerade bietet. Zu diesem Preis kannst du sofort verkaufen.", "beispiel": "Geld 99,90 € / Brief 100,10 €: Sofort verkaufen geht zu 99,90 €." },
+    { "id": "ask", "de": "Briefkurs", "en": "Ask / Offer", "erklaerung": "Niedrigster Preis, zu dem ein Verkäufer gerade anbietet. Zu diesem Preis kannst du sofort kaufen.", "beispiel": "Geld 99,90 € / Brief 100,10 €: Sofort kaufen geht zu 100,10 €." },
+    { "id": "spread", "de": "Spread", "en": "Bid-Ask Spread", "erklaerung": "Differenz zwischen Brief- und Geldkurs. Ein versteckter Kostenpunkt bei jedem Trade.", "beispiel": "100,10 € − 99,90 € = 0,20 €. Bei 50 Aktien kostet allein das 10 €." },
+    { "id": "liquiditaet", "de": "Liquidität", "en": "Liquidity", "erklaerung": "Wie leicht sich ein Wertpapier ohne große Preisabschläge kaufen und verkaufen lässt. Viel Handel bedeutet hohe Liquidität und meist einen kleinen Spread." },
+    { "id": "gebuehr", "de": "Ordergebühr", "en": "Commission / Order Fee", "erklaerung": "Gebühr, die der Broker pro Order verlangt. Ein Trade (Kauf + Verkauf) kostet sie zweimal.", "beispiel": "5 € pro Order bei 1.000 € Position: 10 € = 1 % Kosten pro Trade." },
+    { "id": "index", "de": "Index", "en": "Index", "erklaerung": "Kennzahl, die die Entwicklung einer Gruppe von Aktien misst. Man kann sie nicht direkt kaufen.", "beispiel": "DAX (40 große deutsche Unternehmen), S&P 500 (rund 500 große US-Unternehmen)." },
+    { "id": "etf", "de": "ETF", "en": "Exchange Traded Fund", "erklaerung": "Börsengehandelter Fonds, der einen Index möglichst genau nachbildet. Mit einem Kauf bist du in allen Aktien des Index investiert." },
+    { "id": "position", "de": "Position", "en": "Position", "erklaerung": "Bestand an einem Wertpapier, den du gerade hältst, z. B. 30 Aktien eines Unternehmens." },
+    { "id": "long", "de": "Long", "en": "Long (Position)", "erklaerung": "Kaufen in der Erwartung steigender Kurse. Gewinn, wenn der Kurs steigt.", "beispiel": "Kauf zu 50 €, Verkauf zu 55 €: +5 € pro Aktie." },
+    { "id": "short", "de": "Short / Leerverkauf", "en": "Short Selling", "erklaerung": "Auf fallende Kurse setzen: geliehene Aktien verkaufen und später billiger zurückkaufen. Der mögliche Verlust ist theoretisch unbegrenzt.", "beispiel": "Verkauf zu 50 €, Rückkauf zu 45 €: +5 € pro Aktie. Rückkauf zu 70 €: −20 €." },
+    { "id": "daytrading", "de": "Daytrading", "en": "Day Trading", "erklaerung": "Positionen werden innerhalb desselben Handelstages eröffnet und geschlossen. Keine Position über Nacht." },
+    { "id": "swingtrading", "de": "Swing-Trading", "en": "Swing Trading", "erklaerung": "Positionen werden einige Tage bis wenige Wochen gehalten, um eine Kursbewegung („Schwung“) mitzunehmen. Meist mit Tagescharts." },
+    { "id": "buyhold", "de": "Buy-and-Hold", "en": "Buy and Hold", "erklaerung": "Langfristige Strategie: kaufen und über Jahre halten, kurzfristige Schwankungen aussitzen." }
+  ],
+
+  "quiz": [
+    {
+      "typ": "mc",
+      "frage": "Du willst eine Aktie **sofort** kaufen. Zu welchem Kurs wird deine Order ausgeführt?",
+      "optionen": ["Zum Geldkurs (Bid)", "Zum Briefkurs (Ask)", "Genau in der Mitte zwischen beiden", "Zum Schlusskurs vom Vortag"],
+      "richtig": 1,
+      "erklaerung": "Sofort kaufen heißt: Du nimmst das günstigste Verkaufsangebot an, also den Briefkurs (Ask). Der Geldkurs ist der Preis, zu dem du sofort verkaufen könntest."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Geldkurs 24,95 €, Briefkurs 25,05 €. Du kaufst 200 Aktien und verkaufst sie sofort wieder. Wie viel Euro verlierst du allein durch den Spread?",
+      "loesung": 20,
+      "toleranz": 0.01,
+      "einheit": "€",
+      "erklaerung": "Spread = 25,05 € − 24,95 € = 0,10 € pro Aktie. Bei 200 Aktien: 200 × 0,10 € = 20 €."
+    },
+    {
+      "typ": "wf",
+      "frage": "Den DAX kann man direkt kaufen, genau wie eine Aktie.",
+      "richtig": false,
+      "erklaerung": "Falsch. Ein Index ist eine Kennzahl. Man kann ihn nur indirekt kaufen, zum Beispiel über einen ETF, der den DAX nachbildet."
+    },
+    {
+      "typ": "rechnen",
+      "frage": "Dein Broker verlangt 5 € pro Order. Du kaufst Aktien für 500 €. Um wie viel Prozent muss der Kurs steigen, damit Kauf- und Verkaufsgebühr wieder drin sind? (Spread nicht beachten)",
+      "loesung": 2,
+      "toleranz": 0.01,
+      "einheit": "%",
+      "erklaerung": "Kauf + Verkauf = 2 × 5 € = 10 €. 10 € von 500 € sind 2 %. Bei so kleinen Positionen fressen feste Gebühren einen großen Teil des möglichen Gewinns."
+    },
+    {
+      "typ": "mc",
+      "frage": "Du bist **short** in einer Aktie, eröffnet zu 50 €. Der Kurs fällt auf 45 €. Was gilt (ohne Kosten)?",
+      "optionen": ["5 € Verlust pro Aktie", "5 € Gewinn pro Aktie", "Kein Gewinn und kein Verlust", "Das hängt vom Index ab"],
+      "richtig": 1,
+      "erklaerung": "Short profitiert von fallenden Kursen: verkauft zu 50 €, zurückgekauft zu 45 € = 5 € Gewinn pro Aktie."
+    },
+    {
+      "typ": "wf",
+      "frage": "Bei einer Short-Position ist der mögliche Verlust auf den eingesetzten Betrag begrenzt.",
+      "richtig": false,
+      "erklaerung": "Falsch. Der Kurs kann theoretisch unbegrenzt steigen. Bei einer Short-Position wächst der Verlust dann immer weiter. Bei einer Long-Position (ohne Hebel) kannst du höchstens deinen Einsatz verlieren, weil der Kurs nicht unter 0 € fällt."
+    },
+    {
+      "typ": "mc",
+      "frage": "Warum ist der Spread bei kleinen, wenig gehandelten Aktien meist größer?",
+      "optionen": ["Weil die Börse dort höhere Gebühren verlangt", "Weil es wenige Käufer und Verkäufer gibt (geringe Liquidität)", "Weil kleine Aktien immer billiger sind", "Das stimmt nicht, der Spread ist überall gleich"],
+      "richtig": 1,
+      "erklaerung": "Bei geringer Liquidität liegen die besten Kauf- und Verkaufsangebote weiter auseinander. Je mehr gehandelt wird, desto enger rücken Geld- und Briefkurs zusammen."
+    },
+    {
+      "typ": "mc",
+      "frage": "Du willst Aktien kaufen und sie etwa 1 bis 2 Wochen halten. Welcher Trading-Stil ist das?",
+      "optionen": ["Daytrading", "Swing-Trading", "Buy-and-Hold", "Leerverkauf"],
+      "richtig": 1,
+      "erklaerung": "Swing-Trading heißt: Haltedauer von einigen Tagen bis wenigen Wochen. Daytrader schließen bis zum Abend, Buy-and-Hold-Anleger halten über Jahre."
+    }
+  ],
+
+  "uebungen": [
+    {
+      "id": "t1-trend-auf",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Wohin ging die Reise?",
+      "frage": "Wie hat sich der Kurs über diese 60 Handelstage insgesamt entwickelt?",
+      "kurse": { "seed": 11, "start": 40, "phasen": [{ "tage": 60, "trend": 0.45, "vola": 1.5 }] },
+      "optionen": ["Aufwärts", "Abwärts", "Seitwärts"],
+      "richtig": 0,
+      "loesung": { "zeige": "anfangEnde" },
+      "erklaerung": "Der Kurs endet deutlich höher, als er begonnen hat, und die Tiefs liegen im Verlauf immer höher. Das ist ein Aufwärtstrend. Wer hier long war, lag richtig. Was einen Trend genau ausmacht, lernst du an Tag 5."
+    },
+    {
+      "id": "t1-wer-gewinnt",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Long oder Short?",
+      "frage": "Wer hätte in diesem Zeitraum Gewinn gemacht: jemand mit einer Long-Position oder jemand mit einer Short-Position?",
+      "kurse": { "seed": 23, "start": 60, "phasen": [{ "tage": 60, "trend": -0.45, "vola": 1.5 }] },
+      "optionen": ["Long (gekauft am Anfang)", "Short (leerverkauft am Anfang)", "Beide gleich viel"],
+      "richtig": 1,
+      "loesung": { "zeige": "anfangEnde" },
+      "erklaerung": "Der Kurs ist gefallen. Short gewinnt bei fallenden Kursen, Long verliert. Hier hätte ein Long-Trader Geld verloren."
+    },
+    {
+      "id": "t1-seitwaerts",
+      "stufe": "erkennen",
+      "typ": "auswahl",
+      "titel": "Trend oder nicht?",
+      "frage": "Aufwärts, abwärts oder seitwärts?",
+      "kurse": { "seed": 5, "start": 50, "phasen": [{ "tage": 60, "trend": 0, "vola": 1.4, "seitwaerts": true }] },
+      "optionen": ["Aufwärts", "Abwärts", "Seitwärts"],
+      "richtig": 2,
+      "loesung": { "zeige": "spanne" },
+      "erklaerung": "Der Kurs schwankt in einer Spanne hin und her, ohne klare Richtung. Das nennt man Seitwärtsphase _Range / Sideways Market_. Für Swing-Trader ist das schwierig, weil Bewegungen schnell wieder umkehren."
+    },
+    {
+      "id": "t1-hoch",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Der höchste Kurs",
+      "frage": "Tippe auf die Kerze mit dem **höchsten Kurs** im ganzen Zeitraum.",
+      "kurse": { "seed": 42, "start": 30, "phasen": [{ "tage": 34, "trend": 0.6, "vola": 1.5 }, { "tage": 26, "trend": -0.5, "vola": 1.6 }] },
+      "ziel": "hoechstesHoch",
+      "toleranz": 1,
+      "erklaerung": "Der höchste Punkt ist das obere Ende des Dochts der höchsten Kerze. Danach kippt der Kurs nach unten. Wer oben gekauft hat, liegt jetzt im Minus. Wie man so etwas früh erkennt, lernst du an Tag 5."
+    },
+    {
+      "id": "t1-volumen",
+      "stufe": "erkennen",
+      "typ": "tippen",
+      "titel": "Viel los an der Börse",
+      "frage": "Unter den Kerzen siehst du das **Volumen** (Anzahl gehandelter Aktien). Tippe auf den Tag mit dem **größten Volumen**.",
+      "kurse": { "seed": 87, "start": 25, "phasen": [{ "tage": 32, "trend": 0.05, "vola": 1.2 }, { "tage": 1, "gap": 7, "trend": 1, "vola": 2, "volumen": 4 }, { "tage": 27, "trend": 0.15, "vola": 1.3 }] },
+      "ziel": "hoechstesVolumen",
+      "toleranz": 0,
+      "erklaerung": "An diesem Tag ist der Kurs mit einer Kurslücke _Gap_ nach oben gesprungen, und das Volumen war ein Vielfaches des Normalen. So etwas passiert oft bei Nachrichten, zum Beispiel bei überraschend guten Quartalszahlen. Hohes Volumen zeigt: Viele Marktteilnehmer haben reagiert."
+    },
+    {
+      "id": "t1-entscheiden-1",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Deine erste Entscheidung",
+      "frage": "Der Kurs steigt seit Wochen und hat gerade etwas zurückgesetzt. Steigst du jetzt ein (Long) oder wartest du ab?",
+      "hilfe": "Du kaufst zum letzten Schlusskurs. Setze den **Stop-Loss** unter das letzte Tief und das **Kursziel** mindestens doppelt so weit vom Einstieg entfernt wie den Stop. Das Ergebnis wird in **R** gemessen: 1 R = der Betrag, den du riskierst. Mehr dazu an Tag 2 und 3.",
+      "kurse": { "seed": 101, "start": 40, "phasen": [{ "tage": 40, "trend": 0.5, "vola": 1.3 }, { "tage": 5, "trend": -0.7, "vola": 1.1 }, { "tage": 20, "trend": 0.55, "vola": 1.3 }] },
+      "stopp": 45,
+      "ideal": "long",
+      "aufloesung": "Ein Aufwärtstrend mit kleinem Rücksetzer ist ein klassischer Einstieg für Swing-Trader. Man kauft nicht am Hoch, sondern nach einem Rücksetzer, und der Stop liegt sinnvoll unter dem letzten Tief. Hier ging der Trend weiter. Das ist aber nicht garantiert, deshalb gibt es den Stop."
+    },
+    {
+      "id": "t1-entscheiden-2",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Fallendes Messer?",
+      "frage": "Der Kurs fällt seit Wochen. Er ist schon „günstig“ geworden. Kaufst du (Long) oder wartest du?",
+      "hilfe": "Überlege: In welche Richtung geht der Trend? Bei Long gewinnst du nur, wenn der Kurs steigt.",
+      "kurse": { "seed": 204, "start": 70, "phasen": [{ "tage": 45, "trend": -0.6, "vola": 1.5 }, { "tage": 20, "trend": -0.6, "vola": 1.6 }] },
+      "stopp": 45,
+      "ideal": "warten",
+      "aufloesung": "„Billig geworden“ ist kein Kaufgrund. Ein fallender Kurs kann noch lange weiter fallen. Unter Tradern heißt es: „Greif nicht ins fallende Messer“ _Don't catch a falling knife_. Als Long-Swing-Trader kaufst du lieber, wenn der Trend nach oben zeigt."
+    },
+    {
+      "id": "t1-entscheiden-3",
+      "stufe": "entscheiden",
+      "typ": "entscheiden",
+      "titel": "Gut entschieden, trotzdem verloren?",
+      "frage": "Wieder ein schöner Aufwärtstrend mit Rücksetzer. Long oder abwarten?",
+      "hilfe": "Gleiche Regeln wie bei Übung 6: Stop unter das letzte Tief, Ziel mindestens doppelt so weit entfernt.",
+      "kurse": { "seed": 303, "start": 35, "phasen": [{ "tage": 40, "trend": 0.5, "vola": 1.3 }, { "tage": 5, "trend": -0.6, "vola": 1.1 }, { "tage": 1, "gap": -7, "trend": -1, "vola": 1.5, "volumen": 3.5 }, { "tage": 14, "trend": -0.15, "vola": 1.6 }] },
+      "stopp": 45,
+      "ideal": "long",
+      "aufloesung": "Die Ausgangslage war die gleiche wie in Übung 6, und die Entscheidung zu kaufen war vernünftig. Dann kam über Nacht eine schlechte Nachricht, und der Kurs öffnete mit einer Kurslücke _Gap_ weit unter deinem Stop. Der Stop wird dann erst zum nächsten verfügbaren Kurs ausgeführt, und der Verlust kann größer als 1 R sein (mehr dazu an Tag 2).\n\nDie wichtigste Lektion: **Eine gute Entscheidung kann verlieren, und eine schlechte kann gewinnen.** Beurteile deine Trades danach, ob du deinen Regeln gefolgt bist, nicht nach dem einzelnen Ergebnis. Über viele Trades setzt sich ein guter Prozess durch."
+    }
+  ]
+}

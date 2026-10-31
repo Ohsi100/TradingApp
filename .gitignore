@@ -1,0 +1,9 @@
+# Lokale Einstellungen von Claude Code (enthalten Pfade vom PC) – nicht ins öffentliche Repo
+.claude/
+
+# Sicherungsdateien des Lernfortschritts nie hochladen
+trading-lernapp-sicherung-*.json
+
+# Windows
+Thumbs.db
+desktop.ini
