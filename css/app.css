@@ -55,7 +55,7 @@ ion-list.gruppe ion-item { --min-height: 64px; --padding-start: 16px; --inner-pa
 ion-list.gruppe ion-item:last-child { --border-width: 0; --inner-border-width: 0; }
 ion-item .ico { color: var(--akzent); display: flex; margin-right: 16px; }
 ion-item .ico.positiv { color: var(--positiv); }
-ion-item ion-label h3 { font-size: 16px; font-weight: 600; margin: 0 0 2px; }
+.inhalt ion-item ion-label h3 { font-size: 16px; font-weight: 600; margin: 0 0 2px; }
 ion-item ion-label p { font-size: 14px; color: var(--text-gedaempft); }
 .item-gesperrt { opacity: 0.55; }
 ion-item.hervor { --background: var(--akzent-weich); }
